@@ -3,7 +3,7 @@
 .env
 
 # Python-related
-**pycache**
+**/__pycache__/
 **egg-info/
 *.py[cod]
 *$py.class

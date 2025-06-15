@@ -26,7 +26,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pytest-dev/pytest@v7
       - run: |
           pip install -U pip
           pip install -e ".[dev]"
