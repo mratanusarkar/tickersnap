@@ -35,3 +35,14 @@ py-modules = ["tickersnap"]
 pythonpath = "."
 testpaths = ["tests"]
 filterwarnings = "ignore::DeprecationWarning"
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tickersnap"]
+section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
+combine-as-imports = true
