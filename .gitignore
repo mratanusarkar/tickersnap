@@ -5,7 +5,16 @@
 # Python-related
 **pycache**
 **egg-info/
+*.py[cod]
+*$py.class
 .ruff_cache/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
 
 # Project-specific directories
 images/
