@@ -1,0 +1,82 @@
+# mkdocs.yml
+site_name: TickerSnap
+site_url: https://mratanusarkar.github.io/tickersnap
+repo_url: https://github.com/mratanusarkar/tickersnap
+
+theme:
+  name: material
+  palette: 
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - navigation.tracking
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            # show symbol types in the table of contents
+            show_symbol_type_toc: true
+            # show symbol type in the heading
+            show_symbol_type_heading: true
+            # show the root heading (module/class name)
+            show_root_heading: true
+            # show the source code
+            show_source: true
+            # docstring style to parse
+            docstring_style: google
+            # order of members (by source order)
+            members_order: source
+            # sort members alphabetically
+            sort_members: false
+  - search
+  - minify
+  - glightbox
+  - mkdocs-jupyter:
+      include_source: True
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: 'index.md'

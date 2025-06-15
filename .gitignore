@@ -1,0 +1,39 @@
+# Virtual environments and environment files
+.venv/
+.env
+
+# Python-related
+**/__pycache__/
+**egg-info/
+*.py[cod]
+*$py.class
+.ruff_cache/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Project-specific directories
+images/
+artifacts/
+
+# Temporary folders
+lib/
+temp/
+prompts/
+data/
+
+# Temporary files
+test.py
+test.ipynb
+debug.txt
+prompt**.txt
+cursor_prompt.txt
+
+# Generated files
+.byaldi/
+.huggingface/
+**.safetensors
