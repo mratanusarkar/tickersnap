@@ -1,0 +1,30 @@
+# Virtual environments and environment files
+.venv/
+.env
+
+# Python-related
+**pycache**
+**egg-info/
+.ruff_cache/
+
+# Project-specific directories
+images/
+artifacts/
+
+# Temporary folders
+lib/
+temp/
+prompts/
+data/
+
+# Temporary files
+test.py
+test.ipynb
+debug.txt
+prompt**.txt
+cursor_prompt.txt
+
+# Generated files
+.byaldi/
+.huggingface/
+**.safetensors
