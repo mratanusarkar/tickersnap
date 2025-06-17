@@ -12,7 +12,7 @@ import pytest
 from unittest.mock import Mock, patch
 from datetime import datetime, timedelta
 
-from tickersnap.mmi.mmi import MMIPeriod
+from tickersnap.mmi.api import MMIPeriod
 from tickersnap.mmi.models import MMIPeriodResponse, MMIPeriodData, HistoricalData
 
 
