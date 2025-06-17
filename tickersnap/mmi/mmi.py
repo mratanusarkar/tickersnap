@@ -20,7 +20,7 @@ from typing import List, Optional
 import httpx
 from pydantic import ValidationError
 
-from .models import MMIPeriodResponse
+from .models import MMIPeriodResponse, MMINowResponse
 
 class MMIPeriod:
     """
@@ -111,6 +111,87 @@ class MMIPeriod:
             json_res = response.json()
 
             return MMIPeriodResponse.model_validate(json_res)
+        
+        except httpx.HTTPStatusError as e:
+            raise Exception(
+                f"HTTP {e.response.status_code} error: {e.response.text}"
+            )
+        except httpx.RequestError as e:
+            raise Exception(
+                f"Request failed: {e}"
+            )
+        except ValidationError as e:
+            raise Exception(
+                f"Data validation error: {e}"
+            )
+        except Exception as e:
+            raise Exception(
+                f"Unexpected error: {e}"
+            )
+
+class MMINow:
+    """
+    Client for fetching the current Market Mood Index (MMI) data.
+
+    Supports fetching the full MMI information at present,
+    along with single data points on last date, last week, last month, and last year.
+
+    BASE_URL: https://api.tickertape.in/mmi/now
+    """
+
+    BASE_URL = "https://api.tickertape.in/mmi/now"
+
+    def __init__(self, timeout: int = 10):
+        """
+        Initialize the MMI Now client.
+        
+        Args:
+            timeout (int): Request timeout in seconds. Defaults to 10.
+        """
+
+        self.timeout = timeout
+        self.client = httpx.Client(timeout=timeout)
+
+    def __enter__(self):
+        """
+        Context manager entry.
+        """
+
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """
+        Context manager exit.
+        """
+
+        self.close()
+
+    def close(self):
+        """
+        Close the HTTP client.
+        """
+
+        self.client.close()
+
+    def get_data(self) -> MMINowResponse:
+        """
+        Fetch the current MMI data.
+        
+        Returns:
+            MMINowResponse: Parsed API response containing current and past stats of MMI.
+            
+        Raises:
+            Exception: If HTTP request fails or data validation fails.
+        """
+
+        try:
+            response = self.client.get(
+                self.BASE_URL
+            )
+            response.raise_for_status()
+            json_res = response.json()
+
+            return MMINowResponse.model_validate(json_res)
         
         except httpx.HTTPStatusError as e:
             raise Exception(
