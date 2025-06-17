@@ -81,4 +81,5 @@ extra_javascript:
 nav:
   - Home: 'index.md'
   - MMI:
-    - Index: 'mmi/index.md'
+    - Introduction: 'mmi/index.md'
+    - Models: 'mmi/models.md'

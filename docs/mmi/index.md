@@ -30,7 +30,7 @@ Like other sentiment indicators, MMI serves as a contrarian indicator - extreme 
 !!! quote "Quote"
     "_high greed may indicate that markets are overbought, and prices may correct soon_"
 
-    - [Kotak Securities](https://www.kotaksecurities.com/investing-guide/articles/market-mood-index-guide/)
+    — [Kotak Securities](https://www.kotaksecurities.com/investing-guide/articles/market-mood-index-guide/)
 
 ## How MMI Works
 
