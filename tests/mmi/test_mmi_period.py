@@ -10,13 +10,13 @@ Tests cover:
 
 import pytest
 from unittest.mock import Mock, patch
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from tickersnap.mmi.mmi import MMIPeriod
 from tickersnap.mmi.models import MMIPeriodResponse, MMIPeriodData, HistoricalData
 
 
-class UnitTestMMIPeriod:
+class TestUnitMMIPeriod:
     """
     Unit test suite for MMIPeriod class with mocked API calls.
     """
@@ -137,16 +137,43 @@ class UnitTestMMIPeriod:
                 assert isinstance(result, MMIPeriodResponse)
                 assert result.success is True
                 assert isinstance(result.data, MMIPeriodData)
-                assert isinstance(result.data.indicator, float)
-                assert isinstance(result.data.fii, int)
-                assert isinstance(result.data.days_historical, list)
-                assert isinstance(result.data.months_historical, list)
+                
+                # validate ALL main data fields exist and have correct types
+                data = result.data
+                assert hasattr(data, 'date') and isinstance(data.date, datetime)
+                assert hasattr(data, 'fii') and isinstance(data.fii, int)
+                assert hasattr(data, 'skew') and isinstance(data.skew, float)
+                assert hasattr(data, 'momentum') and isinstance(data.momentum, float)
+                assert hasattr(data, 'gold_on_nifty') and isinstance(data.gold_on_nifty, float)
+                assert hasattr(data, 'gold') and isinstance(data.gold, int)
+                assert hasattr(data, 'nifty') and isinstance(data.nifty, float)
+                assert hasattr(data, 'extrema') and isinstance(data.extrema, float)
+                assert hasattr(data, 'fma') and isinstance(data.fma, float)
+                assert hasattr(data, 'sma') and isinstance(data.sma, float)
+                assert hasattr(data, 'trin') and isinstance(data.trin, float)
+                assert hasattr(data, 'indicator') and isinstance(data.indicator, float)
+                assert hasattr(data, 'raw') and isinstance(data.raw, float)
+                assert hasattr(data, 'vix') and isinstance(data.vix, float)
+                assert hasattr(data, 'days_historical') and isinstance(data.days_historical, list)
+                assert hasattr(data, 'months_historical') and isinstance(data.months_historical, list)
                 
                 # validate historical data structure
-                if result.data.days_historical:
-                    assert isinstance(result.data.days_historical[0], HistoricalData)
-                if result.data.months_historical:
-                    assert isinstance(result.data.months_historical[0], HistoricalData)
+                if data.days_historical:
+                    hist = data.days_historical[0]
+                    assert isinstance(hist, HistoricalData)
+                    # validate key historical fields exist
+                    assert hasattr(hist, 'date') and isinstance(hist.date, datetime)
+                    assert hasattr(hist, 'indicator') and isinstance(hist.indicator, float)
+                    assert hasattr(hist, 'fii') and isinstance(hist.fii, int)
+                    assert hasattr(hist, 'nifty') and isinstance(hist.nifty, float)
+                if data.months_historical:
+                    hist = data.months_historical[0]
+                    assert isinstance(hist, HistoricalData)
+                    # validate key historical fields exist
+                    assert hasattr(hist, 'date') and isinstance(hist.date, datetime)
+                    assert hasattr(hist, 'indicator') and isinstance(hist.indicator, float)
+                    assert hasattr(hist, 'fii') and isinstance(hist.fii, int)
+                    assert hasattr(hist, 'nifty') and isinstance(hist.nifty, float)
 
     def test_validation_error_handling(self):
         """Test handling of Pydantic validation errors."""
@@ -279,3 +306,152 @@ class UnitTestMMIPeriod:
             }
         }
 
+
+@pytest.mark.integration
+class TestIntegrationMMIPeriod:
+    """
+    Integration test suite for MMIPeriod class with real API calls.
+    """
+
+    def test_tickertape_api_call_validation(self):
+        """Test real API call to validate response structure and catch API changes."""
+        with MMIPeriod(timeout=30) as mmi:
+            try:
+                # make real API call with period=1 (fastest)
+                result = mmi.get_data(period=1)
+                
+                # validate response structure - this will catch API changes
+                assert isinstance(result, MMIPeriodResponse), "Response should be MMIPeriodResponse"
+                assert result.success is True, "API call should be successful"
+                assert isinstance(result.data, MMIPeriodData), "Data should be MMIPeriodData"
+                
+                # validate ALL fields in main data object
+                data = result.data
+                
+                # validate datetime field
+                assert hasattr(data, 'date'), "Missing 'date' field"
+                assert isinstance(data.date, datetime), f"Date should be datetime, got {type(data.date)}"
+                
+                # validate integer fields
+                assert hasattr(data, 'fii'), "Missing 'fii' field"
+                assert isinstance(data.fii, int), f"FII should be int, got {type(data.fii)}"
+                
+                assert hasattr(data, 'gold'), "Missing 'gold' field"
+                assert isinstance(data.gold, int), f"Gold should be int, got {type(data.gold)}"
+                assert data.gold > 0, f"Gold should be positive, got {data.gold}"
+                
+                # validate float fields with reasonable constraints
+                assert hasattr(data, 'skew'), "Missing 'skew' field"
+                assert isinstance(data.skew, float), f"Skew should be float, got {type(data.skew)}"
+                
+                assert hasattr(data, 'momentum'), "Missing 'momentum' field"
+                assert isinstance(data.momentum, float), f"Momentum should be float, got {type(data.momentum)}"
+                
+                assert hasattr(data, 'gold_on_nifty'), "Missing 'gold_on_nifty' field"
+                assert isinstance(data.gold_on_nifty, float), f"Gold on Nifty should be float, got {type(data.gold_on_nifty)}"
+                
+                assert hasattr(data, 'nifty'), "Missing 'nifty' field"
+                assert isinstance(data.nifty, float), f"Nifty should be float, got {type(data.nifty)}"
+                assert data.nifty > 0, f"Nifty should be positive, got {data.nifty}"
+                assert 20000 <= data.nifty <= 30000, f"Nifty seems out of reasonable range: {data.nifty}"
+                
+                assert hasattr(data, 'extrema'), "Missing 'extrema' field"
+                assert isinstance(data.extrema, float), f"Extrema should be float, got {type(data.extrema)}"
+                
+                assert hasattr(data, 'fma'), "Missing 'fma' field"
+                assert isinstance(data.fma, float), f"FMA should be float, got {type(data.fma)}"
+                assert data.fma > 0, f"FMA should be positive, got {data.fma}"
+                
+                assert hasattr(data, 'sma'), "Missing 'sma' field"
+                assert isinstance(data.sma, float), f"SMA should be float, got {type(data.sma)}"
+                assert data.sma > 0, f"SMA should be positive, got {data.sma}"
+                
+                assert hasattr(data, 'trin'), "Missing 'trin' field"
+                assert isinstance(data.trin, float), f"TRIN should be float, got {type(data.trin)}"
+                
+                assert hasattr(data, 'indicator'), "Missing 'indicator' field"
+                assert isinstance(data.indicator, float), f"Indicator should be float, got {type(data.indicator)}"
+                assert 0 <= data.indicator <= 100, f"MMI indicator should be between 0-100, got {data.indicator}"
+                
+                assert hasattr(data, 'raw'), "Missing 'raw' field"
+                assert isinstance(data.raw, float), f"Raw should be float, got {type(data.raw)}"
+                
+                assert hasattr(data, 'vix'), "Missing 'vix' field"
+                assert isinstance(data.vix, float), f"VIX should be float, got {type(data.vix)}"
+                
+                # validate historical data arrays
+                assert hasattr(data, 'days_historical'), "Missing 'days_historical' field"
+                assert isinstance(data.days_historical, list), f"Days historical should be list, got {type(data.days_historical)}"
+                
+                assert hasattr(data, 'months_historical'), "Missing 'months_historical' field"
+                assert isinstance(data.months_historical, list), f"Months historical should be list, got {type(data.months_historical)}"
+                
+                # validate historical data structure if present
+                if data.days_historical:
+                    self._validate_historical_data(data.days_historical[0], "days_historical[0]")
+                if data.months_historical:
+                    self._validate_historical_data(data.months_historical[0], "months_historical[0]")
+                
+                # validate data freshness (within last 10 days to account for weekends)
+                now = datetime.now()
+                data_date = data.date.replace(tzinfo=None)
+                time_diff = now - data_date
+                assert time_diff.days <= 10, f"Data seems too old: {data_date} (age: {time_diff.days} days)"
+                
+                print(f"✅ Integration test passed! MMI: {data.indicator:.2f}, Nifty: {data.nifty:.2f}, Gold: {data.gold}")
+                print(f"   Historical data points - Days: {len(data.days_historical)}, Months: {len(data.months_historical)}")
+                
+            except Exception as e:
+                pytest.fail(f"Integration test failed - API may have changed: {e}")
+
+    def _validate_historical_data(self, hist_data, field_name):
+        """Helper method to validate all fields in historical data objects."""
+        assert isinstance(hist_data, HistoricalData), f"{field_name} should be HistoricalData, got {type(hist_data)}"
+        
+        # validate all fields exist and have correct types
+        assert hasattr(hist_data, 'date'), f"{field_name} missing 'date' field"
+        assert isinstance(hist_data.date, datetime), f"{field_name}.date should be datetime, got {type(hist_data.date)}"
+        
+        assert hasattr(hist_data, 'fii'), f"{field_name} missing 'fii' field"
+        assert isinstance(hist_data.fii, int), f"{field_name}.fii should be int, got {type(hist_data.fii)}"
+        
+        assert hasattr(hist_data, 'skew'), f"{field_name} missing 'skew' field"
+        assert isinstance(hist_data.skew, float), f"{field_name}.skew should be float, got {type(hist_data.skew)}"
+        
+        assert hasattr(hist_data, 'momentum'), f"{field_name} missing 'momentum' field"
+        assert isinstance(hist_data.momentum, float), f"{field_name}.momentum should be float, got {type(hist_data.momentum)}"
+        
+        assert hasattr(hist_data, 'gold_on_nifty'), f"{field_name} missing 'gold_on_nifty' field"
+        assert isinstance(hist_data.gold_on_nifty, float), f"{field_name}.gold_on_nifty should be float, got {type(hist_data.gold_on_nifty)}"
+        
+        assert hasattr(hist_data, 'gold'), f"{field_name} missing 'gold' field"
+        assert isinstance(hist_data.gold, int), f"{field_name}.gold should be int, got {type(hist_data.gold)}"
+        assert hist_data.gold > 0, f"{field_name}.gold should be positive, got {hist_data.gold}"
+        
+        assert hasattr(hist_data, 'nifty'), f"{field_name} missing 'nifty' field"
+        assert isinstance(hist_data.nifty, float), f"{field_name}.nifty should be float, got {type(hist_data.nifty)}"
+        assert hist_data.nifty > 0, f"{field_name}.nifty should be positive, got {hist_data.nifty}"
+        
+        assert hasattr(hist_data, 'extrema'), f"{field_name} missing 'extrema' field"
+        assert isinstance(hist_data.extrema, float), f"{field_name}.extrema should be float, got {type(hist_data.extrema)}"
+        
+        assert hasattr(hist_data, 'fma'), f"{field_name} missing 'fma' field"
+        assert isinstance(hist_data.fma, float), f"{field_name}.fma should be float, got {type(hist_data.fma)}"
+        assert hist_data.fma > 0, f"{field_name}.fma should be positive, got {hist_data.fma}"
+        
+        assert hasattr(hist_data, 'sma'), f"{field_name} missing 'sma' field"
+        assert isinstance(hist_data.sma, float), f"{field_name}.sma should be float, got {type(hist_data.sma)}"
+        assert hist_data.sma > 0, f"{field_name}.sma should be positive, got {hist_data.sma}"
+        
+        assert hasattr(hist_data, 'trin'), f"{field_name} missing 'trin' field"
+        assert isinstance(hist_data.trin, float), f"{field_name}.trin should be float, got {type(hist_data.trin)}"
+        
+        assert hasattr(hist_data, 'indicator'), f"{field_name} missing 'indicator' field"
+        assert isinstance(hist_data.indicator, float), f"{field_name}.indicator should be float, got {type(hist_data.indicator)}"
+        assert 0 <= hist_data.indicator <= 100, f"{field_name}.indicator should be between 0-100, got {hist_data.indicator}"
+        
+        assert hasattr(hist_data, 'raw'), f"{field_name} missing 'raw' field"
+        assert isinstance(hist_data.raw, float), f"{field_name}.raw should be float, got {type(hist_data.raw)}"
+        
+        assert hasattr(hist_data, 'vix'), f"{field_name} missing 'vix' field"
+        assert isinstance(hist_data.vix, float), f"{field_name}.vix should be float, got {type(hist_data.vix)}"
