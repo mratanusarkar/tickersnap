@@ -1,6 +1,5 @@
 from datetime import datetime
-from enum import Enum
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -36,7 +35,8 @@ class HistoricalData(BaseModel):
 
 class MMIPeriodData(BaseModel):
     """
-    Represents response data from `analyze.api.tickertape.in/homepage/mmi?period={period}` endpoint.
+    Represents response data from
+    `analyze.api.tickertape.in/homepage/mmi?period={period}` endpoint.
 
     It contains the full MMI information at present,
     along with historic data (day and month only) for the given period (1 to 10).
@@ -66,7 +66,8 @@ class MMIPeriodData(BaseModel):
 
 class MMIPeriodResponse(BaseModel):
     """
-    Represents API response payload from `analyze.api.tickertape.in/homepage/mmi?period={period}` endpoint.
+    Represents API response payload from
+    `analyze.api.tickertape.in/homepage/mmi?period={period}` endpoint.
 
     It contains the full MMI information at present,
     along with historic data (day and month only) for the given period (1 to 10).
@@ -143,7 +144,8 @@ class MMINowResponse(BaseModel):
 
     Note:
         - best used for getting current MMI value.
-        - can be used for comparing current MMI with last date, last week, last month, and last year.
+        - can be used for comparing current MMI with
+            last date, last week, last month, and last year.
 
     Reference:
         - HTTP Request: GET

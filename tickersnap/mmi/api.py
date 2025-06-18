@@ -14,13 +14,12 @@ Features:
     - Utility-focused design from tickersnap for simple workflow with MMI data
 """
 
-import warnings
-from typing import List, Optional
+from typing import Optional
 
 import httpx
 from pydantic import ValidationError
 
-from .models import MMIPeriodResponse, MMINowResponse
+from .models import MMINowResponse, MMIPeriodResponse
 
 
 class MMIPeriod:
@@ -95,7 +94,8 @@ class MMIPeriod:
                 Defaults to DEFAULT_PERIOD (4) if not specified.
 
         Returns:
-            MMIPeriodResponse: Parsed API response containing current and historical MMI data.
+            MMIPeriodResponse: Parsed API response containing
+                current and historical MMI data.
 
         Raises:
             ValueError: If period is not between MIN_PERIOD and MAX_PERIOD.
@@ -107,7 +107,8 @@ class MMIPeriod:
 
         if not (self.MIN_PERIOD <= period <= self.MAX_PERIOD):
             raise ValueError(
-                f"Period must be between {self.MIN_PERIOD} and {self.MAX_PERIOD}, got {period}"
+                f"Period must be between {self.MIN_PERIOD} and {self.MAX_PERIOD}, "
+                f"got {period}"
             )
 
         try:
@@ -179,7 +180,8 @@ class MMINow:
         Fetch the current MMI data.
 
         Returns:
-            MMINowResponse: Parsed API response containing current and past stats of MMI.
+            MMINowResponse: Parsed API response containing current and
+                past stats of MMI.
 
         Raises:
             Exception: If HTTP request fails or data validation fails.

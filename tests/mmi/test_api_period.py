@@ -8,12 +8,13 @@ Tests cover:
 - Edge cases
 """
 
-import pytest
+from datetime import datetime
 from unittest.mock import Mock, patch
-from datetime import datetime, timedelta
+
+import pytest
 
 from tickersnap.mmi.api import MMIPeriod
-from tickersnap.mmi.models import MMIPeriodResponse, MMIPeriodData, HistoricalData
+from tickersnap.mmi.models import HistoricalData, MMIPeriodData, MMIPeriodResponse
 
 
 class TestUnitMMIPeriod:
