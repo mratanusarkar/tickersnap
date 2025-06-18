@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import List
 
 from pydantic import BaseModel, Field
@@ -155,3 +156,63 @@ class MMINowResponse(BaseModel):
 
     success: bool
     data: MMINowData
+
+
+class MMIZone(str, Enum):
+    """
+    Market Mood Index zones based on indicator value ranges:
+
+    - 00-30: Extreme Fear
+    - 30-50: Fear
+    - 50-70: Greed
+    - 70-100: Extreme Greed
+    """
+
+    EXTREME_FEAR = "Extreme Fear"
+    FEAR = "Fear"
+    GREED = "Greed"
+    EXTREME_GREED = "Extreme Greed"
+
+
+class MMIDataPoint(BaseModel):
+    """
+    A single MMI data point with date and value.
+    """
+
+    date: datetime
+    value: float
+
+
+class MMICurrent(BaseModel):
+    """
+    The current MMI reading right now.
+    contains current MMI value, zone, and date.
+    """
+
+    date: datetime
+    value: float
+    zone: MMIZone
+
+
+class MMITrends(BaseModel):
+    """
+    MMI trends over time, with consicutive 10 data points.
+    contains current MMI value, date, trends over last 10 days and 10 months.
+    """
+
+    current: MMIDataPoint
+    last_10_days: List[MMIDataPoint] 
+    last_10_months: List[MMIDataPoint]
+
+
+class MMIChanges(BaseModel):
+    """
+    MMI changes with respect to last day, last week, last month, and last year.
+    contains current MMI value, date, and MMI values for last day, last week, last month, and last year.
+    """
+
+    current: MMIDataPoint
+    last_day: MMIDataPoint
+    last_week: MMIDataPoint
+    last_month: MMIDataPoint
+    last_year: MMIDataPoint
