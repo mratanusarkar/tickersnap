@@ -46,6 +46,16 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "I"]
 
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",             # allow assert
+    "D",                # skip docstring style
+    "F841",             # ignore unused variables in tests
+    "E501",             # ignore line too long in tests
+    "ARG",              # ignore unused fixture args
+    "FBT",              # ignore boolean trap checks
+]
+
 [tool.ruff.lint.isort]
 known-first-party = ["tickersnap"]
 section-order = ["future", "standard-library", "third-party", "first-party", "local-folder"]
