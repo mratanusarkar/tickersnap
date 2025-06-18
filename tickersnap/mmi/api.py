@@ -28,17 +28,24 @@ class MMIPeriod:
     
     Supports fetching current MMI data along with historical data (days and months)
     for periods ranging from 1 to 10 data points.
+
+    - BASE_URL: "https://analyze.api.tickertape.in/homepage/mmi?period=4"
     
     Example:
-        >>> mmi = MMIPeriod()
-        >>> data = mmi.get_data(period=1)
-        >>> print(data.data.indicator)  # Current MMI indicator value
-        >>> mmi.close()
-        
-        # Or use as context manager
-        >>> with MMIPeriod() as mmi:
-        ...     data = mmi.get_data(period=1)
-        ...     print(data.data.indicator)
+        ```python
+        # Using as a client object (don't forget to close)
+        mmi = MMIPeriod()
+        data = mmi.get_data(period=1)
+        print(data.data.indicator)
+        mmi.close()
+        ```
+
+        ```python
+        # Using as context manager (automatically closed)
+        with MMIPeriod() as mmi:
+            data = mmi.get_data(period=1)
+            print(data.data.indicator)
+        ```
     """
 
     BASE_URL = "https://analyze.api.tickertape.in/homepage/mmi"
@@ -136,7 +143,7 @@ class MMINow:
     Supports fetching the full MMI information at present,
     along with single data points on last date, last week, last month, and last year.
 
-    BASE_URL: https://api.tickertape.in/mmi/now
+    - BASE_URL: https://api.tickertape.in/mmi/now
     """
 
     BASE_URL = "https://api.tickertape.in/mmi/now"

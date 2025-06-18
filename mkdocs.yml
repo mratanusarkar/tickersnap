@@ -83,3 +83,4 @@ nav:
   - MMI:
     - Introduction: 'mmi/index.md'
     - Models: 'mmi/models.md'
+    - API: 'mmi/api.md'
