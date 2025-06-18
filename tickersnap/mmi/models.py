@@ -280,3 +280,5 @@ class MMIChanges(BaseModel):
             return self.vs_last_month
         elif period == "year":
             return self.vs_last_year
+        else:
+            raise ValueError(f"Invalid period: {period}")
