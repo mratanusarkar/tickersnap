@@ -42,7 +42,9 @@ Pydantic models to hold and map the Tickertape API response, acting as a schema 
 
 Below is a combined reference for all the fields found in all the API related (tickertape) models, grouped by logical sections:
 
-1. **Core MMI Data**
+??? info "Model Fields Reference"
+
+    ### 1. Core MMI Data:
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
@@ -50,7 +52,7 @@ Below is a combined reference for all the fields found in all the API related (t
     | `raw` | Raw MMI Value | `float` | varies | Raw MMI calculation before smoothing/normalization |
     | `current_value` | Current MMI Value | `float` | 0-100 | Current MMI value (same as indicator in MMINow) |
 
-2. **Market Sentiment Factors**
+    ### 2. Market Sentiment Factors:
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
@@ -62,7 +64,7 @@ Below is a combined reference for all the fields found in all the API related (t
     | `trin` | Trading Index | `float` | varies | TRIN (advance/decline + volume ratio) |
     | `gold_on_nifty` | Gold to Nifty Ratio | `float` | varies | Gold vs Nifty performance ratio (safe haven demand) |
 
-3. **Market Data**
+    ### 3. Market Data:
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
@@ -71,20 +73,20 @@ Below is a combined reference for all the fields found in all the API related (t
     | `fma` | Fast Moving Average | `float` | positive | Fast Moving Average of Nifty |
     | `sma` | Slow Moving Average | `float` | positive | Slow Moving Average of Nifty |
 
-4. **Timestamps**
+    ### 4. Timestamps:
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
     | `date` | Date/Time | `datetime` | ISO format | Data timestamp in UTC |
 
-5. **Response Structure**
+    ### 5. Response Structure:
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
     | `success` | Success Status | `bool` | true/false | API response success indicator |
     | `data` | Data Payload | `object` | - | Main data payload container |
 
-6. **Historical Arrays**
+    ### 6. Historical Arrays:
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
@@ -92,7 +94,7 @@ Below is a combined reference for all the fields found in all the API related (t
     | `months_historical` | Monthly Historical Data | `List[HistoricalData]` | 1-10 items | Historical monthly MMI data points |
     | `daily` | Daily Data Series | `List[DailyData]` | varies | Daily MMI value time series |
 
-7. **Comparison Fields (MMINow only)**
+    ### 7. Comparison Fields (MMINow only):
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|
