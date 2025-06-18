@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 # TickerTape API Models
 # ------------------------------------------------------------------------------------------------
 
+
 class HistoricalData(BaseModel):
     """
     Represents historical data points of Market Mood Index (MMI).
@@ -161,9 +162,11 @@ class MMINowResponse(BaseModel):
     success: bool
     data: MMINowData
 
+
 # ------------------------------------------------------------------------------------------------
 # TickerSnap User-Facing Models
 # ------------------------------------------------------------------------------------------------
+
 
 class MMIZone(str, Enum):
     """
@@ -229,7 +232,7 @@ class MMITrends(BaseModel):
     """
 
     current: MMIDataPoint
-    last_10_days: List[MMIDataPoint] 
+    last_10_days: List[MMIDataPoint]
     last_10_months: List[MMIDataPoint]
 
 
@@ -245,18 +248,18 @@ class MMIChanges(BaseModel):
     last_month: MMIDataPoint
     last_year: MMIDataPoint
 
-    @property 
+    @property
     def vs_last_day(self) -> float:
         return self.current.value - self.last_day.value
 
     @property
     def vs_last_week(self) -> float:
         return self.current.value - self.last_week.value
-    
+
     @property
     def vs_last_month(self) -> float:
         return self.current.value - self.last_month.value
-    
+
     @property
     def vs_last_year(self) -> float:
         return self.current.value - self.last_year.value
