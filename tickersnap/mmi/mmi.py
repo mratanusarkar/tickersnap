@@ -2,14 +2,16 @@
 MarketMoodIndex - Daily MMI Data for Market Analysis
 
 MMI data that a common user might want to see:
+
 - before market opens, 
 - in between market hours, 
 - after market closes.
 
 Provides 3 key functions:
-- Current MMI value with zone classification
-- MMI trends for charting (10 days + 10 months)
-- MMI changes for comparison analysis
+
+- `get_current_mmi()`: Current MMI value with zone classification
+- `get_mmi_trends()`: MMI trends for charting (10 days + 10 months)
+- `get_mmi_changes()`: MMI changes for comparison analysis
 """
 
 from .api import MMINow, MMIPeriod
@@ -55,27 +57,19 @@ class MarketMoodIndex:
             zone=zone
         )
     
-    def get_mmi_trends(self, period: int = 10) -> MMITrends:
+    def get_mmi_trends(self) -> MMITrends:
         """
         Get MMI trend series data for graphing and analysis.
         
-        Fetches: current MMI + last `n` days + last `n` months of data,
-        where `n` is the `period` parameter defaulting to 10.
-
-        This can be useful for trend analysis and graphing.
-
-        Args:
-            period (int): Number of days and months to fetch. Defaults to 10.
+        Fetches the current MMI + last 10 days + last 10 months of data,
+        which can be useful for trend analysis and graphing.
         
         Returns:
-            MMITrends: Current MMI + last `n` days + last `n` months of historical data.
+            MMITrends: Current MMI + last 10 days + last 10 months of historical data.
         """
 
-        if not isinstance(period, int) or not 1 <= period <= 10:
-            raise ValueError("Period must be an integer between 1 and 10")
-
         with MMIPeriod(timeout=self.timeout) as client:
-            response = client.get_data(period=period)
+            response = client.get_data(period=10)
             
         data = response.data
         
@@ -129,10 +123,13 @@ class MarketMoodIndex:
             last_year=last_year
         )
 
-    def get_tickertape_api_current_mmi_data(self) -> MMINowData:
+    def get_raw_current_data(self) -> MMINowData:
         """
         Get raw tickertape api response for current MMI data.
-        This is a lower level API from the API module.
+        
+        Disclaimer:
+            - Advanced users only - contains all API fields.
+            - For daily use, prefer `get_mmi_changes()` instead.
         
         Returns:
             MMINowData: raw data returned by TickerTape API.
@@ -143,10 +140,13 @@ class MarketMoodIndex:
         
         return response.data
     
-    def get_tickertape_api_period_mmi_data(self, period: int = 4) -> MMIPeriodData:
+    def get_raw_period_data(self, period: int = 4) -> MMIPeriodData:
         """
         Get raw tickertape api response for MMI data over a period.
-        This is a lower level API from the API module.
+        
+        Disclaimer:
+            - Advanced users only - contains all API fields.
+            - For daily use, prefer `get_mmi_trends()` instead.
 
         Args:
             period (int): Number of days and months to fetch. Defaults to 4.
