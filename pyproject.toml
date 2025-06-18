@@ -5,7 +5,8 @@ description = "TickerSnap is a tool for getting snapshots of stock data from www
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-
+    "pydantic>=2.0.0",
+    "httpx>=0.25.0",
 ]
 
 [project.optional-dependencies]
@@ -35,12 +36,25 @@ py-modules = ["tickersnap"]
 pythonpath = "."
 testpaths = ["tests"]
 filterwarnings = "ignore::DeprecationWarning"
+markers = [
+    "integration: marks tests as integration tests (makes real API calls)",
+]
 
 [tool.ruff]
 target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",             # allow assert
+    "D",                # skip docstring style
+    "F841",             # ignore unused variables in tests
+    "E501",             # ignore line too long in tests
+    "ARG",              # ignore unused fixture args
+    "FBT",              # ignore boolean trap checks
+]
 
 [tool.ruff.lint.isort]
 known-first-party = ["tickersnap"]
