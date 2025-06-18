@@ -82,5 +82,6 @@ nav:
   - Home: 'index.md'
   - MMI:
     - Introduction: 'mmi/index.md'
+    - Market Mood Index: 'mmi/mmi.md'
+    - Tickertape API: 'mmi/api.md'
     - Models: 'mmi/models.md'
-    - API: 'mmi/api.md'
