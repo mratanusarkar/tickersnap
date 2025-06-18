@@ -4,10 +4,9 @@ from typing import List, Literal
 
 from pydantic import BaseModel, Field
 
-
-# ------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------
 # TickerTape API Models
-# ------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------
 
 
 class HistoricalData(BaseModel):
@@ -163,19 +162,19 @@ class MMINowResponse(BaseModel):
     data: MMINowData
 
 
-# ------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------
 # TickerSnap User-Facing Models
-# ------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------
 
 
 class MMIZone(str, Enum):
     """
     Market Mood Index zones based on indicator value ranges:
 
-    - 00-30: Extreme Fear
-    - 30-50: Fear
-    - 50-70: Greed
-    - 70-100: Extreme Greed
+    - `00-30`: Extreme Fear
+    - `30-50`: Fear
+    - `50-70`: Greed
+    - `70-100`: Extreme Greed
     """
 
     EXTREME_FEAR = "Extreme Fear"
@@ -239,7 +238,8 @@ class MMITrends(BaseModel):
 class MMIChanges(BaseModel):
     """
     MMI changes with respect to last day, last week, last month, and last year.
-    contains current MMI value, date, and MMI values for last day, last week, last month, and last year.
+    contains current MMI value, date, and MMI values for
+    last day, last week, last month, and last year.
     """
 
     current: MMIDataPoint
@@ -269,10 +269,12 @@ class MMIChanges(BaseModel):
         Get difference vs specified period.
 
         Args:
-            period (Literal["day", "week", "month", "year"]): The period to compare against.
+            period (Literal["day", "week", "month", "year"]):
+                The period to compare against.
 
         Returns:
-            float: The difference between the current MMI value and the value of the specified period.
+            float: The difference between the current MMI value
+                and the value of the specified period.
         """
 
         if period == "day":

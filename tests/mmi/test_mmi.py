@@ -17,15 +17,15 @@ import pytest
 
 from tickersnap.mmi import MarketMoodIndex
 from tickersnap.mmi.models import (
-    MMICurrent,
-    MMITrends,
     MMIChanges,
+    MMICurrent,
     MMIDataPoint,
-    MMIZone,
     MMINowData,
-    MMIPeriodData,
     MMINowResponse,
+    MMIPeriodData,
     MMIPeriodResponse,
+    MMITrends,
+    MMIZone,
 )
 
 
@@ -290,7 +290,9 @@ class TestUnitMarketMoodIndex:
                 mock_now.return_value.__enter__.return_value.get_data.return_value = (
                     self._create_mock_now_response()
                 )
-                mock_period.return_value.__enter__.return_value.get_data.return_value = self._create_mock_period_response()
+                mock_period.return_value.__enter__.return_value.get_data.return_value = (
+                    self._create_mock_period_response()
+                )
 
                 # Test different methods
                 mmi.get_current_mmi()
@@ -548,7 +550,7 @@ class TestIntegrationMarketMoodIndex:
             assert time_diff(current.date, changes.current.date) <= time_tolerance
 
             print(
-                f"✅ Consistency check passed - all methods return similar current values"
+                "✅ Consistency check passed - all methods return similar current values"
             )
             print(
                 f"   Current: {current.value:.2f}, Trends: {trends.current.value:.2f}, Changes: {changes.current.value:.2f}"

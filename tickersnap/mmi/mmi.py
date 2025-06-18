@@ -16,13 +16,13 @@ Provides 3 key functions:
 
 from .api import MMINow, MMIPeriod
 from .models import (
-    MMICurrent,
-    MMITrends,
     MMIChanges,
+    MMICurrent,
     MMIDataPoint,
-    MMIZone,
     MMINowData,
     MMIPeriodData,
+    MMITrends,
+    MMIZone,
 )
 
 
