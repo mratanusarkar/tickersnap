@@ -51,7 +51,7 @@ All thanks to [www.tickertape.in](https://www.tickertape.in) for this amazing to
 ✅ **Real-time Updates** - Live sentiment tracking  
 ✅ **Contrarian Indicator** - Based on Warren Buffett's principle
 
-!!! danger "Disclaimer"
+!!! warning "Disclaimer"
     MMI is a sentiment tool for informational purposes only. Not financial advice.
     Always consult qualified financial advisors before making investment decisions.
 
@@ -75,3 +75,11 @@ Since Tickertape doesn't offer official APIs, TickerSnap bridges this gap for de
 
 Along with the official API, this python package also provides a streamlined way to fetch, process, and work with MMI data,
 as well as providing a utility-focused classes and functions to work with MMI data.
+
+Here are the offerings of this python package:
+
+| Module | Description | Target Audience | For Public Use |
+|--------|-------------|-----------------|----------------|
+| [MMI](mmi.md) | Market Mood Index | General Users, Common Users | ✅ |
+| [API](api.md) | Raw API access | Advanced Users, Want to use Tickertape API | 🟡 |
+| [Models](models.md) | Data models | NA | ❌ |

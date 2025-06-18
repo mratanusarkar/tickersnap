@@ -1,7 +1,12 @@
 from datetime import datetime
-from typing import List
+from enum import Enum
+from typing import List, Literal
 
 from pydantic import BaseModel, Field
+
+# --------------------------------------------------------------------------------------
+# TickerTape API Models
+# --------------------------------------------------------------------------------------
 
 
 class HistoricalData(BaseModel):
@@ -155,3 +160,130 @@ class MMINowResponse(BaseModel):
 
     success: bool
     data: MMINowData
+
+
+# --------------------------------------------------------------------------------------
+# TickerSnap User-Facing Models
+# --------------------------------------------------------------------------------------
+
+
+class MMIZone(str, Enum):
+    """
+    Market Mood Index zones based on indicator value ranges:
+
+    - `00-30`: Extreme Fear
+    - `30-50`: Fear
+    - `50-70`: Greed
+    - `70-100`: Extreme Greed
+    """
+
+    EXTREME_FEAR = "Extreme Fear"
+    FEAR = "Fear"
+    GREED = "Greed"
+    EXTREME_GREED = "Extreme Greed"
+
+    @classmethod
+    def calculate_zone(cls, value: float) -> "MMIZone":
+        """
+        Calculate MMI zone based on indicator value.
+
+        Args:
+            value (float): The MMI indicator value.
+
+        Returns:
+            MMIZone: The MMI zone based on the value.
+        """
+
+        if value >= 70:
+            return cls.EXTREME_GREED
+        elif value >= 50:
+            return cls.GREED
+        elif value >= 30:
+            return cls.FEAR
+        else:
+            return cls.EXTREME_FEAR
+
+
+class MMIDataPoint(BaseModel):
+    """
+    A single MMI data point with date and value.
+    """
+
+    date: datetime
+    value: float
+
+
+class MMICurrent(BaseModel):
+    """
+    The current MMI reading right now.
+    contains current MMI value, zone, and date.
+    """
+
+    date: datetime
+    value: float
+    zone: MMIZone
+
+
+class MMITrends(BaseModel):
+    """
+    MMI trends over time, with consicutive 10 data points.
+    contains current MMI value, date, trends over last 10 days and 10 months.
+    """
+
+    current: MMIDataPoint
+    last_10_days: List[MMIDataPoint]
+    last_10_months: List[MMIDataPoint]
+
+
+class MMIChanges(BaseModel):
+    """
+    MMI changes with respect to last day, last week, last month, and last year.
+    contains current MMI value, date, and MMI values for
+    last day, last week, last month, and last year.
+    """
+
+    current: MMIDataPoint
+    last_day: MMIDataPoint
+    last_week: MMIDataPoint
+    last_month: MMIDataPoint
+    last_year: MMIDataPoint
+
+    @property
+    def vs_last_day(self) -> float:
+        return self.current.value - self.last_day.value
+
+    @property
+    def vs_last_week(self) -> float:
+        return self.current.value - self.last_week.value
+
+    @property
+    def vs_last_month(self) -> float:
+        return self.current.value - self.last_month.value
+
+    @property
+    def vs_last_year(self) -> float:
+        return self.current.value - self.last_year.value
+
+    def vs_last(self, period: Literal["day", "week", "month", "year"]) -> float:
+        """
+        Get difference vs specified period.
+
+        Args:
+            period (Literal["day", "week", "month", "year"]):
+                The period to compare against.
+
+        Returns:
+            float: The difference between the current MMI value
+                and the value of the specified period.
+        """
+
+        if period == "day":
+            return self.vs_last_day
+        elif period == "week":
+            return self.vs_last_week
+        elif period == "month":
+            return self.vs_last_month
+        elif period == "year":
+            return self.vs_last_year
+        else:
+            raise ValueError(f"Invalid period: {period}")

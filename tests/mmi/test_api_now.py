@@ -13,7 +13,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tickersnap.mmi.api import MMINow
+from tickersnap.mmi import MMINow
 from tickersnap.mmi.models import DailyData, HistoricalData, MMINowData, MMINowResponse
 
 
