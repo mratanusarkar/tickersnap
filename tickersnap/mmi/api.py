@@ -22,15 +22,16 @@ from pydantic import ValidationError
 
 from .models import MMIPeriodResponse, MMINowResponse
 
+
 class MMIPeriod:
     """
     Client for fetching Market Mood Index (MMI) data for specified periods.
-    
+
     Supports fetching current MMI data along with historical data (days and months)
     for periods ranging from 1 to 10 data points.
 
     - BASE_URL: "https://analyze.api.tickertape.in/homepage/mmi?period=4"
-    
+
     Example:
         ```python
         # Using as a client object (don't forget to close)
@@ -56,7 +57,7 @@ class MMIPeriod:
     def __init__(self, timeout: int = 10):
         """
         Initialize the MMI Period client.
-        
+
         Args:
             timeout (int): Request timeout in seconds. Defaults to 10.
         """
@@ -88,14 +89,14 @@ class MMIPeriod:
     def get_data(self, period: Optional[int] = None) -> MMIPeriodResponse:
         """
         Fetch MMI data for the specified period.
-        
+
         Args:
             period (Optional[int]): Number of historical data points to fetch (1-10).
                 Defaults to DEFAULT_PERIOD (4) if not specified.
-                                  
+
         Returns:
             MMIPeriodResponse: Parsed API response containing current and historical MMI data.
-            
+
         Raises:
             ValueError: If period is not between MIN_PERIOD and MAX_PERIOD.
             Exception: If HTTP request fails or data validation fails.
@@ -103,12 +104,12 @@ class MMIPeriod:
 
         if period is None:
             period = self.DEFAULT_PERIOD
-            
+
         if not (self.MIN_PERIOD <= period <= self.MAX_PERIOD):
             raise ValueError(
                 f"Period must be between {self.MIN_PERIOD} and {self.MAX_PERIOD}, got {period}"
             )
-        
+
         try:
             response = self.client.get(
                 self.BASE_URL,
@@ -118,23 +119,16 @@ class MMIPeriod:
             json_res = response.json()
 
             return MMIPeriodResponse.model_validate(json_res)
-        
+
         except httpx.HTTPStatusError as e:
-            raise Exception(
-                f"HTTP {e.response.status_code} error: {e.response.text}"
-            )
+            raise Exception(f"HTTP {e.response.status_code} error: {e.response.text}")
         except httpx.RequestError as e:
-            raise Exception(
-                f"Request failed: {e}"
-            )
+            raise Exception(f"Request failed: {e}")
         except ValidationError as e:
-            raise Exception(
-                f"Data validation error: {e}"
-            )
+            raise Exception(f"Data validation error: {e}")
         except Exception as e:
-            raise Exception(
-                f"Unexpected error: {e}"
-            )
+            raise Exception(f"Unexpected error: {e}")
+
 
 class MMINow:
     """
@@ -151,7 +145,7 @@ class MMINow:
     def __init__(self, timeout: int = 10):
         """
         Initialize the MMI Now client.
-        
+
         Args:
             timeout (int): Request timeout in seconds. Defaults to 10.
         """
@@ -183,36 +177,26 @@ class MMINow:
     def get_data(self) -> MMINowResponse:
         """
         Fetch the current MMI data.
-        
+
         Returns:
             MMINowResponse: Parsed API response containing current and past stats of MMI.
-            
+
         Raises:
             Exception: If HTTP request fails or data validation fails.
         """
 
         try:
-            response = self.client.get(
-                self.BASE_URL
-            )
+            response = self.client.get(self.BASE_URL)
             response.raise_for_status()
             json_res = response.json()
 
             return MMINowResponse.model_validate(json_res)
-        
+
         except httpx.HTTPStatusError as e:
-            raise Exception(
-                f"HTTP {e.response.status_code} error: {e.response.text}"
-            )
+            raise Exception(f"HTTP {e.response.status_code} error: {e.response.text}")
         except httpx.RequestError as e:
-            raise Exception(
-                f"Request failed: {e}"
-            )
+            raise Exception(f"Request failed: {e}")
         except ValidationError as e:
-            raise Exception(
-                f"Data validation error: {e}"
-            )
+            raise Exception(f"Data validation error: {e}")
         except Exception as e:
-            raise Exception(
-                f"Unexpected error: {e}"
-            )
+            raise Exception(f"Unexpected error: {e}")

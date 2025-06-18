@@ -12,12 +12,12 @@ class HistoricalData(BaseModel):
     This model follows tickertape API response's schema for historical MMI data.
     There are various APIs that returns historic data for day, month, year, etc.
     The schema matches the response structure for all such APIs.
-    
+
     Note:
         - internal use only
         - used by models: `MMIPeriodData` and `MMINowData`
     """
-    
+
     date: datetime
     fii: int
     skew: float
@@ -33,6 +33,7 @@ class HistoricalData(BaseModel):
     raw: float
     vix: float
 
+
 class MMIPeriodData(BaseModel):
     """
     Represents response data from `analyze.api.tickertape.in/homepage/mmi?period={period}` endpoint.
@@ -44,7 +45,7 @@ class MMIPeriodData(BaseModel):
         - internal use only
         - used by models: `MMIPeriodResponse`
     """
-    
+
     date: datetime
     fii: int
     skew: float
@@ -62,6 +63,7 @@ class MMIPeriodData(BaseModel):
     days_historical: List[HistoricalData] = Field(alias="daysHistorical")
     months_historical: List[HistoricalData] = Field(alias="monthsHistorical")
 
+
 class MMIPeriodResponse(BaseModel):
     """
     Represents API response payload from `analyze.api.tickertape.in/homepage/mmi?period={period}` endpoint.
@@ -73,16 +75,17 @@ class MMIPeriodResponse(BaseModel):
         - best used for getting historic data for a given period.
         - only supports day and month data upto 10 data points max.
         - can be used for observing trends in MMI over time.
-    
+
     Reference:
         - HTTP Request: GET
         - URL: https://analyze.api.tickertape.in/homepage/mmi?period={period}
             - where `period` is a integer number between 1 and 10.
         - Response Body: `MMIPeriodResponse`
     """
-    
+
     success: bool
     data: MMIPeriodData
+
 
 class DailyData(BaseModel):
     """
@@ -96,6 +99,7 @@ class DailyData(BaseModel):
     value: float
     date: datetime
 
+
 class MMINowData(BaseModel):
     """
     Represents response data from `api.tickertape.in/mmi/now` endpoint.
@@ -107,7 +111,7 @@ class MMINowData(BaseModel):
         - internal use only
         - used by models: `MMINowResponse`
     """
-    
+
     date: datetime
     fii: int
     skew: float
@@ -129,6 +133,7 @@ class MMINowData(BaseModel):
     current_value: float = Field(alias="currentValue")
     daily: List[DailyData]
 
+
 class MMINowResponse(BaseModel):
     """
     Represents API response payload from `api.tickertape.in/mmi/now` endpoint.
@@ -145,6 +150,6 @@ class MMINowResponse(BaseModel):
         - URL: https://api.tickertape.in/mmi/now
         - Response Body: `MMINowResponse`
     """
-    
+
     success: bool
     data: MMINowData
