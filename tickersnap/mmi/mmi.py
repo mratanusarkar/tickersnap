@@ -30,7 +30,7 @@ class MarketMoodIndex:
     """
     Simplified daily usage and utility focused MMI data for market analysis.
 
-    It removes the TickerTape API complexity and unnecessary field data points,
+    It removes the Tickertape API complexity and unnecessary field data points,
     and provides simple functions to get purely the MMI data
     that a common user might want to see or use for their daily market analysis.
     """
@@ -140,7 +140,7 @@ class MarketMoodIndex:
             - For daily use, prefer `get_mmi_changes()` instead.
 
         Returns:
-            MMINowData: raw data returned by TickerTape API.
+            MMINowData: raw data returned by Tickertape API.
         """
 
         with MMINow(timeout=self.timeout) as client:
@@ -160,7 +160,7 @@ class MarketMoodIndex:
             period (int): Number of days and months to fetch. Defaults to 4.
 
         Returns:
-            MMIPeriodData: raw data returned by TickerTape API.
+            MMIPeriodData: raw data returned by Tickertape API.
         """
 
         with MMIPeriod(timeout=self.timeout) as client:

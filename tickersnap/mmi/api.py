@@ -1,5 +1,5 @@
 """
-TickerSnap Market Mood Index (MMI) Client
+Tickersnap Market Mood Index (MMI) Client
 
 A module for accessing Market Mood Index data from the Tickertape API.
 
