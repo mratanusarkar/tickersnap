@@ -48,7 +48,7 @@ class TestUnitAssets:
         # Validate structure
         assert isinstance(result, list)
         assert len(result) == 2  # From mock - 2 stocks
-        
+
         # Validate all returned items are stocks
         for asset in result:
             assert isinstance(asset, AssetData)
@@ -79,7 +79,7 @@ class TestUnitAssets:
         # Validate structure
         assert isinstance(result, list)
         assert len(result) == 1  # From mock - 1 ETF
-        
+
         # Validate all returned items are ETFs
         for asset in result:
             assert isinstance(asset, AssetData)
@@ -130,7 +130,7 @@ class TestUnitAssets:
         # Setup mock with mixed assets
         mock_client = Mock()
         mock_assets_list_class.return_value.__enter__.return_value = mock_client
-        
+
         # Create response with more diverse mix
         mixed_response = self._create_mock_mixed_assets_response()
         mock_client.get_data.return_value = mixed_response
@@ -178,20 +178,28 @@ class TestUnitAssets:
         """Test scenario where API returns only stocks."""
         mock_client = Mock()
         mock_assets_list_class.return_value.__enter__.return_value = mock_client
-        
+
         # Response with only stocks
         stocks_only_response = AssetsListResponse(
             success=True,
             data=[
                 AssetData(
-                    sid="RELIANCE", name="Reliance Industries Ltd", ticker="RELIANCE",
-                    type=AssetType.STOCK, slug="reliance-industries-ltd", isin="INE002A01018"
+                    sid="RELIANCE",
+                    name="Reliance Industries Ltd",
+                    ticker="RELIANCE",
+                    type=AssetType.STOCK,
+                    slug="reliance-industries-ltd",
+                    isin="INE002A01018",
                 ),
                 AssetData(
-                    sid="TCS", name="Tata Consultancy Services Ltd", ticker="TCS",
-                    type=AssetType.STOCK, slug="tata-consultancy-services-ltd", isin="INE467B01029"
-                )
-            ]
+                    sid="TCS",
+                    name="Tata Consultancy Services Ltd",
+                    ticker="TCS",
+                    type=AssetType.STOCK,
+                    slug="tata-consultancy-services-ltd",
+                    isin="INE467B01029",
+                ),
+            ],
         )
         mock_client.get_data.return_value = stocks_only_response
 
@@ -211,16 +219,20 @@ class TestUnitAssets:
         """Test scenario where API returns only ETFs."""
         mock_client = Mock()
         mock_assets_list_class.return_value.__enter__.return_value = mock_client
-        
+
         # Response with only ETFs
         etfs_only_response = AssetsListResponse(
             success=True,
             data=[
                 AssetData(
-                    sid="NIFTYBEES", name="Nippon India ETF Nifty BeES", ticker="NIFTYBEES",
-                    type=AssetType.ETF, slug="nippon-india-etf-nifty-bees", isin="INF204KB17I5"
+                    sid="NIFTYBEES",
+                    name="Nippon India ETF Nifty BeES",
+                    ticker="NIFTYBEES",
+                    type=AssetType.ETF,
+                    slug="nippon-india-etf-nifty-bees",
+                    isin="INF204KB17I5",
                 )
-            ]
+            ],
         )
         mock_client.get_data.return_value = etfs_only_response
 
@@ -287,7 +299,7 @@ class TestUnitAssets:
             for timeout in timeout_values:
                 assets = Assets(timeout=timeout)
                 assets.get_all_stocks()
-                
+
                 # Verify AssetsList was called with correct timeout
                 mock_assets_list_class.assert_called_with(timeout=timeout)
 
@@ -300,30 +312,30 @@ class TestUnitAssets:
         mock_client.get_data.return_value = mock_response
 
         assets = Assets()
-        
+
         # Test stocks data integrity
         stocks = assets.get_all_stocks()
         for stock in stocks:
-            assert hasattr(stock, 'sid')
-            assert hasattr(stock, 'name')
-            assert hasattr(stock, 'ticker')
-            assert hasattr(stock, 'type')
-            assert hasattr(stock, 'slug')
-            assert hasattr(stock, 'isin')
+            assert hasattr(stock, "sid")
+            assert hasattr(stock, "name")
+            assert hasattr(stock, "ticker")
+            assert hasattr(stock, "type")
+            assert hasattr(stock, "slug")
+            assert hasattr(stock, "isin")
             assert stock.sid is not None
             assert stock.name is not None
             assert stock.ticker is not None
             assert stock.type == AssetType.STOCK
-        
+
         # Test ETFs data integrity
         etfs = assets.get_all_etfs()
         for etf in etfs:
-            assert hasattr(etf, 'sid')
-            assert hasattr(etf, 'name')
-            assert hasattr(etf, 'ticker')
-            assert hasattr(etf, 'type')
-            assert hasattr(etf, 'slug')
-            assert hasattr(etf, 'isin')
+            assert hasattr(etf, "sid")
+            assert hasattr(etf, "name")
+            assert hasattr(etf, "ticker")
+            assert hasattr(etf, "type")
+            assert hasattr(etf, "slug")
+            assert hasattr(etf, "isin")
             assert etf.type == AssetType.ETF
 
     def _create_mock_assets_response(self):
@@ -332,18 +344,30 @@ class TestUnitAssets:
             success=True,
             data=[
                 AssetData(
-                    sid="RELIANCE", name="Reliance Industries Ltd", ticker="RELIANCE",
-                    type=AssetType.STOCK, slug="reliance-industries-ltd", isin="INE002A01018"
+                    sid="RELIANCE",
+                    name="Reliance Industries Ltd",
+                    ticker="RELIANCE",
+                    type=AssetType.STOCK,
+                    slug="reliance-industries-ltd",
+                    isin="INE002A01018",
                 ),
                 AssetData(
-                    sid="TCS", name="Tata Consultancy Services Ltd", ticker="TCS",
-                    type=AssetType.STOCK, slug="tata-consultancy-services-ltd", isin="INE467B01029"
+                    sid="TCS",
+                    name="Tata Consultancy Services Ltd",
+                    ticker="TCS",
+                    type=AssetType.STOCK,
+                    slug="tata-consultancy-services-ltd",
+                    isin="INE467B01029",
                 ),
                 AssetData(
-                    sid="NIFTYBEES", name="Nippon India ETF Nifty BeES", ticker="NIFTYBEES",
-                    type=AssetType.ETF, slug="nippon-india-etf-nifty-bees", isin="INF204KB17I5"
-                )
-            ]
+                    sid="NIFTYBEES",
+                    name="Nippon India ETF Nifty BeES",
+                    ticker="NIFTYBEES",
+                    type=AssetType.ETF,
+                    slug="nippon-india-etf-nifty-bees",
+                    isin="INF204KB17I5",
+                ),
+            ],
         )
 
     def _create_mock_mixed_assets_response(self):
@@ -352,26 +376,46 @@ class TestUnitAssets:
             success=True,
             data=[
                 AssetData(
-                    sid="RELIANCE", name="Reliance Industries Ltd", ticker="RELIANCE",
-                    type=AssetType.STOCK, slug="reliance-industries-ltd", isin="INE002A01018"
+                    sid="RELIANCE",
+                    name="Reliance Industries Ltd",
+                    ticker="RELIANCE",
+                    type=AssetType.STOCK,
+                    slug="reliance-industries-ltd",
+                    isin="INE002A01018",
                 ),
                 AssetData(
-                    sid="TCS", name="Tata Consultancy Services Ltd", ticker="TCS",
-                    type=AssetType.STOCK, slug="tata-consultancy-services-ltd", isin="INE467B01029"
+                    sid="TCS",
+                    name="Tata Consultancy Services Ltd",
+                    ticker="TCS",
+                    type=AssetType.STOCK,
+                    slug="tata-consultancy-services-ltd",
+                    isin="INE467B01029",
                 ),
                 AssetData(
-                    sid="HDFC", name="HDFC Bank Ltd", ticker="HDFC",
-                    type=AssetType.STOCK, slug="hdfc-bank-ltd", isin="INE040A01034"
+                    sid="HDFC",
+                    name="HDFC Bank Ltd",
+                    ticker="HDFC",
+                    type=AssetType.STOCK,
+                    slug="hdfc-bank-ltd",
+                    isin="INE040A01034",
                 ),
                 AssetData(
-                    sid="NIFTYBEES", name="Nippon India ETF Nifty BeES", ticker="NIFTYBEES",
-                    type=AssetType.ETF, slug="nippon-india-etf-nifty-bees", isin="INF204KB17I5"
+                    sid="NIFTYBEES",
+                    name="Nippon India ETF Nifty BeES",
+                    ticker="NIFTYBEES",
+                    type=AssetType.ETF,
+                    slug="nippon-india-etf-nifty-bees",
+                    isin="INF204KB17I5",
                 ),
                 AssetData(
-                    sid="BANKNIFTY", name="Bank Nifty ETF", ticker="BANKNIFTY",
-                    type=AssetType.ETF, slug="bank-nifty-etf", isin="INF204KB18I6"
-                )
-            ]
+                    sid="BANKNIFTY",
+                    name="Bank Nifty ETF",
+                    ticker="BANKNIFTY",
+                    type=AssetType.ETF,
+                    slug="bank-nifty-etf",
+                    isin="INF204KB18I6",
+                ),
+            ],
         )
 
 
@@ -433,15 +477,17 @@ class TestIntegrationAssets:
         # Validate asset type distribution
         stock_count = sum(1 for asset in result if asset.type == AssetType.STOCK)
         etf_count = sum(1 for asset in result if asset.type == AssetType.ETF)
-        
+
         assert stock_count > 0, "Should have some stocks"
         assert etf_count > 0, "Should have some ETFs"
-        assert stock_count + etf_count == len(result), "All assets should be stocks or ETFs"
+        assert stock_count + etf_count == len(
+            result
+        ), "All assets should be stocks or ETFs"
 
     def test_consistency_across_methods(self):
         """Test that data is consistent across different method calls."""
         assets = Assets(timeout=15)
-        
+
         # Get data from all methods
         all_assets = assets.get_all_assets()
         all_stocks = assets.get_all_stocks()
@@ -449,12 +495,12 @@ class TestIntegrationAssets:
 
         # Validate consistency
         assert len(all_assets) == len(all_stocks) + len(all_etfs)
-        
+
         # Validate that filtered results are subsets of all_assets
         all_asset_sids = {asset.sid for asset in all_assets}
         stock_sids = {stock.sid for stock in all_stocks}
         etf_sids = {etf.sid for etf in all_etfs}
-        
+
         assert stock_sids.issubset(all_asset_sids)
         assert etf_sids.issubset(all_asset_sids)
         assert stock_sids.isdisjoint(etf_sids)  # No overlap between stocks and ETFs
@@ -462,7 +508,7 @@ class TestIntegrationAssets:
     def test_data_quality_validation(self):
         """Test that returned data meets quality expectations."""
         assets = Assets(timeout=15)
-        
+
         # Sample some assets for quality checks
         all_assets = assets.get_all_assets()
         sample_size = min(20, len(all_assets))
@@ -471,34 +517,34 @@ class TestIntegrationAssets:
         for asset in sample_assets:
             # Validate ISIN format (basic check)
             assert len(asset.isin) >= 10, f"ISIN {asset.isin} seems too short"
-            
+
             # Validate ticker is not empty
             assert asset.ticker.strip() != "", "Ticker should not be empty"
-            
+
             # Validate name is meaningful
             assert len(asset.name.strip()) > 2, "Asset name should be meaningful"
-            
+
             # Validate SID is not empty
             assert asset.sid.strip() != "", "SID should not be empty"
 
     def test_performance_expectations(self):
         """Test that API calls complete within reasonable time."""
         import time
-        
+
         assets = Assets(timeout=30)  # Allow more time for real API
-        
+
         # Test each method's performance
         methods_to_test = [
             ("get_all_stocks", assets.get_all_stocks),
             ("get_all_etfs", assets.get_all_etfs),
             ("get_all_assets", assets.get_all_assets),
         ]
-        
+
         for method_name, method in methods_to_test:
             start_time = time.time()
             result = method()
             end_time = time.time()
-            
+
             duration = end_time - start_time
             assert duration < 30, f"{method_name} took too long: {duration:.2f}s"
-            assert len(result) > 0, f"{method_name} returned no results" 
+            assert len(result) > 0, f"{method_name} returned no results"

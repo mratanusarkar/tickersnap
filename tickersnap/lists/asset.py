@@ -19,10 +19,10 @@ from .models import AssetData, AssetType
 class Assets:
     """
     Simplified common usage focused assets data for market analysis.
-    
+
     Provides clean access to stocks and ETFs data without API complexity.
 
-    Returns only the essential fields needed for daily use: sid, name, ticker, 
+    Returns only the essential fields needed for daily use: sid, name, ticker,
     slug, isin (and type when getting all assets).
     """
 
