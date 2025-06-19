@@ -4,7 +4,7 @@ from typing import List
 from pydantic import BaseModel
 
 # --------------------------------------------------------------------------------------
-# Tickertape API Models
+# Tickertape API Models + Tickersnap User-Facing Model: AssetData
 # --------------------------------------------------------------------------------------
 
 
