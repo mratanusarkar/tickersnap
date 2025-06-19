@@ -28,7 +28,7 @@ class AssetsList:
 
     Supports fetching the complete list of stocks and ETFs, or filtering by
     starting letter. The filter can be any letter from 'a' to 'z' (case insensitive)
-    or 'others' for assets that don't start with letters.
+    or 'others' (case insensitive) for assets that don't start with letters.
 
     - BASE_URL: "https://api.tickertape.in/stocks/list"
 
@@ -97,7 +97,7 @@ class AssetsList:
 
                 - Any letter `'a'` to `'z'` (case insensitive):
                     assets starting with that letter
-                - `'others'`: assets not starting with letters
+                - `'others'` (case insensitive): assets not starting with letters
                 - None (default): fetch all assets
 
         Returns:
@@ -133,7 +133,7 @@ class AssetsList:
                 raise ValueError(
                     f"Invalid filter '{filter}'. Valid options are: "
                     f"{', '.join(self.VALID_FILTERS_SORTED_LIST)}. "
-                    f"Only the letters are case insensitive."
+                    f"All filters are case insensitive."
                 )
             filter = filter_lower
 

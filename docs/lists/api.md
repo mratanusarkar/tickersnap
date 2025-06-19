@@ -39,7 +39,7 @@ This unofficial Python client wraps the Tickertape API with robust error handlin
 
     **Filter Options:**
     - **Letters**: 'a' to 'z' (case insensitive) - assets starting with that letter
-    - **Others**: 'others' (case sensitive) - assets not starting with letters
+    - **Others**: 'others' (case insensitive) - assets not starting with letters
     - **None**: No filter - returns all available assets (~5312 total)
 
     #### 1.3 Request Example:
@@ -137,7 +137,7 @@ This unofficial Python client wraps the Tickertape API with robust error handlin
 
 ```terminal
 # Filter validation errors
-ValueError: Invalid filter 'xyz'. Valid options are: a, b, c, ..., z, others. Only the letters are case insensitive.
+ValueError: Invalid filter 'xyz'. Valid options are: a, b, c, ..., z, others. All filters are case insensitive.
 ValueError: Empty filter '' not allowed. Use filter=None or omit the parameter to get all assets.
 ValueError: Filter ' a ' contains leading or trailing whitespaces. Please remove the whitespaces and try again.
 

@@ -34,7 +34,7 @@
 ## Filter Options
 
 - **Letters**: 'a'-'z' (case insensitive) - assets starting with that letter
-- **Others**: 'others' (case sensitive) - assets not starting with letters  
+- **Others**: 'others' (case insensitive) - assets not starting with letters  
 - **None**: No filter - returns all available assets
 
 ## Field Reference

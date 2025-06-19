@@ -89,7 +89,7 @@ class TestUnitAssetsList:
                 )
 
     def test_filter_validation_case_insensitive(self):
-        """Test that filter validation is case insensitive for letters."""
+        """Test that filter validation is case insensitive for letters and 'others'."""
         with AssetsList() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 mock_response = Mock()
@@ -104,6 +104,16 @@ class TestUnitAssetsList:
                     # verify the actual API call used lowercase
                     mock_get.assert_called_with(
                         assets.BASE_URL, params={"filter": letter.lower()}
+                    )
+
+                # test 'others' variations are case insensitive
+                others_variations = ["others", "OTHERS", "Others", "OtHeRs"]
+                for others_filter in others_variations:
+                    result = assets.get_data(filter=others_filter)
+                    assert isinstance(result, AssetsListResponse)
+                    # verify the actual API call used lowercase 'others'
+                    mock_get.assert_called_with(
+                        assets.BASE_URL, params={"filter": "others"}
                     )
 
     def test_filter_validation_invalid_cases(self):
@@ -127,7 +137,7 @@ class TestUnitAssetsList:
                 error_msg = str(exc_info.value)
                 assert f"Invalid filter '{invalid_filter}'" in error_msg
                 assert "Valid options are:" in error_msg
-                assert "Only the letters are case insensitive" in error_msg
+                assert "All filters are case insensitive" in error_msg
 
     def test_filter_validation_empty_and_whitespace_cases(self):
         """Test filter validation with empty strings and whitespace."""
@@ -474,8 +484,9 @@ class TestIntegrationAssetsList:
                 assert first_char not in "abcdefghijklmnopqrstuvwxyz"
 
     def test_real_api_call_case_insensitive(self):
-        """Test real API call with uppercase filter."""
+        """Test real API call with uppercase filter for letters and 'others'."""
         with AssetsList() as assets:
+            # test case insensitive letters
             # get results with lowercase 'a'
             result_lower = assets.get_data(filter="a")
             # get results with uppercase 'A'
@@ -489,6 +500,21 @@ class TestIntegrationAssetsList:
             lower_sids = {asset.sid for asset in result_lower.data}
             upper_sids = {asset.sid for asset in result_upper.data}
             assert lower_sids == upper_sids
+
+            # test case insensitive 'others'
+            # get results with lowercase 'others'
+            result_others_lower = assets.get_data(filter="others")
+            # get results with uppercase 'OTHERS'
+            result_others_upper = assets.get_data(filter="OTHERS")
+
+            # should return identical results
+            assert len(result_others_lower.data) == len(result_others_upper.data)
+            assert result_others_lower.success == result_others_upper.success
+
+            # validate asset counts match
+            others_lower_sids = {asset.sid for asset in result_others_lower.data}
+            others_upper_sids = {asset.sid for asset in result_others_upper.data}
+            assert others_lower_sids == others_upper_sids
 
     def test_real_api_completeness_validation(self):
         """Test that sum of all filters equals total assets."""
