@@ -83,8 +83,9 @@ nav:
   - Setup:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
-  - MMI:
-    - Introduction: 'mmi/index.md'
-    - Market Mood Index: 'mmi/mmi.md'
-    - Tickertape API: 'mmi/api.md'
-    - Models: 'mmi/models.md'
+  - Tickersnap:
+    - MMI:
+      - Introduction: 'mmi/index.md'
+      - Market Mood Index: 'mmi/mmi.md'
+      - Tickertape API: 'mmi/api.md'
+      - Models: 'mmi/models.md'
