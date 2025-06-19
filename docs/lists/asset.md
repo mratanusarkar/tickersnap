@@ -217,7 +217,7 @@ The `Assets` class provides a clean, intuitive API for accessing asset lists wit
     - Since this module is meant to just get the list of assets, alone this module doesn't have much usage.
     - The slug fields can be used to directly navigate to www.tickertape.in/stocks/slug or www.tickertape.in/etfs/slug.
     - The sid fields can be used to interact with Tickertape APIs.
-    - When combined with other modules from `Tickeersnap`, it can get very powerful for automated analysis!
+    - When combined with other modules from `Tickersnap`, it can get very powerful for automated analysis!
 
 ## Data Fields
 

@@ -90,6 +90,7 @@ nav:
       - Tickertape API: 'mmi/api.md'
       - Models: 'mmi/models.md'
     - Assets List:
+      - Introduction: 'lists/index.md'
       - Assets: 'lists/asset.md'
       - Tickertape API: 'lists/api.md'
       - Models: 'lists/models.md'
