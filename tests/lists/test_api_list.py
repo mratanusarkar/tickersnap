@@ -52,7 +52,10 @@ class TestUnitAssetsList:
         assert AssetsList.VALID_OTHERS == {"others"}
 
         # validate VALID_FILTERS is union of letters and others
-        assert AssetsList.VALID_FILTERS == AssetsList.VALID_LETTERS | AssetsList.VALID_OTHERS
+        assert (
+            AssetsList.VALID_FILTERS
+            == AssetsList.VALID_LETTERS | AssetsList.VALID_OTHERS
+        )
 
         # validate VALID_FILTERS_SORTED_LIST is properly ordered
         expected_sorted = list("abcdefghijklmnopqrstuvwxyz") + ["others"]
@@ -74,12 +77,16 @@ class TestUnitAssetsList:
                 for letter in "abcdefghijklmnopqrstuvwxyz":
                     result = assets.get_data(filter=letter)
                     assert isinstance(result, AssetsListResponse)
-                    mock_get.assert_called_with(assets.BASE_URL, params={"filter": letter})
+                    mock_get.assert_called_with(
+                        assets.BASE_URL, params={"filter": letter}
+                    )
 
                 # test 'others'
                 result = assets.get_data(filter="others")
                 assert isinstance(result, AssetsListResponse)
-                mock_get.assert_called_with(assets.BASE_URL, params={"filter": "others"})
+                mock_get.assert_called_with(
+                    assets.BASE_URL, params={"filter": "others"}
+                )
 
     def test_filter_validation_case_insensitive(self):
         """Test that filter validation is case insensitive for letters."""
@@ -95,7 +102,9 @@ class TestUnitAssetsList:
                     result = assets.get_data(filter=letter)
                     assert isinstance(result, AssetsListResponse)
                     # verify the actual API call used lowercase
-                    mock_get.assert_called_with(assets.BASE_URL, params={"filter": letter.lower()})
+                    mock_get.assert_called_with(
+                        assets.BASE_URL, params={"filter": letter.lower()}
+                    )
 
     def test_filter_validation_invalid_cases(self):
         """Test filter validation with invalid inputs (non-empty and non-whitespace cases only)."""
@@ -103,18 +112,18 @@ class TestUnitAssetsList:
             # test specific invalid filters that remain invalid even after .lower(), (non-empty and non-whitespace cases only)
             invalid_filters = [
                 "invalid",  # word that's not a single letter or 'others'
-                "1",        # single numeric string
-                "123",      # multiple numeric string
-                "ab",       # multiple lowercase letters
-                "XYZ",      # multiple uppercase letters
-                "@",        # special character
-                "!@#",      # multiple special character
+                "1",  # single numeric string
+                "123",  # multiple numeric string
+                "ab",  # multiple lowercase letters
+                "XYZ",  # multiple uppercase letters
+                "@",  # special character
+                "!@#",  # multiple special character
             ]
 
             for invalid_filter in invalid_filters:
                 with pytest.raises(ValueError) as exc_info:
                     assets.get_data(filter=invalid_filter)
-                
+
                 error_msg = str(exc_info.value)
                 assert f"Invalid filter '{invalid_filter}'" in error_msg
                 assert "Valid options are:" in error_msg
@@ -125,21 +134,24 @@ class TestUnitAssetsList:
         with AssetsList() as assets:
             # test empty filters (caught by empty filter validation)
             empty_filters = [
-                "",         # empty string
-                " ",        # single space
-                "  ",       # multiple spaces
-                "\t",       # tab
-                "\n",       # newline
+                "",  # empty string
+                " ",  # single space
+                "  ",  # multiple spaces
+                "\t",  # tab
+                "\n",  # newline
                 "   \t  ",  # mixed whitespace
             ]
 
             for empty_filter in empty_filters:
                 with pytest.raises(ValueError) as exc_info:
                     assets.get_data(filter=empty_filter)
-                
+
                 error_msg = str(exc_info.value)
                 assert f"Empty filter '{empty_filter}' not allowed" in error_msg
-                assert "Use filter=None or omit the parameter to get all assets" in error_msg
+                assert (
+                    "Use filter=None or omit the parameter to get all assets"
+                    in error_msg
+                )
                 assert "Valid filters:" in error_msg
 
     def test_filter_validation_whitespace_padding_cases(self):
@@ -147,22 +159,25 @@ class TestUnitAssetsList:
         with AssetsList() as assets:
             # test filters with leading/trailing whitespace
             whitespace_filters = [
-                " a",       # leading space
-                "a ",       # trailing space
-                " a ",      # both leading and trailing
-                "  b",      # multiple leading spaces
-                "c  ",      # multiple trailing spaces
-                "\ta",      # leading tab
-                "z\n",      # trailing newline
-                " others ", # whitespace around 'others'
+                " a",  # leading space
+                "a ",  # trailing space
+                " a ",  # both leading and trailing
+                "  b",  # multiple leading spaces
+                "c  ",  # multiple trailing spaces
+                "\ta",  # leading tab
+                "z\n",  # trailing newline
+                " others ",  # whitespace around 'others'
             ]
 
             for ws_filter in whitespace_filters:
                 with pytest.raises(ValueError) as exc_info:
                     assets.get_data(filter=ws_filter)
-                
+
                 error_msg = str(exc_info.value)
-                assert f"Filter '{ws_filter}' contains leading or trailing whitespaces" in error_msg
+                assert (
+                    f"Filter '{ws_filter}' contains leading or trailing whitespaces"
+                    in error_msg
+                )
                 assert "Please remove the whitespaces and try again" in error_msg
                 assert "Valid filters:" in error_msg
 
@@ -368,9 +383,9 @@ class TestUnitAssetsList:
                     "ticker": "TESTCO",
                     "type": "stock",
                     "slug": "/stocks/test-company-TEST",
-                    "isin": "INE123456789"
+                    "isin": "INE123456789",
                 }
-            ]
+            ],
         }
 
     def _get_mock_api_response_with_etf(self):
@@ -384,7 +399,7 @@ class TestUnitAssetsList:
                     "ticker": "TESTCO",
                     "type": "stock",
                     "slug": "/stocks/test-company-TEST",
-                    "isin": "INE123456789"
+                    "isin": "INE123456789",
                 },
                 {
                     "sid": "TETF",
@@ -392,9 +407,9 @@ class TestUnitAssetsList:
                     "ticker": "TESTETF",
                     "type": "etf",
                     "slug": "/etfs/test-etf-TETF",
-                    "isin": "INF987654321"
-                }
-            ]
+                    "isin": "INF987654321",
+                },
+            ],
         }
 
 
@@ -522,7 +537,9 @@ class TestIntegrationAssetsList:
             assert AssetType.ETF in asset_types
 
             # count distribution
-            stock_count = sum(1 for asset in result.data if asset.type == AssetType.STOCK)
+            stock_count = sum(
+                1 for asset in result.data if asset.type == AssetType.STOCK
+            )
             etf_count = sum(1 for asset in result.data if asset.type == AssetType.ETF)
 
             assert stock_count > 0

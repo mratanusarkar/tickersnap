@@ -25,7 +25,7 @@ class AssetsList:
     """
     Client for fetching assets list data from Tickertape.
 
-    Supports fetching the complete list of stocks and ETFs, or filtering by 
+    Supports fetching the complete list of stocks and ETFs, or filtering by
     starting letter. The filter can be any letter from 'a' to 'z' (case insensitive)
     or 'others' for assets that don't start with letters.
 
@@ -115,7 +115,7 @@ class AssetsList:
                     f"Use filter=None or omit the parameter to get all assets. "
                     f"Valid filters: {', '.join(self.VALID_FILTERS_SORTED_LIST)}"
                 )
-            
+
             # validate filter does not contain leading or trailing whitespaces
             if filter_stripped != filter:
                 raise ValueError(
@@ -123,7 +123,7 @@ class AssetsList:
                     f"Please remove the whitespaces and try again with correct filter. "
                     f"Valid filters: {', '.join(self.VALID_FILTERS_SORTED_LIST)}"
                 )
-            
+
             # validate and normalize filter to accept both uppercase and lowercase letters
             filter_lower = filter.lower()
             if filter_lower not in self.VALID_FILTERS:
@@ -140,10 +140,7 @@ class AssetsList:
             if filter is not None:
                 params["filter"] = filter
 
-            response = self.client.get(
-                self.BASE_URL,
-                params=params
-            )
+            response = self.client.get(self.BASE_URL, params=params)
             response.raise_for_status()
             json_res = response.json()
 

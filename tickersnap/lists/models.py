@@ -50,7 +50,7 @@ class AssetData(BaseModel):
 
 class AssetsListResponse(BaseModel):
     """
-    Represents API response payload from 
+    Represents API response payload from
     `api.tickertape.in/stocks/list?filter={filter}` endpoint.
 
     It contains a list of securities/assets (stocks and ETFs) that match the filter criteria.
