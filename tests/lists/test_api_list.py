@@ -15,7 +15,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 from tickersnap.lists import AssetsList
-from tickersnap.lists.models import AssetData, AssetType, AssetsListResponse
+from tickersnap.lists.models import AssetData, AssetsListResponse, AssetType
 
 
 class TestUnitAssetsList:

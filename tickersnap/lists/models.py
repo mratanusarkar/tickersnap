@@ -53,7 +53,7 @@ class AssetsListResponse(BaseModel):
     Represents API response payload from
     `api.tickertape.in/stocks/list?filter={filter}` endpoint.
 
-    It contains a list of securities/assets (stocks and ETFs) that match the filter criteria.
+    It contains a list of securities (stocks and ETFs) that match the filter criteria.
     When no filter is provided, it returns the complete list of all assets.
 
     Note:

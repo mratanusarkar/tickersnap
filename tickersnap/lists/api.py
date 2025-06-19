@@ -1,7 +1,8 @@
 """
 Tickersnap Assets List Client
 
-A module for accessing list of all available assets (stocks and ETFs) from the Tickertape API.
+A module for accessing list of all available assets (stocks and ETFs)
+from the Tickertape API.
 
 This module provides a streamlined way to fetch lists of stocks and ETFs
 from Tickertape, with optional filtering capabilities.
@@ -93,9 +94,11 @@ class AssetsList:
 
         Args:
             filter (Optional[str]): Filter to apply. Can be:
-                - Any letter `'a'` to `'z'` (case insensitive) - assets starting with that letter
-                - `'others'` - assets not starting with letters
-                - None (default) - fetch all assets
+
+                - Any letter `'a'` to `'z'` (case insensitive):
+                    assets starting with that letter
+                - `'others'`: assets not starting with letters
+                - None (default): fetch all assets
 
         Returns:
             AssetsListResponse: Parsed API response containing list of assets.
@@ -124,7 +127,7 @@ class AssetsList:
                     f"Valid filters: {', '.join(self.VALID_FILTERS_SORTED_LIST)}"
                 )
 
-            # validate and normalize filter to accept both uppercase and lowercase letters
+            # validate and normalize filter to accept both upper and lower case letters
             filter_lower = filter.lower()
             if filter_lower not in self.VALID_FILTERS:
                 raise ValueError(
