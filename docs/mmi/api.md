@@ -9,8 +9,8 @@ This unofficial Python client wraps the Tickertape APIs with robust error handli
 
 | API | Request Type | Base URL | Response Type |
 |-----|--------------|----------|---------------|
-| Period Data | GET | `https://analyze.api.tickertape.in` | JSON (application/json) |
-| Current Data | GET | `https://api.tickertape.in` | JSON (application/json) |
+| Period Data | GET | `https://analyze.api.tickertape.in/homepage/mmi?period={period}` | JSON (application/json) |
+| Current Data | GET | `https://api.tickertape.in/mmi/now` | JSON (application/json) |
 
 **Headers:**
 

@@ -1,24 +1,47 @@
 # Models
 
-## Tickertape API Response Models
+## Details and Summary
 
-Pydantic models to hold and map the Tickertape API response, acting as a schema for the response.
+- Tickertape Models: Pydantic models to hold and map the Tickertape API response, acting as a schema for the response.
+- Tickersnap Models: Pydantic models to hold `Tickersnap` defined models, to work easily with the library data.
 
-### MMI Period
+=== "Tickertape Models (API Response)"
 
-- Main model: `MMIPeriodResponse`
-- Depends on: `MMIPeriodData`, `HistoricalData`
-    - `MMIPeriodData`: holds the main MMI data
-    - `HistoricalData`: holds the historical data
+    ### MMI Period
+
+    - Main model: `MMIPeriodResponse`
+    - Depends on: `MMIPeriodData`, `HistoricalData`
+        - `MMIPeriodData`: holds the main MMI data
+        - `HistoricalData`: holds the historical data
 
 
-### MMI Now
+    ### MMI Now
 
-- Main model: `MMINowResponse`
-- Depends on: `MMINowData`, `HistoricalData`, `DailyData`
-    - `MMINowData`: holds the main MMI data
-    - `HistoricalData`: holds the historical data
-    - `DailyData`: holds the daily data
+    - Main model: `MMINowResponse`
+    - Depends on: `MMINowData`, `HistoricalData`, `DailyData`
+        - `MMINowData`: holds the main MMI data
+        - `HistoricalData`: holds the historical data
+        - `DailyData`: holds the daily data
+
+=== "Tickersnap Models (Library Datatypes)"
+
+    ### MMI Current
+
+    - Main model: `MMICurrent`
+    - Depends on: `MMIZone`
+        - `MMIZone`: holds the MMI zone enum
+
+    ### MMI Trends
+
+    - Main model: `MMITrends`
+    - Depends on: `MMIDataPoint`
+        - `MMIDataPoint`: holds the MMI data point (date and value)
+
+    ### MMI Changes
+
+    - Main model: `MMIChanges`
+    - Depends on: `MMIDataPoint`
+        - `MMIDataPoint`: holds the MMI data point (date and value)
 
 ## Usage
 
