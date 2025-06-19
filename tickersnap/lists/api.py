@@ -105,8 +105,26 @@ class AssetsList:
             Exception: If HTTP request fails or data validation fails.
         """
 
-        # validate and normalize filter
+        # input filter parameter validation and normalization
         if filter is not None:
+            # validate filter is not empty or contains whitespaces
+            filter_stripped = filter.strip()
+            if filter_stripped == "":
+                raise ValueError(
+                    f"Empty filter '{filter}' not allowed. "
+                    f"Use filter=None or omit the parameter to get all assets. "
+                    f"Valid filters: {', '.join(self.VALID_FILTERS_SORTED_LIST)}"
+                )
+            
+            # validate filter does not contain leading or trailing whitespaces
+            if filter_stripped != filter:
+                raise ValueError(
+                    f"Filter '{filter}' contains leading or trailing whitespaces. "
+                    f"Please remove the whitespaces and try again with correct filter. "
+                    f"Valid filters: {', '.join(self.VALID_FILTERS_SORTED_LIST)}"
+                )
+            
+            # validate and normalize filter to accept both uppercase and lowercase letters
             filter_lower = filter.lower()
             if filter_lower not in self.VALID_FILTERS:
                 raise ValueError(
