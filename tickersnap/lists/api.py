@@ -50,7 +50,9 @@ class AssetsList:
 
     BASE_URL = "https://api.tickertape.in/stocks/list"
     VALID_LETTERS = set("abcdefghijklmnopqrstuvwxyz")
-    VALID_FILTERS = VALID_LETTERS | {"others"}
+    VALID_OTHERS = {"others"}
+    VALID_FILTERS = VALID_LETTERS | VALID_OTHERS
+    VALID_FILTERS_SORTED_LIST = sorted(VALID_LETTERS) + list(VALID_OTHERS)
 
     def __init__(self, timeout: int = 10):
         """
@@ -109,7 +111,7 @@ class AssetsList:
             if filter_lower not in self.VALID_FILTERS:
                 raise ValueError(
                     f"Invalid filter '{filter}'. Valid options are: "
-                    f"{', '.join(sorted(self.VALID_LETTERS))}, or 'others'. "
+                    f"{', '.join(self.VALID_FILTERS_SORTED_LIST)}. "
                     f"Only the letters are case insensitive."
                 )
             filter = filter_lower
