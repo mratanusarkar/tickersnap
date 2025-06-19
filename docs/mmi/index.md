@@ -68,10 +68,10 @@ If you are curious and wish to explore more, here are some interesting reference
 
 ---
 
-## About TickerSnap
+## About Tickersnap
 
-**TickerSnap** (this python package) provides unofficial Python API access to Tickertape's Market Mood Index and other financial data.
-Since Tickertape doesn't offer official APIs, TickerSnap bridges this gap for developers and analysts.
+**Tickersnap** (this python package) provides unofficial Python API access to Tickertape's Market Mood Index and other financial data.
+Since Tickertape doesn't offer official APIs, Tickersnap bridges this gap for developers and analysts.
 
 Along with the official API, this python package also provides a streamlined way to fetch, process, and work with MMI data,
 as well as providing a utility-focused classes and functions to work with MMI data.

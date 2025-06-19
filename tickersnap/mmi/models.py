@@ -5,7 +5,7 @@ from typing import List, Literal
 from pydantic import BaseModel, Field
 
 # --------------------------------------------------------------------------------------
-# TickerTape API Models
+# Tickertape API Models
 # --------------------------------------------------------------------------------------
 
 
@@ -163,7 +163,7 @@ class MMINowResponse(BaseModel):
 
 
 # --------------------------------------------------------------------------------------
-# TickerSnap User-Facing Models
+# Tickersnap User-Facing Models
 # --------------------------------------------------------------------------------------
 
 

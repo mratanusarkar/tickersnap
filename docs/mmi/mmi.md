@@ -20,7 +20,7 @@ The `MarketMoodIndex` class provides a clean, intuitive API for accessing MMI da
 - ✅ **Trend analysis** - Historical data for charting and analysis
 - ✅ **Comparison data** - Easy period-over-period comparisons
 - ✅ **Error handling** - Robust timeout and retry capabilities
-- ✅ **Extensive Test Coverage** - A robust CI/CD pipeline to identify changes in TickerTape API.
+- ✅ **Extensive Test Coverage** - A robust CI/CD pipeline to identify changes in Tickertape API.
 
 ## Quick Start
 

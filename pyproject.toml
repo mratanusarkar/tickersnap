@@ -1,7 +1,7 @@
 [project]
 name = "tickersnap"
 version = "0.0.1"
-description = "TickerSnap is a tool for getting snapshots of stock data from www.tickertape.in"
+description = "Tickersnap is a tool for getting snapshots of stock data from www.tickertape.in"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

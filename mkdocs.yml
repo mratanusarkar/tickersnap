@@ -1,5 +1,5 @@
 # mkdocs.yml
-site_name: TickerSnap
+site_name: Tickersnap
 site_url: https://mratanusarkar.github.io/tickersnap
 repo_url: https://github.com/mratanusarkar/tickersnap
 
@@ -80,6 +80,9 @@ extra_javascript:
 
 nav:
   - Home: 'index.md'
+  - Setup:
+    - Installation: 'setup/installation.md'
+    - Development: 'setup/development.md'
   - MMI:
     - Introduction: 'mmi/index.md'
     - Market Mood Index: 'mmi/mmi.md'

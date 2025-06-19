@@ -1,6 +1,6 @@
-# TickerSnap
+# Tickersnap
 
-TickerSnap is a tool for getting snapshots of stock data from www.tickertape.in
+Tickersnap is a tool for getting snapshots of stock data from www.tickertape.in
 
 ## Installation
 
