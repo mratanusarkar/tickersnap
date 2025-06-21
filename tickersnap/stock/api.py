@@ -114,7 +114,7 @@ class StockScorecardAPI:
             return ScorecardResponse.model_validate(json_res)
 
         except httpx.HTTPStatusError as e:
-            raise Exception(f"HTTP {e.response.status_code} error: {e.response.text}")
+            raise Exception(f"HTTP {e.response.status_code}, check 'sid' parameter, error: {e.response.text}")
         except httpx.RequestError as e:
             raise Exception(f"Request failed: {e}")
         except ValidationError as e:

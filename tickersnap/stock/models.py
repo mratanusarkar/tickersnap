@@ -110,3 +110,97 @@ class ScorecardResponse(BaseModel):
 
     success: bool
     data: Optional[List[ScorecardItem]] = None
+
+# --------------------------------------------------------------------------------------
+# Tickersnap User-Facing Models (Scorecard)
+# --------------------------------------------------------------------------------------
+
+
+class ScoreRating(str, Enum):
+    """
+    Unified rating system for all scorecard categories and elements.
+    
+    Provides a simple good/bad classification for any scorecard data point,
+    making it easy for users to quickly assess stock conditions without
+    needing to interpret complex financial metrics.
+
+    Values:
+        - GOOD: Positive indicator (green signals, favorable conditions)
+        - OKAY: Neutral indicator (yellow/orange signals, average conditions) 
+        - BAD: Negative indicator (red signals, unfavorable conditions)
+        - UNKNOWN: Missing/insufficient data or unable to determine rating
+    """
+    
+    GOOD = "good"
+    OKAY = "okay" 
+    BAD = "bad"
+    UNKNOWN = "unknown"
+
+
+class Score(BaseModel):
+    """
+    Represents a single scorecard data point with simplified user-friendly information.
+    
+    Used for both main categories (Performance, Valuation, etc.) and individual 
+    elements within Entry Point and Red Flags. Provides consistent structure 
+    across all scorecard data.
+
+    Field Descriptions:
+        - `name`: Display name of the scorecard item
+        - `description`: Human-readable explanation of what this measures
+        - `value`: The actual value/tag from the API (e.g., "High", "Low", "Good")
+        - `rating`: Simplified good/bad/okay/unknown classification
+
+    Note:
+        - value can be None when data is not available
+        - rating helps users quickly understand if something is positive or negative
+        - consistent structure for both categories and elements
+    """
+
+    name: str
+    description: str
+    value: Optional[str] = None
+    rating: ScoreRating
+
+
+class StockScorecard(BaseModel):
+    """
+    Complete simplified scorecard information for a stock.
+    
+    Provides end-user focused access to all 6 scorecard categories with
+    simplified good/bad ratings. Removes API complexity and presents
+    data in an intuitive format for quick stock analysis.
+
+    Categories:
+        - Core Financial: performance, valuation, growth, profitability
+        - Trading Focused: entry_point, red_flags (with detailed elements)
+
+    Field Descriptions:
+        - `performance`: Overall stock performance rating
+        - `valuation`: Stock valuation assessment (expensive/cheap)
+        - `growth`: Company growth prospects rating
+        - `profitability`: Company profitability assessment
+        - `entry_point`: Current entry timing assessment
+        - `entry_point_elements`: Detailed entry point factors (List[Score])
+        - `red_flags`: Overall red flags assessment
+        - `red_flags_elements`: Detailed red flag factors (List[Score])
+
+    Note:
+        - All fields are Optional as some stocks may have missing categories
+        - Elements provide detailed breakdown for entry_point and red_flags
+        - Missing categories will be None (not populated)
+        - Use rating field for quick good/bad assessment
+    """
+    
+    # core financial categories
+    performance: Optional[Score] = None
+    valuation: Optional[Score] = None
+    growth: Optional[Score] = None
+    profitability: Optional[Score] = None
+
+    # trading categories and their detailed elements
+    entry_point: Optional[Score] = None
+    entry_point_elements: Optional[List[Score]] = None
+
+    red_flags: Optional[Score] = None
+    red_flags_elements: Optional[List[Score]] = None
