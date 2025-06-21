@@ -32,7 +32,7 @@ class TestUnitAssets:
         assets = Assets(timeout=30)
         assert assets.timeout == 30
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_get_all_stocks_basic(self, mock_assets_list_class):
         """Test get_all_stocks basic functionality."""
         # Setup mock
@@ -63,7 +63,7 @@ class TestUnitAssets:
         mock_assets_list_class.assert_called_once_with(timeout=15)
         mock_client.get_data.assert_called_once_with()
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_get_all_etfs_basic(self, mock_assets_list_class):
         """Test get_all_etfs basic functionality."""
         # Setup mock
@@ -93,7 +93,7 @@ class TestUnitAssets:
         mock_assets_list_class.assert_called_once_with(timeout=20)
         mock_client.get_data.assert_called_once_with()
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_get_all_assets_basic(self, mock_assets_list_class):
         """Test get_all_assets basic functionality."""
         # Setup mock
@@ -124,7 +124,7 @@ class TestUnitAssets:
         # Verify API usage
         mock_client.get_data.assert_called_once_with()
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_filtering_accuracy(self, mock_assets_list_class):
         """Test that filtering works correctly for different asset combinations."""
         # Setup mock with mixed assets
@@ -157,7 +157,7 @@ class TestUnitAssets:
         all_tickers = {asset.ticker for asset in all_assets}
         assert all_tickers == {"RELIANCE", "TCS", "HDFC", "NIFTYBEES", "BANKNIFTY"}
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_empty_results_handling(self, mock_assets_list_class):
         """Test handling when API returns empty results."""
         # Setup mock with empty response
@@ -173,7 +173,7 @@ class TestUnitAssets:
         assert assets.get_all_etfs() == []
         assert assets.get_all_assets() == []
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_only_stocks_scenario(self, mock_assets_list_class):
         """Test scenario where API returns only stocks."""
         mock_client = Mock()
@@ -214,7 +214,7 @@ class TestUnitAssets:
         assert len(etfs) == 0
         assert len(all_assets) == 2
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_only_etfs_scenario(self, mock_assets_list_class):
         """Test scenario where API returns only ETFs."""
         mock_client = Mock()
@@ -247,7 +247,7 @@ class TestUnitAssets:
         assert len(etfs) == 1
         assert len(all_assets) == 1
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_error_handling_api_failure(self, mock_assets_list_class):
         """Test error handling when API calls fail."""
         mock_client = Mock()
@@ -266,7 +266,7 @@ class TestUnitAssets:
         with pytest.raises(Exception, match="API Error"):
             assets.get_all_assets()
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_multiple_calls_different_methods(self, mock_assets_list_class):
         """Test multiple calls to different methods use fresh API calls."""
         mock_client = Mock()
@@ -289,7 +289,7 @@ class TestUnitAssets:
 
     def test_timeout_parameter_propagation(self):
         """Test that timeout parameter is properly propagated to API client."""
-        with patch("tickersnap.lists.asset.AssetsList") as mock_assets_list_class:
+        with patch("tickersnap.lists.asset.AssetsListAPI") as mock_assets_list_class:
             mock_client = Mock()
             mock_assets_list_class.return_value.__enter__.return_value = mock_client
             mock_client.get_data.return_value = self._create_mock_assets_response()
@@ -300,10 +300,10 @@ class TestUnitAssets:
                 assets = Assets(timeout=timeout)
                 assets.get_all_stocks()
 
-                # Verify AssetsList was called with correct timeout
+                # Verify AssetsListAPI was called with correct timeout
                 mock_assets_list_class.assert_called_with(timeout=timeout)
 
-    @patch("tickersnap.lists.asset.AssetsList")
+    @patch("tickersnap.lists.asset.AssetsListAPI")
     def test_asset_data_integrity(self, mock_assets_list_class):
         """Test that returned asset data maintains integrity."""
         mock_client = Mock()

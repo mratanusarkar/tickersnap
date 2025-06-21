@@ -3,7 +3,7 @@
 !!! note "Note"
 
     This module gets full data for all stocks or ETFs or both combined.
-    If you want to get data for a specific stock or ETF, use the [AssetsList](./api.md) module.
+    If you want to get data for a specific stock or ETF, use the [AssetsListAPI](./api.md) module.
 
 A high-level Python interface for accessing Tickertape's **complete list of stocks and ETFs** with simplified, user-friendly methods.
 
@@ -89,7 +89,7 @@ The `Assets` class provides a clean, intuitive API for accessing asset lists wit
         print(f"Reliance related stocks: {len(reliance_stocks)}")
 
         # Get specific stock by ticker
-        hdfc_stock = next((s for s in stocks if s.ticker == 'HDFCBANK'), None)
+        hdfc_stock = next((s for s in stocks if s.ticker == 'HDFC'), None)
         if hdfc_stock:
             print(f"Found: {hdfc_stock.name}")
         ```

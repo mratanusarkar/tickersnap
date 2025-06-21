@@ -14,7 +14,7 @@ Provides 3 key functions:
 - `get_mmi_changes()`: MMI changes for comparison analysis
 """
 
-from .api import MMINow, MMIPeriod
+from .api import MMINowAPI, MMIPeriodAPI
 from .models import (
     MMIChanges,
     MMICurrent,
@@ -53,7 +53,7 @@ class MarketMoodIndex:
             MMICurrent: Current MMI value, zone, and date.
         """
 
-        with MMINow(timeout=self.timeout) as client:
+        with MMINowAPI(timeout=self.timeout) as client:
             response = client.get_data()
 
         data = response.data
@@ -72,7 +72,7 @@ class MarketMoodIndex:
             MMITrends: Current MMI + last 10 days + last 10 months of historical data.
         """
 
-        with MMIPeriod(timeout=self.timeout) as client:
+        with MMIPeriodAPI(timeout=self.timeout) as client:
             response = client.get_data(period=10)
 
         data = response.data
@@ -106,7 +106,7 @@ class MarketMoodIndex:
             MMIChanges: Current and historical MMI values with comparison properties.
         """
 
-        with MMINow(timeout=self.timeout) as client:
+        with MMINowAPI(timeout=self.timeout) as client:
             response = client.get_data()
 
         data = response.data
@@ -143,7 +143,7 @@ class MarketMoodIndex:
             MMINowData: raw data returned by Tickertape API.
         """
 
-        with MMINow(timeout=self.timeout) as client:
+        with MMINowAPI(timeout=self.timeout) as client:
             response = client.get_data()
 
         return response.data
@@ -163,7 +163,7 @@ class MarketMoodIndex:
             MMIPeriodData: raw data returned by Tickertape API.
         """
 
-        with MMIPeriod(timeout=self.timeout) as client:
+        with MMIPeriodAPI(timeout=self.timeout) as client:
             response = client.get_data(period=period)
 
         return response.data

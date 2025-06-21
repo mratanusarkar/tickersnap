@@ -44,7 +44,7 @@ class TestUnitMarketMoodIndex:
         mmi = MarketMoodIndex(timeout=30)
         assert mmi.timeout == 30
 
-    @patch("tickersnap.mmi.mmi.MMINow")
+    @patch("tickersnap.mmi.mmi.MMINowAPI")
     def test_get_current_mmi_basic(self, mock_mmi_now_class):
         """Test get_current_mmi basic functionality."""
         # Setup mock
@@ -67,7 +67,7 @@ class TestUnitMarketMoodIndex:
         mock_mmi_now_class.assert_called_once_with(timeout=15)
         mock_client.get_data.assert_called_once()
 
-    @patch("tickersnap.mmi.mmi.MMINow")
+    @patch("tickersnap.mmi.mmi.MMINowAPI")
     def test_get_current_mmi_zone_calculations(self, mock_mmi_now_class):
         """Test zone calculation for different MMI values."""
         mock_client = Mock()
@@ -96,7 +96,7 @@ class TestUnitMarketMoodIndex:
             ), f"MMI {mmi_value} should be {expected_zone}, got {result.zone}"
             assert result.value == mmi_value
 
-    @patch("tickersnap.mmi.mmi.MMIPeriod")
+    @patch("tickersnap.mmi.mmi.MMIPeriodAPI")
     def test_get_mmi_trends_basic(self, mock_mmi_period_class):
         """Test get_mmi_trends basic functionality."""
         # Setup mock
@@ -135,7 +135,7 @@ class TestUnitMarketMoodIndex:
         mock_mmi_period_class.assert_called_once_with(timeout=20)
         mock_client.get_data.assert_called_once_with(period=10)
 
-    @patch("tickersnap.mmi.mmi.MMINow")
+    @patch("tickersnap.mmi.mmi.MMINowAPI")
     def test_get_mmi_changes_basic(self, mock_mmi_now_class):
         """Test get_mmi_changes basic functionality."""
         # Setup mock
@@ -195,7 +195,7 @@ class TestUnitMarketMoodIndex:
         with pytest.raises(ValueError, match="Invalid period"):
             changes.vs_last("invalid")
 
-    @patch("tickersnap.mmi.mmi.MMINow")
+    @patch("tickersnap.mmi.mmi.MMINowAPI")
     def test_get_raw_current_data(self, mock_mmi_now_class):
         """Test get_raw_current_data basic functionality."""
         # Setup mock
@@ -218,7 +218,7 @@ class TestUnitMarketMoodIndex:
         # Verify API usage
         mock_client.get_data.assert_called_once()
 
-    @patch("tickersnap.mmi.mmi.MMIPeriod")
+    @patch("tickersnap.mmi.mmi.MMIPeriodAPI")
     def test_get_raw_period_data(self, mock_mmi_period_class):
         """Test get_raw_period_data basic functionality."""
         # Setup mock
@@ -244,7 +244,7 @@ class TestUnitMarketMoodIndex:
         result = mmi.get_raw_period_data(period=7)
         mock_client.get_data.assert_called_with(period=7)
 
-    @patch("tickersnap.mmi.mmi.MMINow")
+    @patch("tickersnap.mmi.mmi.MMINowAPI")
     def test_error_handling_api_failure(self, mock_mmi_now_class):
         """Test error handling when API calls fail."""
         # Setup mock to raise exception
@@ -257,7 +257,7 @@ class TestUnitMarketMoodIndex:
         with pytest.raises(Exception, match="API Error"):
             mmi.get_current_mmi()
 
-    @patch("tickersnap.mmi.mmi.MMIPeriod")
+    @patch("tickersnap.mmi.mmi.MMIPeriodAPI")
     def test_multiple_calls_different_methods(self, mock_mmi_period_class):
         """Test multiple calls to different methods."""
         # Setup mock
@@ -284,8 +284,8 @@ class TestUnitMarketMoodIndex:
         """Test that timeout parameter is properly propagated to API clients."""
         mmi = MarketMoodIndex(timeout=45)
 
-        with patch("tickersnap.mmi.mmi.MMINow") as mock_now:
-            with patch("tickersnap.mmi.mmi.MMIPeriod") as mock_period:
+        with patch("tickersnap.mmi.mmi.MMINowAPI") as mock_now:
+            with patch("tickersnap.mmi.mmi.MMIPeriodAPI") as mock_period:
                 # Setup mocks
                 mock_now.return_value.__enter__.return_value.get_data.return_value = (
                     self._create_mock_now_response()

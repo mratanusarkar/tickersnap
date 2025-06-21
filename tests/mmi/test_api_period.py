@@ -2,7 +2,7 @@
 Unit tests for tickersnap MMI module.
 
 Tests cover:
-- MMIPeriod class functionality
+- MMIPeriodAPI class functionality
 - API response validation
 - Error handling
 - Edge cases
@@ -13,19 +13,19 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tickersnap.mmi import MMIPeriod
+from tickersnap.mmi import MMIPeriodAPI
 from tickersnap.mmi.models import HistoricalData, MMIPeriodData, MMIPeriodResponse
 
 
 class TestUnitMMIPeriod:
     """
-    Unit test suite for MMIPeriod class with mocked API calls.
+    Unit test suite for MMIPeriodAPI class with mocked API calls.
     """
 
     def test_mmi_period_initialization(self):
-        """Test MMIPeriod initialization with default and custom timeout."""
+        """Test MMIPeriodAPI initialization with default and custom timeout."""
         # with default timeout
-        mmi = MMIPeriod()
+        mmi = MMIPeriodAPI()
         assert mmi.timeout == 10
         assert mmi.BASE_URL == "https://analyze.api.tickertape.in/homepage/mmi"
         assert mmi.DEFAULT_PERIOD == 4
@@ -34,13 +34,13 @@ class TestUnitMMIPeriod:
         mmi.close()
 
         # with custom timeout
-        mmi = MMIPeriod(timeout=30)
+        mmi = MMIPeriodAPI(timeout=30)
         assert mmi.timeout == 30
         mmi.close()
 
     def test_period_validation(self):
         """Test period parameter validation."""
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             # valid periods should not raise
             for period in [1, 5, 10]:
                 # mock the response to avoid actual API calls
@@ -60,7 +60,7 @@ class TestUnitMMIPeriod:
 
     def test_default_period(self):
         """Test that default period is used when period is None."""
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -80,7 +80,7 @@ class TestUnitMMIPeriod:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
 
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             assert mmi is not None
 
         # verify close was called when exiting context
@@ -88,7 +88,7 @@ class TestUnitMMIPeriod:
 
     def test_manual_close(self):
         """Test manual client closing."""
-        mmi = MMIPeriod()
+        mmi = MMIPeriodAPI()
         mmi.close()
         # should not raise any exception
 
@@ -100,7 +100,7 @@ class TestUnitMMIPeriod:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
 
-        mmi = MMIPeriod()
+        mmi = MMIPeriodAPI()
 
         # test HTTP status error
         mock_response = Mock()
@@ -123,7 +123,7 @@ class TestUnitMMIPeriod:
 
     def test_api_response_structure_validation(self):
         """Test that API response is properly validated against Pydantic models."""
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 # valid response
                 mock_response = Mock()
@@ -187,7 +187,7 @@ class TestUnitMMIPeriod:
 
     def test_validation_error_handling(self):
         """Test handling of Pydantic validation errors."""
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 # invalid response structure
                 mock_response = Mock()
@@ -202,7 +202,7 @@ class TestUnitMMIPeriod:
 
     def test_multiple_calls_same_client(self):
         """Test multiple API calls with same client instance."""
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -225,7 +225,7 @@ class TestUnitMMIPeriod:
 
     def test_api_response_data_integrity(self):
         """Test that all expected fields are present and have correct types."""
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 mock_response = Mock()
                 api_response = self._get_mock_api_response()
@@ -324,12 +324,12 @@ class TestUnitMMIPeriod:
 @pytest.mark.integration
 class TestIntegrationMMIPeriod:
     """
-    Integration test suite for MMIPeriod class with real API calls.
+    Integration test suite for MMIPeriodAPI class with real API calls.
     """
 
     def test_tickertape_api_call_validation(self):
         """Test real API call to validate response structure and catch API changes."""
-        with MMIPeriod(timeout=30) as mmi:
+        with MMIPeriodAPI(timeout=30) as mmi:
             try:
                 # make real API call with period=1 (fastest)
                 result = mmi.get_data(period=1)

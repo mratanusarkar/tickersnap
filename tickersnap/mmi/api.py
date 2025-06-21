@@ -22,7 +22,7 @@ from pydantic import ValidationError
 from .models import MMINowResponse, MMIPeriodResponse
 
 
-class MMIPeriod:
+class MMIPeriodAPI:
     """
     Client for fetching Market Mood Index (MMI) data for specified periods.
 
@@ -34,7 +34,7 @@ class MMIPeriod:
     Example:
         ```python
         # Using as a client object (don't forget to close)
-        mmi = MMIPeriod()
+        mmi = MMIPeriodAPI()
         data = mmi.get_data(period=1)
         print(data.data.indicator)
         mmi.close()
@@ -42,7 +42,7 @@ class MMIPeriod:
 
         ```python
         # Using as context manager (automatically closed)
-        with MMIPeriod() as mmi:
+        with MMIPeriodAPI() as mmi:
             data = mmi.get_data(period=1)
             print(data.data.indicator)
         ```
@@ -131,7 +131,7 @@ class MMIPeriod:
             raise Exception(f"Unexpected error: {e}")
 
 
-class MMINow:
+class MMINowAPI:
     """
     Client for fetching the current Market Mood Index (MMI) data.
 

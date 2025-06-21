@@ -12,7 +12,7 @@ Removes API complexity and provides clean, filtered lists for daily market analy
 
 from typing import List
 
-from .api import AssetsList
+from .api import AssetsListAPI
 from .models import AssetData, AssetType
 
 
@@ -44,7 +44,7 @@ class Assets:
             List[AssetData]: List of all stock assets with essential fields.
         """
 
-        with AssetsList(timeout=self.timeout) as client:
+        with AssetsListAPI(timeout=self.timeout) as client:
             response = client.get_data()
 
         return [asset for asset in response.data if asset.type == AssetType.STOCK]
@@ -57,7 +57,7 @@ class Assets:
             List[AssetData]: List of all ETF assets with essential fields.
         """
 
-        with AssetsList(timeout=self.timeout) as client:
+        with AssetsListAPI(timeout=self.timeout) as client:
             response = client.get_data()
 
         return [asset for asset in response.data if asset.type == AssetType.ETF]
@@ -70,7 +70,7 @@ class Assets:
             List[AssetData]: List of all assets with essential fields including type.
         """
 
-        with AssetsList(timeout=self.timeout) as client:
+        with AssetsListAPI(timeout=self.timeout) as client:
             response = client.get_data()
 
         return response.data

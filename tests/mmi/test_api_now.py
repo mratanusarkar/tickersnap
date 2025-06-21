@@ -2,7 +2,7 @@
 Unit tests for tickersnap MMI Now module.
 
 Tests cover:
-- MMINow class functionality
+- MMINowAPI class functionality
 - API response validation
 - Error handling
 - Edge cases
@@ -13,25 +13,25 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tickersnap.mmi import MMINow
+from tickersnap.mmi import MMINowAPI
 from tickersnap.mmi.models import DailyData, HistoricalData, MMINowData, MMINowResponse
 
 
 class TestUnitMMINow:
     """
-    Unit test suite for MMINow class with mocked API calls.
+    Unit test suite for MMINowAPI class with mocked API calls.
     """
 
     def test_mmi_now_initialization(self):
-        """Test MMINow initialization with default and custom timeout."""
+        """Test MMINowAPI initialization with default and custom timeout."""
         # with default timeout
-        mmi = MMINow()
+        mmi = MMINowAPI()
         assert mmi.timeout == 10
         assert mmi.BASE_URL == "https://api.tickertape.in/mmi/now"
         mmi.close()
 
         # with custom timeout
-        mmi = MMINow(timeout=30)
+        mmi = MMINowAPI(timeout=30)
         assert mmi.timeout == 30
         mmi.close()
 
@@ -41,7 +41,7 @@ class TestUnitMMINow:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
 
-        with MMINow() as mmi:
+        with MMINowAPI() as mmi:
             assert mmi is not None
 
         # verify close was called when exiting context
@@ -49,7 +49,7 @@ class TestUnitMMINow:
 
     def test_manual_close(self):
         """Test manual client closing."""
-        mmi = MMINow()
+        mmi = MMINowAPI()
         mmi.close()
         # should not raise any exception
 
@@ -61,7 +61,7 @@ class TestUnitMMINow:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
 
-        mmi = MMINow()
+        mmi = MMINowAPI()
 
         # test HTTP status error
         mock_response = Mock()
@@ -84,7 +84,7 @@ class TestUnitMMINow:
 
     def test_api_response_structure_validation(self):
         """Test that API response is properly validated against Pydantic models."""
-        with MMINow() as mmi:
+        with MMINowAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 # valid response
                 mock_response = Mock()
@@ -149,7 +149,7 @@ class TestUnitMMINow:
 
     def test_validation_error_handling(self):
         """Test handling of Pydantic validation errors."""
-        with MMINow() as mmi:
+        with MMINowAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 # invalid response structure
                 mock_response = Mock()
@@ -164,7 +164,7 @@ class TestUnitMMINow:
 
     def test_multiple_calls_same_client(self):
         """Test multiple API calls with same client instance."""
-        with MMINow() as mmi:
+        with MMINowAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -187,7 +187,7 @@ class TestUnitMMINow:
 
     def test_api_response_data_integrity(self):
         """Test that all expected fields are present and have correct types."""
-        with MMINow() as mmi:
+        with MMINowAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 mock_response = Mock()
                 api_response = self._get_mock_api_response()
@@ -236,7 +236,7 @@ class TestUnitMMINow:
 
     def test_no_parameters_api_call(self):
         """Test that get_data() is called without parameters."""
-        with MMINow() as mmi:
+        with MMINowAPI() as mmi:
             with patch.object(mmi.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -343,12 +343,12 @@ class TestUnitMMINow:
 @pytest.mark.integration
 class TestIntegrationMMINow:
     """
-    Integration test suite for MMINow class with real API calls.
+    Integration test suite for MMINowAPI class with real API calls.
     """
 
     def test_tickertape_now_api_call_validation(self):
         """Test real API call to validate response structure and catch API changes."""
-        with MMINow(timeout=30) as mmi:
+        with MMINowAPI(timeout=30) as mmi:
             try:
                 # make real API call
                 result = mmi.get_data()
@@ -446,7 +446,7 @@ class TestIntegrationMMINow:
                     data.vix, float
                 ), f"VIX should be float, got {type(data.vix)}"
 
-                # validate MMINow specific fields
+                # validate MMINowAPI specific fields
                 assert hasattr(data, "current_value"), "Missing 'current_value' field"
                 assert isinstance(
                     data.current_value, float

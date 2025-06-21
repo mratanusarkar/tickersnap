@@ -22,7 +22,7 @@ from pydantic import ValidationError
 from .models import AssetsListResponse
 
 
-class AssetsList:
+class AssetsListAPI:
     """
     Client for fetching assets list data from Tickertape.
 
@@ -35,7 +35,7 @@ class AssetsList:
     Example:
         ```python
         # Using as a client object (don't forget to close)
-        assets = AssetsList()
+        assets = AssetsListAPI()
         data = assets.get_data()  # Get all assets
         data_filtered = assets.get_data(filter='a')  # Get assets starting with 'a'
         assets.close()
@@ -43,7 +43,7 @@ class AssetsList:
 
         ```python
         # Using as context manager (automatically closed)
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             data = assets.get_data(filter='x')
             print(f"Found {len(data.data)} assets")
         ```
