@@ -94,3 +94,6 @@ nav:
       - Assets: 'lists/asset.md'
       - Tickertape API: 'lists/api.md'
       - Models: 'lists/models.md'
+    - Stock:
+      - Tickertape API: 'stock/api.md'
+      - Models: 'stock/models.md'
