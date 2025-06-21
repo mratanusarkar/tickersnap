@@ -13,7 +13,6 @@ Features:
     - Simple client interface with proper error handling
 """
 
-
 import httpx
 from pydantic import ValidationError
 
@@ -114,7 +113,8 @@ class StockScorecardAPI:
 
         except httpx.HTTPStatusError as e:
             raise Exception(
-                f"HTTP {e.response.status_code}, check 'sid' parameter, error: {e.response.text}"
+                f"HTTP {e.response.status_code}, "
+                f"check 'sid' parameter, error: {e.response.text}"
             )
         except httpx.RequestError as e:
             raise Exception(f"Request failed: {e}")

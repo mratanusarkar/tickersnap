@@ -21,7 +21,8 @@ class ScoreData(BaseModel):
         - used only in "score" field of: performance, valuation, growth, profitability
 
     Disclaimer:
-        - some fields can be missing (`None`) for some stocks when the data is not available
+        - some fields can be missing (`None`)
+            for some stocks when the data is not available
     """
 
     percentage: bool
@@ -43,7 +44,8 @@ class ScorecardElement(BaseModel):
         - used only in "elements" field of: entry_point, red_flags
 
     Disclaimer:
-        - some fields can be missing (`None`) for some stocks when the data is not available
+        - some fields can be missing (`None`)
+            for some stocks when the data is not available
     """
 
     title: str
@@ -57,7 +59,8 @@ class ScorecardElement(BaseModel):
 
 class ScorecardItem(BaseModel):
     """
-    Individual scorecard category item (Performance, Valuation, Growth, Profitability, Entry Point, Red Flags).
+    Individual scorecard category item
+    (Performance, Valuation, Growth, Profitability, Entry Point, Red Flags).
 
     This model follows tickertape API response's schema for individual scorecard items.
     Each item represents one of the 6 scorecard categories with their respective data.
@@ -67,9 +70,11 @@ class ScorecardItem(BaseModel):
         - used by models: `ScorecardResponse`
 
     Disclaimer:
-        - some fields can be missing (`None`) for some stocks when the data is not available
+        - some fields can be missing (`None`)
+            for some stocks when the data is not available
         - `score` will be `None` for "entry point" and "red flag" types
-        - `elements` will be empty for "performance", "valuation", "growth", "profitability" types
+        - `elements` will be empty
+            for "performance", "valuation", "growth", "profitability" types
     """
 
     name: str
@@ -103,8 +108,8 @@ class ScorecardResponse(BaseModel):
 
     Reference:
         - HTTP Request: GET
-        - URL: https://analyze.api.tickertape.in/stocks/scorecard/{sid}
-            - where `sid` is the stock's Security ID
+        - URL: https://analyze.api.tickertape.in/stocks/scorecard/{sid},
+            (where `sid` is the stock's Security ID)
         - Response Body: `ScorecardResponse`
     """
 
