@@ -163,9 +163,9 @@ class Score(BaseModel):
     rating: ScoreRating
 
 
-class StockScorecard(BaseModel):
+class StockScores(BaseModel):
     """
-    Complete simplified scorecard information for a stock.
+    Complete scorecard information (simplified) for a stock.
     
     Provides end-user focused access to all 6 scorecard categories with
     simplified good/bad ratings. Removes API complexity and presents
