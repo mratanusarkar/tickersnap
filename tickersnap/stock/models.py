@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional, Dict, Any
+from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -19,7 +19,7 @@ class ScoreData(BaseModel):
         - internal use only
         - used by models: `ScorecardItem`
         - used only in "score" field of: performance, valuation, growth, profitability
-    
+
     Disclaimer:
         - some fields can be missing (`None`) for some stocks when the data is not available
     """
@@ -41,7 +41,7 @@ class ScorecardElement(BaseModel):
         - internal use only
         - used by models: `ScorecardItem`
         - used only in "elements" field of: entry_point, red_flags
-    
+
     Disclaimer:
         - some fields can be missing (`None`) for some stocks when the data is not available
     """
@@ -65,13 +65,13 @@ class ScorecardItem(BaseModel):
     Note:
         - internal use only
         - used by models: `ScorecardResponse`
-    
+
     Disclaimer:
         - some fields can be missing (`None`) for some stocks when the data is not available
         - `score` will be `None` for "entry point" and "red flag" types
         - `elements` will be empty for "performance", "valuation", "growth", "profitability" types
     """
-    
+
     name: str
     tag: Optional[str] = None
     type: str
@@ -84,7 +84,7 @@ class ScorecardItem(BaseModel):
     callout: Optional[Any] = None
     comment: Optional[str] = None
     stack: int
-    elements: List[ScorecardElement] = Field(default_factory=list) 
+    elements: List[ScorecardElement] = Field(default_factory=list)
 
 
 class ScorecardResponse(BaseModel):
@@ -111,6 +111,7 @@ class ScorecardResponse(BaseModel):
     success: bool
     data: Optional[List[ScorecardItem]] = None
 
+
 # --------------------------------------------------------------------------------------
 # Tickersnap User-Facing Models (Scorecard)
 # --------------------------------------------------------------------------------------
@@ -119,20 +120,20 @@ class ScorecardResponse(BaseModel):
 class ScoreRating(str, Enum):
     """
     Unified rating system for all scorecard categories and elements.
-    
+
     Provides a simple good/bad classification for any scorecard data point,
     making it easy for users to quickly assess stock conditions without
     needing to interpret complex financial metrics.
 
     Values:
         - GOOD: Positive indicator (green signals, favorable conditions)
-        - OKAY: Neutral indicator (yellow/orange signals, average conditions) 
+        - OKAY: Neutral indicator (yellow/orange signals, average conditions)
         - BAD: Negative indicator (red signals, unfavorable conditions)
         - UNKNOWN: Missing/insufficient data or unable to determine rating
     """
-    
+
     GOOD = "good"
-    OKAY = "okay" 
+    OKAY = "okay"
     BAD = "bad"
     UNKNOWN = "unknown"
 
@@ -140,9 +141,9 @@ class ScoreRating(str, Enum):
 class Score(BaseModel):
     """
     Represents a single scorecard data point with simplified user-friendly information.
-    
-    Used for both main categories (Performance, Valuation, etc.) and individual 
-    elements within Entry Point and Red Flags. Provides consistent structure 
+
+    Used for both main categories (Performance, Valuation, etc.) and individual
+    elements within Entry Point and Red Flags. Provides consistent structure
     across all scorecard data.
 
     Field Descriptions:
@@ -166,7 +167,7 @@ class Score(BaseModel):
 class StockScores(BaseModel):
     """
     Complete scorecard information (simplified) for a stock.
-    
+
     Provides end-user focused access to all 6 scorecard categories with
     simplified good/bad ratings. Removes API complexity and presents
     data in an intuitive format for quick stock analysis.
@@ -191,7 +192,7 @@ class StockScores(BaseModel):
         - Missing categories will be None (not populated)
         - Use rating field for quick good/bad assessment
     """
-    
+
     # core financial categories
     performance: Optional[Score] = None
     valuation: Optional[Score] = None

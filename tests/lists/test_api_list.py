@@ -576,7 +576,9 @@ class TestIntegrationAssetsList:
         """Test API response performance."""
         import time
 
-        with AssetsListAPI(timeout=30) as assets:  # increased timeout for performance test
+        with AssetsListAPI(
+            timeout=30
+        ) as assets:  # increased timeout for performance test
             start_time = time.time()
             result = assets.get_data()
             end_time = time.time()
