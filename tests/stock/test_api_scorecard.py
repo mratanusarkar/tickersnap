@@ -319,7 +319,7 @@ class TestUnitStockScorecard:
                     ("TCS", "https://analyze.api.tickertape.in/stocks/scorecard/TCS"),
                     ("RELI", "https://analyze.api.tickertape.in/stocks/scorecard/RELI"),
                     ("INFY", "https://analyze.api.tickertape.in/stocks/scorecard/INFY"),
-                    ("HDFCBANK", "https://analyze.api.tickertape.in/stocks/scorecard/HDFCBANK"),
+                    ("HDFC", "https://analyze.api.tickertape.in/stocks/scorecard/HDFC"),
                 ]
 
                 for sid, expected_url in test_cases:
@@ -758,7 +758,7 @@ class TestIntegrationStockScorecard:
         test_stocks = [
             ("RELI", "Reliance Industries"),  # Large cap
             ("INFY", "Infosys"),              # IT sector
-            ("HDFCBANK", "HDFC Bank"),        # Banking sector
+            ("HDFC", "HDFC Bank"),        # Banking sector
         ]
         
         with StockScorecardAPI(timeout=30) as scorecard:

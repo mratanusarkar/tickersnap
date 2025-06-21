@@ -89,7 +89,7 @@ The `Assets` class provides a clean, intuitive API for accessing asset lists wit
         print(f"Reliance related stocks: {len(reliance_stocks)}")
 
         # Get specific stock by ticker
-        hdfc_stock = next((s for s in stocks if s.ticker == 'HDFCBANK'), None)
+        hdfc_stock = next((s for s in stocks if s.ticker == 'HDFC'), None)
         if hdfc_stock:
             print(f"Found: {hdfc_stock.name}")
         ```

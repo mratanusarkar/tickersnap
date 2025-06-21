@@ -176,7 +176,7 @@ These categories provide detailed breakdowns with multiple factors:
 
 ### Stocks with Missing Categories
 
-Some stocks (particularly smaller companies) may not have all 6 categories:
+Some stocks (particularly smaller companies) may not have all 6 categories, though this is becoming less common as the API evolves:
 
 - **Common scenario**: Only Entry Point and Red Flags available
 - **Missing categories**: Performance, Valuation, Growth, Profitability
