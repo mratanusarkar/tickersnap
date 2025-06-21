@@ -2,7 +2,7 @@
 Unit tests for tickersnap Assets List module.
 
 Tests cover:
-- AssetsList class functionality
+- AssetsListAPI class functionality
 - API response validation
 - Filter validation and normalization
 - Error handling
@@ -14,59 +14,59 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tickersnap.lists import AssetsList
+from tickersnap.lists import AssetsListAPI
 from tickersnap.lists.models import AssetData, AssetsListResponse, AssetType
 
 
 class TestUnitAssetsList:
     """
-    Unit test suite for AssetsList class with mocked API calls.
+    Unit test suite for AssetsListAPI class with mocked API calls.
     """
 
     def test_assets_list_initialization(self):
-        """Test AssetsList initialization with default and custom timeout."""
+        """Test AssetsListAPI initialization with default and custom timeout."""
         # with default timeout
-        assets = AssetsList()
+        assets = AssetsListAPI()
         assert assets.timeout == 10
         assert assets.BASE_URL == "https://api.tickertape.in/stocks/list"
         assets.close()
 
         # with custom timeout
-        assets = AssetsList(timeout=30)
+        assets = AssetsListAPI(timeout=30)
         assert assets.timeout == 30
         assets.close()
 
     def test_class_constants(self):
         """Test that all class constants are properly defined."""
         # validate constants exist and have correct values
-        assert hasattr(AssetsList, "VALID_LETTERS")
-        assert hasattr(AssetsList, "VALID_OTHERS")
-        assert hasattr(AssetsList, "VALID_FILTERS")
-        assert hasattr(AssetsList, "VALID_FILTERS_SORTED_LIST")
+        assert hasattr(AssetsListAPI, "VALID_LETTERS")
+        assert hasattr(AssetsListAPI, "VALID_OTHERS")
+        assert hasattr(AssetsListAPI, "VALID_FILTERS")
+        assert hasattr(AssetsListAPI, "VALID_FILTERS_SORTED_LIST")
 
         # validate VALID_LETTERS contains all lowercase letters
         expected_letters = set("abcdefghijklmnopqrstuvwxyz")
-        assert AssetsList.VALID_LETTERS == expected_letters
+        assert AssetsListAPI.VALID_LETTERS == expected_letters
 
         # validate VALID_OTHERS contains 'others'
-        assert AssetsList.VALID_OTHERS == {"others"}
+        assert AssetsListAPI.VALID_OTHERS == {"others"}
 
         # validate VALID_FILTERS is union of letters and others
         assert (
-            AssetsList.VALID_FILTERS
-            == AssetsList.VALID_LETTERS | AssetsList.VALID_OTHERS
+            AssetsListAPI.VALID_FILTERS
+            == AssetsListAPI.VALID_LETTERS | AssetsListAPI.VALID_OTHERS
         )
 
         # validate VALID_FILTERS_SORTED_LIST is properly ordered
         expected_sorted = list("abcdefghijklmnopqrstuvwxyz") + ["others"]
-        assert AssetsList.VALID_FILTERS_SORTED_LIST == expected_sorted
+        assert AssetsListAPI.VALID_FILTERS_SORTED_LIST == expected_sorted
 
         # validate total count
-        assert len(AssetsList.VALID_FILTERS) == 27  # 26 letters + others
+        assert len(AssetsListAPI.VALID_FILTERS) == 27  # 26 letters + others
 
     def test_filter_validation_valid_cases(self):
         """Test filter validation with valid inputs."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -90,7 +90,7 @@ class TestUnitAssetsList:
 
     def test_filter_validation_case_insensitive(self):
         """Test that filter validation is case insensitive for letters and 'others'."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -118,7 +118,7 @@ class TestUnitAssetsList:
 
     def test_filter_validation_invalid_cases(self):
         """Test filter validation with invalid inputs (non-empty and non-whitespace cases only)."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # test specific invalid filters that remain invalid even after .lower(), (non-empty and non-whitespace cases only)
             invalid_filters = [
                 "invalid",  # word that's not a single letter or 'others'
@@ -141,7 +141,7 @@ class TestUnitAssetsList:
 
     def test_filter_validation_empty_and_whitespace_cases(self):
         """Test filter validation with empty strings and whitespace."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # test empty filters (caught by empty filter validation)
             empty_filters = [
                 "",  # empty string
@@ -166,7 +166,7 @@ class TestUnitAssetsList:
 
     def test_filter_validation_whitespace_padding_cases(self):
         """Test filter validation with leading/trailing whitespace."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # test filters with leading/trailing whitespace
             whitespace_filters = [
                 " a",  # leading space
@@ -193,7 +193,7 @@ class TestUnitAssetsList:
 
     def test_no_filter_parameter(self):
         """Test API call without filter parameter."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -207,7 +207,7 @@ class TestUnitAssetsList:
 
     def test_none_filter_parameter(self):
         """Test API call with explicit None filter."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response()
@@ -225,7 +225,7 @@ class TestUnitAssetsList:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
 
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             assert assets is not None
 
         # verify close was called when exiting context
@@ -233,7 +233,7 @@ class TestUnitAssetsList:
 
     def test_manual_close(self):
         """Test manual client closing."""
-        assets = AssetsList()
+        assets = AssetsListAPI()
         assets.close()
         # should not raise any exception
 
@@ -245,7 +245,7 @@ class TestUnitAssetsList:
         mock_client = Mock()
         mock_client_class.return_value = mock_client
 
-        assets = AssetsList()
+        assets = AssetsListAPI()
 
         # test HTTP status error
         mock_response = Mock()
@@ -268,7 +268,7 @@ class TestUnitAssetsList:
 
     def test_api_response_structure_validation(self):
         """Test that API response is properly validated against Pydantic models."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 # valid response
                 mock_response = Mock()
@@ -301,7 +301,7 @@ class TestUnitAssetsList:
 
     def test_validation_error_handling(self):
         """Test handling of Pydantic validation errors."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 # invalid response structure
                 mock_response = Mock()
@@ -316,7 +316,7 @@ class TestUnitAssetsList:
 
     def test_multiple_calls_same_client(self):
         """Test making multiple API calls with the same client instance."""
-        assets = AssetsList()
+        assets = AssetsListAPI()
 
         with patch.object(assets.client, "get") as mock_get:
             mock_response = Mock()
@@ -341,7 +341,7 @@ class TestUnitAssetsList:
 
     def test_api_response_data_integrity(self):
         """Test that asset data maintains integrity through model validation."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 mock_response = Mock()
                 mock_response.json.return_value = self._get_mock_api_response_with_etf()
@@ -374,7 +374,7 @@ class TestUnitAssetsList:
 
     def test_unexpected_error_handling(self):
         """Test handling of unexpected errors."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             with patch.object(assets.client, "get") as mock_get:
                 # simulate unexpected error
                 mock_get.side_effect = RuntimeError("Unexpected error occurred")
@@ -426,13 +426,13 @@ class TestUnitAssetsList:
 @pytest.mark.integration
 class TestIntegrationAssetsList:
     """
-    Integration test suite for AssetsList class with real API calls.
+    Integration test suite for AssetsListAPI class with real API calls.
     These tests make actual HTTP requests to the Tickertape API.
     """
 
     def test_real_api_call_no_filter(self):
         """Test real API call without filter to get all assets."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             result = assets.get_data()
 
             # validate response structure
@@ -453,7 +453,7 @@ class TestIntegrationAssetsList:
 
     def test_real_api_call_with_letter_filter(self):
         """Test real API call with letter filter."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # test with 'a' filter
             result = assets.get_data(filter="a")
 
@@ -469,7 +469,7 @@ class TestIntegrationAssetsList:
 
     def test_real_api_call_with_others_filter(self):
         """Test real API call with 'others' filter."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             result = assets.get_data(filter="others")
 
             # validate response structure
@@ -485,7 +485,7 @@ class TestIntegrationAssetsList:
 
     def test_real_api_call_case_insensitive(self):
         """Test real API call with uppercase filter for letters and 'others'."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # test case insensitive letters
             # get results with lowercase 'a'
             result_lower = assets.get_data(filter="a")
@@ -518,14 +518,14 @@ class TestIntegrationAssetsList:
 
     def test_real_api_completeness_validation(self):
         """Test that sum of all filters equals total assets."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # get total count
             all_assets = assets.get_data()
             total_count = len(all_assets.data)
 
             # get count for each filter
             filter_counts = {}
-            for filter_name in AssetsList.VALID_FILTERS_SORTED_LIST:
+            for filter_name in AssetsListAPI.VALID_FILTERS_SORTED_LIST:
                 filtered_assets = assets.get_data(filter=filter_name)
                 filter_counts[filter_name] = len(filtered_assets.data)
 
@@ -538,7 +538,7 @@ class TestIntegrationAssetsList:
 
     def test_real_api_data_consistency(self):
         """Test that API data is consistent across calls."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             # make two identical calls
             result1 = assets.get_data(filter="x")
             result2 = assets.get_data(filter="x")
@@ -554,7 +554,7 @@ class TestIntegrationAssetsList:
 
     def test_real_api_asset_types_distribution(self):
         """Test that API returns both stocks and ETFs."""
-        with AssetsList() as assets:
+        with AssetsListAPI() as assets:
             result = assets.get_data()
 
             # check for both asset types
@@ -576,7 +576,7 @@ class TestIntegrationAssetsList:
         """Test API response performance."""
         import time
 
-        with AssetsList(timeout=30) as assets:  # increased timeout for performance test
+        with AssetsListAPI(timeout=30) as assets:  # increased timeout for performance test
             start_time = time.time()
             result = assets.get_data()
             end_time = time.time()

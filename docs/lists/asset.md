@@ -3,7 +3,7 @@
 !!! note "Note"
 
     This module gets full data for all stocks or ETFs or both combined.
-    If you want to get data for a specific stock or ETF, use the [AssetsList](./api.md) module.
+    If you want to get data for a specific stock or ETF, use the [AssetsListAPI](./api.md) module.
 
 A high-level Python interface for accessing Tickertape's **complete list of stocks and ETFs** with simplified, user-friendly methods.
 

@@ -73,7 +73,7 @@ Below is a combined reference for all the fields found in all the API related (t
     |-------|-----------|------|-------------|-------------|
     | `indicator` | Market Mood Indicator | `float` | 0-100 | Final MMI sentiment value (0=Extreme Fear, 100=Extreme Greed) |
     | `raw` | Raw MMI Value | `float` | varies | Raw MMI calculation before smoothing/normalization |
-    | `current_value` | Current MMI Value | `float` | 0-100 | Current MMI value (same as indicator in MMINow) |
+    | `current_value` | Current MMI Value | `float` | 0-100 | Current MMI value (same as indicator in MMINowAPI) |
 
     ### 2. Market Sentiment Factors:
 
@@ -117,7 +117,7 @@ Below is a combined reference for all the fields found in all the API related (t
     | `months_historical` | Monthly Historical Data | `List[HistoricalData]` | 1-10 items | Historical monthly MMI data points |
     | `daily` | Daily Data Series | `List[DailyData]` | varies | Daily MMI value time series |
 
-    ### 7. Comparison Fields (MMINow only):
+    ### 7. Comparison Fields (MMINowAPI only):
 
     | Field | Full Form | Type | Range/Format | Description |
     |-------|-----------|------|-------------|-------------|

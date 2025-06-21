@@ -57,13 +57,13 @@ This unofficial Python client wraps the Tickertape API with robust error handlin
 
     #### 1.4 Python Usage:
 
-    === "AssetsList"
+    === "AssetsListAPI"
 
         ```python
-        from tickersnap.lists import AssetsList
+        from tickersnap.lists import AssetsListAPI
 
         # Basic usage - get all assets
-        with AssetsList() as client:
+        with AssetsListAPI() as client:
             response = client.get_data()
             print(f"Total assets: {len(response.data)}")
             
@@ -72,17 +72,17 @@ This unofficial Python client wraps the Tickertape API with robust error handlin
                 print(f"{asset.name} ({asset.ticker}) - {asset.type}")
 
         # Filter by starting letter
-        with AssetsList() as client:
+        with AssetsListAPI() as client:
             response = client.get_data(filter='a')
             print(f"Assets starting with 'a': {len(response.data)}")
 
         # Get assets not starting with letters
-        with AssetsList() as client:
+        with AssetsListAPI() as client:
             response = client.get_data(filter='others')
             print(f"Other assets: {len(response.data)}")
 
         # With custom timeout
-        with AssetsList(timeout=30) as client:
+        with AssetsListAPI(timeout=30) as client:
             response = client.get_data(filter='t')
         ```
 
@@ -152,10 +152,10 @@ Exception: Data validation error: Field 'success' missing
 **3 Error Handling Example:**
 
 ```python
-from tickersnap.lists import AssetsList
+from tickersnap.lists import AssetsListAPI
 
 try:
-    with AssetsList() as client:
+    with AssetsListAPI() as client:
         response = client.get_data(filter='invalid')
 except ValueError as e:
     print(f"Parameter error: {e}")
@@ -169,25 +169,25 @@ except Exception as e:
 
     ```python
     # Default timeout: 10 seconds
-    client = AssetsList()
+    client = AssetsListAPI()
 
     # Custom timeout: 30 seconds  
-    client = AssetsList(timeout=30)
+    client = AssetsListAPI(timeout=30)
 
     # For slower connections
-    client = AssetsList(timeout=60)
+    client = AssetsListAPI(timeout=60)
     ```
 
 === "Connection Management"
 
     ```python
     # Context manager (recommended)
-    with AssetsList() as client:
+    with AssetsListAPI() as client:
         response = client.get_data()
         # Client automatically closed
 
     # Manual management
-    client = AssetsList()
+    client = AssetsListAPI()
     try:
         response = client.get_data()
     finally:
@@ -199,9 +199,9 @@ except Exception as e:
 === "Fetch all Assets"
 
     ```python
-    from tickersnap.lists import AssetsList
+    from tickersnap.lists import AssetsListAPI
 
-    with AssetsList() as client:
+    with AssetsListAPI() as client:
         all_assets = client.get_data()
         
         # Categorize by type
@@ -216,11 +216,11 @@ except Exception as e:
 === "Filtered Search"
 
     ```python
-    from tickersnap.lists import AssetsList
+    from tickersnap.lists import AssetsListAPI
     
     search = 'A'
     
-    with AssetsList() as client:
+    with AssetsListAPI() as client:
         response = client.get_data(filter=search.lower())
         
         print(f"Assets starting with '{search}':")
@@ -236,11 +236,11 @@ except Exception as e:
 
     ```python
     import csv
-    from tickersnap.lists import AssetsList
+    from tickersnap.lists import AssetsListAPI
 
     def export_to_csv(filename="assets.csv"):
         """Export all assets to CSV file."""
-        with AssetsList() as client:
+        with AssetsListAPI() as client:
             response = client.get_data()
             
             with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
@@ -268,7 +268,7 @@ except Exception as e:
     ```python
     def analyze_assets():
         """Analyze asset distribution and statistics."""
-        with AssetsList() as client:
+        with AssetsListAPI() as client:
             all_assets = client.get_data()
             
             # Count by type
@@ -312,7 +312,7 @@ except Exception as e:
     ✅ Good: Reuse client for multiple calls
 
     ```python
-    with AssetsList() as client:
+    with AssetsListAPI() as client:
         all_assets = client.get_data()
         a_assets = client.get_data(filter='a')
         others = client.get_data(filter='others')
@@ -323,7 +323,7 @@ except Exception as e:
 
     ```python
     for filter_char in ['a', 'b', 'c']:
-        with AssetsList() as client:
+        with AssetsListAPI() as client:
             response = client.get_data(filter=filter_char)
     ```
 
@@ -331,13 +331,13 @@ except Exception as e:
 
     ```python
     import time
-    from tickersnap.lists import AssetsList
+    from tickersnap.lists import AssetsListAPI
 
     def robust_fetch(filter_value=None, retries=3):
         """Fetch assets with retry logic."""
         for attempt in range(retries):
             try:
-                with AssetsList(timeout=30) as client:
+                with AssetsListAPI(timeout=30) as client:
                     return client.get_data(filter=filter_value)
             except Exception as e:
                 if attempt == retries - 1:

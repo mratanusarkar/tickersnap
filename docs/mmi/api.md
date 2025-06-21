@@ -46,19 +46,19 @@ This unofficial Python client wraps the Tickertape APIs with robust error handli
 
     #### 1.4 Python Usage:
 
-    === "MMIPeriod"
+    === "MMIPeriodAPI"
 
         ```python
-        from tickersnap.mmi import MMIPeriod
+        from tickersnap.mmi import MMIPeriodAPI
 
         # Basic usage
-        with MMIPeriod() as client:
+        with MMIPeriodAPI() as client:
             response = client.get_data(period=1)
             print(f"Current MMI: {response.data.indicator}")
             print(f"Historical days: {len(response.data.days_historical)}")
 
         # With custom timeout
-        with MMIPeriod(timeout=30) as client:
+        with MMIPeriodAPI(timeout=30) as client:
             response = client.get_data()  # Uses default period=4
         ```
 
@@ -112,20 +112,20 @@ This unofficial Python client wraps the Tickertape APIs with robust error handli
 
     #### 2.4 Python Usage:
 
-    === "MMINow"
+    === "MMINowAPI"
 
         ```python
-        from tickersnap.mmi import MMINow
+        from tickersnap.mmi import MMINowAPI
 
         # Basic usage
-        with MMINow() as client:
+        with MMINowAPI() as client:
             response = client.get_data()
             print(f"Current MMI: {response.data.current_value}")
             print(f"Last week MMI: {response.data.last_week.indicator}")
             print(f"Change from last month: {response.data.indicator - response.data.last_month.indicator:.2f}")
 
         # Manual client management
-        client = MMINow()
+        client = MMINowAPI()
         try:
             response = client.get_data()
             # Process response...
@@ -189,10 +189,10 @@ Exception: Data validation error: Field 'indicator' missing
 **3 Error Handling Example:**
 
 ```python
-from tickersnap.mmi import MMIPeriod
+from tickersnap.mmi import MMIPeriodAPI
 
 try:
-    with MMIPeriod() as client:
+    with MMIPeriodAPI() as client:
         response = client.get_data(period=15)  # Invalid period
 except ValueError as e:
     print(f"Parameter error: {e}")
@@ -206,25 +206,25 @@ except Exception as e:
 
     ```python
     # Default timeout: 10 seconds
-    client = MMIPeriod()
+    client = MMIPeriodAPI()
 
     # Custom timeout: 30 seconds  
-    client = MMIPeriod(timeout=30)
+    client = MMIPeriodAPI(timeout=30)
 
     # For slower connections
-    client = MMINow(timeout=60)
+    client = MMINowAPI(timeout=60)
     ```
 
 === "Connection Management"
 
     ```python
     # Context manager (recommended)
-    with MMIPeriod() as client:
+    with MMIPeriodAPI() as client:
         response = client.get_data()
         # Client automatically closed
 
     # Manual management
-    client = MMIPeriod()
+    client = MMIPeriodAPI()
     try:
         response = client.get_data()
     finally:
@@ -237,11 +237,11 @@ except Exception as e:
 
     ```python
     import time
-    from tickersnap.mmi import MMINow
+    from tickersnap.mmi import MMINowAPI
 
     def monitor_mmi():
         while True:
-            client = MMINow()
+            client = MMINowAPI()
             response = client.get_data()
             mmi = response.data.current_value
             client.close()
@@ -263,10 +263,10 @@ except Exception as e:
 === "Historical Analysis"
 
     ```python
-    from tickersnap.mmi import MMIPeriod
+    from tickersnap.mmi import MMIPeriodAPI
 
     def analyze_trend():
-        with MMIPeriod() as client:
+        with MMIPeriodAPI() as client:
             # get 10 days of data
             response = client.get_data(period=10)
             
@@ -283,10 +283,10 @@ except Exception as e:
 === "Data Comparison"
 
     ```python
-    from tickersnap.mmi import MMINow
+    from tickersnap.mmi import MMINowAPI
 
     def compare_periods():
-        with MMINow() as client:
+        with MMINowAPI() as client:
             response = client.get_data()
             data = response.data
             
@@ -316,7 +316,7 @@ except Exception as e:
     ✅ Good: Reuse client for multiple calls
 
     ```python
-    with MMIPeriod() as client:
+    with MMIPeriodAPI() as client:
         for period in [1, 2, 3]:
             response = client.get_data(period=period)
             # process response...
@@ -326,7 +326,7 @@ except Exception as e:
 
     ```python
     for period in [1, 2, 3]:
-        with MMIPeriod() as client:
+        with MMIPeriodAPI() as client:
             response = client.get_data(period=period)
     ```
 
@@ -334,12 +334,12 @@ except Exception as e:
 
     ```python
     import time
-    from tickersnap.mmi import MMINow
+    from tickersnap.mmi import MMINowAPI
 
     def robust_data_fetch(retries=3):
         for attempt in range(retries):
             try:
-                with MMINow(timeout=30) as client:
+                with MMINowAPI(timeout=30) as client:
                     return client.get_data()
             except Exception as e:
                 if attempt == retries - 1:

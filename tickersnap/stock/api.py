@@ -34,7 +34,7 @@ class StockScorecardAPI:
     Example:
         ```python
         # Using as a client object (don't forget to close)
-        scorecard = StockScorecard()
+        scorecard = StockScorecardAPI()
         data = scorecard.get_data("TCS")
         print(data.success)
         scorecard.close()
@@ -42,7 +42,7 @@ class StockScorecardAPI:
 
         ```python
         # Using as context manager (automatically closed)
-        with StockScorecard() as scorecard:
+        with StockScorecardAPI() as scorecard:
             data = scorecard.get_data("TCS")
             if data.success and data.data:
                 print(f"Found {len(data.data)} scorecard categories")
