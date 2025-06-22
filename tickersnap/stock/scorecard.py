@@ -6,26 +6,27 @@ Provides simplified access to stock scorecard data for common daily usage:
 - `get_scorecard()`: Get scorecard for a single stock
 - `get_scorecards()`: Get scorecards for multiple stocks with progress tracking
 - `get_stock_with_scorecard()`: Get combined asset + scorecard data for single stock
-- `get_stocks_with_scorecards()`: Get combined asset + scorecard data for multiple stocks
+- `get_stocks_with_scorecards()`: Get combined asset +
+    scorecard data for multiple stocks
 
 Removes API complexity and provides clean, user-friendly scorecard analysis.
 """
 
-from typing import Callable, List, Optional, Union
-from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Callable, List, Optional, Union
 
+from ..lists.models import AssetData
 from .api import StockScorecardAPI
 from .models import (
     Score,
-    ScoreRating,
     ScorecardElement,
     ScorecardItem,
     ScorecardResponse,
+    ScoreRating,
     StockScores,
     StockWithScorecard,
 )
-from ..lists.models import AssetData
 
 # Type definitions for progress tracking
 ProgressCallback = Callable[[int, int, str], None]
@@ -53,7 +54,8 @@ class StockScorecard:
 
         Args:
             timeout (int): Request timeout in seconds. Defaults to 10.
-            max_workers (int): Maximum concurrent workers for batch operations. Defaults to 10.
+            max_workers (int): Maximum concurrent workers for batch operations.
+                Defaults to 10.
         """
 
         self.timeout = timeout
@@ -230,7 +232,8 @@ class StockScorecard:
         # Execute concurrent requests
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             futures = [
-                executor.submit(fetch_single, i, asset) for i, asset in enumerate(assets)
+                executor.submit(fetch_single, i, asset)
+                for i, asset in enumerate(assets)
             ]
             # Wait for all to complete
             for future in as_completed(futures):
@@ -248,7 +251,8 @@ class StockScorecard:
         Transform raw API response to user-friendly StockScores.
 
         Args:
-            response (ScorecardResponse): Raw stock scorecard API response from Tickertape.
+            response (ScorecardResponse): Raw stock scorecard API response
+                from Tickertape.
 
         Returns:
             StockScores: Simplified stock scorecard data.
@@ -310,7 +314,9 @@ class StockScorecard:
             rating=rating,
         )
 
-    def _create_scores_from_elements(self, elements: List[ScorecardElement]) -> List[Score]:
+    def _create_scores_from_elements(
+        self, elements: List[ScorecardElement]
+    ) -> List[Score]:
         """
         Create Score objects from scorecard elements.
 
@@ -353,13 +359,14 @@ class StockScorecard:
         Returns:
             ScoreRating: Simplified rating.
         """
-        
+
         if not colour:
             return ScoreRating.UNKNOWN
 
         colour_lower = colour.lower()
 
-        # color-based rating (first one is the current api response, rest are just fancy future proofing)
+        # color-based rating
+        # first one is the current api response, rest are just fancy future proofing
         if colour_lower in ["green"]:
             return ScoreRating.GOOD
         elif colour_lower in ["red"]:
@@ -377,7 +384,7 @@ class StockScorecard:
         Determine rating based on flag value for elements.
 
         Args:
-            flag (Optional[str]): Flag value from element ("high", "avg", "low", "null").
+            flag (Optional[str]): Flag value from element ("high", "avg", "low", "null")
 
         Returns:
             ScoreRating: Simplified rating.
@@ -408,7 +415,7 @@ class StockScorecard:
         Returns:
             Progress bar object or None.
         """
-        
+
         try:
             from tqdm import tqdm
 
@@ -435,7 +442,7 @@ class StockScorecard:
             total (int): Total number of items.
             current_item (str): Current item being processed.
         """
-        
+
         if progress_bar:
             progress_bar.update(1)
         elif progress is True:

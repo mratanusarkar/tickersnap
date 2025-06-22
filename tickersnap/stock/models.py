@@ -218,7 +218,7 @@ class StockWithScorecard(BaseModel):
     """
     Combined asset information with scorecard data.
 
-    Provides a unified view of stock asset information along with its scorecard analysis.
+    Provides a unified view of stock asset information along with scorecard analysis.
     This model combines the essential stock details (from AssetData) with the
     comprehensive scorecard evaluation (from StockScores).
 
