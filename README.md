@@ -1,3 +1,5 @@
+<div align='center'>
+
 # Tickersnap
 
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -8,9 +10,11 @@
 
 |
 [Documentation](https://mratanusarkar.github.io/tickersnap/) |
-[Quick Start](https://mratanusarkar.github.io/tickersnap//quickstart.md) |
 [Features](#-key-features) |
+[Quick Start](#-quick-start)
 |
+
+</div>
 
 Tickersnap provides streamlined access to comprehensive Indian stock market data from [www.tickertape.in](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
 
@@ -104,4 +108,8 @@ Contributions are welcome!
 
 ---
 
+<div align='center'>
+
 **Made with ❤️ for Fin Lovers in India**
+
+</div>
