@@ -61,12 +61,13 @@ from tickersnap.lists import Assets
 # Check market sentiment
 mmi = MarketMoodIndex()
 mood = mmi.get_current_mmi()
-print(f"Market Mood: {mood.value:.1f} ({mood.zone})")
+print(f"Market Mood: {mood.value:.1f} ({mood.zone.value})")
 
 # Analyze a stock
 scorecard = StockScorecard()
 analysis = scorecard.get_scorecard("TCS")
-print(f"TCS Performance: {analysis.performance.rating}")
+if analysis.performance:
+    print(f"TCS Performance: {analysis.performance.rating.value}")
 
 # Get all stocks
 assets = Assets()
