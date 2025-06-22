@@ -8,7 +8,9 @@
 
 |
 [Documentation](https://mratanusarkar.github.io/tickersnap/) |
-[Features](#-key-features)
+[Quick Start](https://mratanusarkar.github.io/tickersnap//quickstart.md) |
+[Features](#-key-features) |
+|
 
 Tickersnap provides streamlined access to comprehensive Indian stock market data from [www.tickertape.in](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
 
@@ -33,6 +35,10 @@ Tickersnap provides streamlined access to comprehensive Indian stock market data
 - **🛡️ Robust & Reliable** - Comprehensive error handling and extensive test coverage
 - **🔧 Developer Friendly** - Clean APIs with intuitive method names and comprehensive documentation
 
+## 🛠️ Requirements
+
+- Python 3.10+
+
 ## 🚀 Quick Start
 
 ### Installation
@@ -44,25 +50,27 @@ pip install tickersnap
 ### Basic Usage
 
 ```python
-from tickersnap.lists import Assets
-from tickersnap.stock import StockScorecard
 from tickersnap.mmi import MarketMoodIndex
-
-# Get all Indian stocks and ETFs
-assets = Assets()
-all_stocks = assets.get_all_stocks()
-print(f"Total stocks: {len(all_stocks)}")
-
-# Analyze stock scorecards
-scorecard = StockScorecard()
-tcs_analysis = scorecard.get_scorecard("TCS")
-print(f"TCS Performance: {tcs_analysis.performance.rating}")
+from tickersnap.stock import StockScorecard
+from tickersnap.lists import Assets
 
 # Check market sentiment
 mmi = MarketMoodIndex()
-current_sentiment = mmi.get_current_mmi()
-print(f"Market Mood: {current_sentiment.value:.1f} ({current_sentiment.zone})")
+mood = mmi.get_current_mmi()
+print(f"Market Mood: {mood.value:.1f} ({mood.zone})")
+
+# Analyze a stock
+scorecard = StockScorecard()
+analysis = scorecard.get_scorecard("TCS")
+print(f"TCS Performance: {analysis.performance.rating}")
+
+# Get all stocks
+assets = Assets()
+all_stocks = assets.get_all_stocks()
+print(f"Total stocks available: {len(all_stocks)}")
 ```
+
+**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap//quickstart.md)** - Learn with real examples!
 
 ## 📦 Core Modules
 
@@ -72,72 +80,17 @@ print(f"Market Mood: {current_sentiment.value:.1f} ({current_sentiment.zone})")
 | **📊 Stock Scorecard** | 6-category stock analysis | Investment screening, due diligence |
 | **📈 Market Mood Index** | Sentiment tracking (0-100 scale) | Market timing, contrarian investing |
 
-## 💡 Powerful Examples
+**👉 see documentation for more details!** | [MMI](https://mratanusarkar.github.io/tickersnap/tickersnap/mmi/) | [Assets](https://mratanusarkar.github.io/tickersnap/tickersnap/lists/) | [Stocks](https://mratanusarkar.github.io/tickersnap/tickersnap/stock/) |
 
-### Stock Screening
+## 💡 What You Can Build
 
-```python
-from tickersnap.lists import Assets
-from tickersnap.stock import StockScorecard
+- **📊 Stock Screeners** - Find quality stocks automatically
+- **📈 Portfolio Trackers** - Monitor your investments daily  
+- **🎯 Market Alerts** - Get notified of sentiment extremes
+- **🔍 Research Tools** - Comprehensive market analysis
+- **🤖 Trading Bots** - Automated analysis and signals
 
-# Screen for quality stocks
-assets = Assets()
-scorecard = StockScorecard(max_workers=25)
-
-# Get all stocks and their scorecards
-all_stocks = assets.get_all_stocks()
-results = scorecard.get_stocks_with_scorecards(all_stocks, progress=True)
-
-# Filter for high-quality stocks
-quality_stocks = []
-for result in results:
-    if result.scorecard:
-        good_categories = sum(1 for cat in [
-            result.scorecard.performance, result.scorecard.valuation,
-            result.scorecard.growth, result.scorecard.profitability
-        ] if cat and cat.rating.name == "GOOD")
-        
-        if good_categories >= 3:  # At least 3 good categories
-            quality_stocks.append(result.asset.name)
-
-print(f"Found {len(quality_stocks)} high-quality stocks")
-```
-
-### Market Sentiment Analysis
-
-```python
-from tickersnap.mmi import MarketMoodIndex
-
-mmi = MarketMoodIndex()
-
-# Get current market sentiment
-current = mmi.get_current_mmi()
-changes = mmi.get_mmi_changes()
-
-print(f"Current MMI: {current.value:.1f} ({current.zone})")
-print(f"vs Yesterday: {changes.vs_last_day:+.1f}")
-print(f"vs Last Month: {changes.vs_last_month:+.1f}")
-
-# Investment signal
-if current.zone == "Extreme Fear":
-    print("🟢 Consider buying - Market oversold")
-elif current.zone == "Extreme Greed":
-    print("🔴 Consider selling - Market overheated")
-```
-
-## 📚 Documentation
-
-Comprehensive documentation with examples and API reference:
-- **[📖 Full Documentation](https://mratanusarkar.github.io/tickersnap/)**
-- **[🚀 Getting Started Guide](https://mratanusarkar.github.io/tickersnap/setup/installation/)**
-- **[📋 Assets Module](https://mratanusarkar.github.io/tickersnap/lists/)**
-- **[📊 Stock Scorecard](https://mratanusarkar.github.io/tickersnap/stock/)**
-- **[📈 Market Mood Index](https://mratanusarkar.github.io/tickersnap/mmi/)**
-
-## 🛠️ Requirements
-
-- Python 3.10+
-- Dependencies: `pydantic`, `httpx`, `tqdm`
+**👉 see documentation, every module is filled with usage examples!**
 
 ## 📄 License
 
