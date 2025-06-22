@@ -317,23 +317,22 @@ class TestUnitStockScorecard:
         scorecard = StockScorecard()
 
         # Mock tqdm import to raise ImportError
-        with patch("builtins.__import__") as mock_import:
+        import builtins
+        original_import = builtins.__import__
+        
+        def mock_import(name, *args, **kwargs):
+            if name == "tqdm":
+                raise ImportError("No module named 'tqdm'")
+            return original_import(name, *args, **kwargs)
 
-            def import_side_effect(name, *args, **kwargs):
-                if name == "tqdm":
-                    raise ImportError("No module named 'tqdm'")
-                else:
-                    return __import__(name, *args, **kwargs)
-
-            mock_import.side_effect = import_side_effect
-
-            # Test progress bar initialization fallback
-            with patch("builtins.print") as mock_print:
-                progress_bar = scorecard._init_progress_bar(100, "Test progress")
-                assert progress_bar is None
-                mock_print.assert_called_once_with(
-                    "tqdm not installed, using simple progress tracking for: Test progress"
-                )
+        # Test progress bar initialization fallback
+        with patch("builtins.__import__", side_effect=mock_import), \
+             patch("builtins.print") as mock_print:
+            progress_bar = scorecard._init_progress_bar(100, "Test progress")
+            assert progress_bar is None
+            mock_print.assert_called_once_with(
+                "tqdm not installed, using simple progress tracking for: Test progress"
+            )
 
     def test_progress_tracking_custom_callback(self):
         """Test progress tracking with custom callback."""
