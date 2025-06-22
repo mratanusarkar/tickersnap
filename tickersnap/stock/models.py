@@ -3,6 +3,8 @@ from typing import Any, List, Optional
 
 from pydantic import BaseModel, Field
 
+from ..lists.models import AssetData
+
 # --------------------------------------------------------------------------------------
 # Tickertape API Models (Scorecard)
 # --------------------------------------------------------------------------------------
@@ -210,3 +212,30 @@ class StockScores(BaseModel):
 
     red_flags: Optional[Score] = None
     red_flags_elements: Optional[List[Score]] = None
+
+
+class StockWithScorecard(BaseModel):
+    """
+    Combined asset information with scorecard data.
+
+    Provides a unified view of stock asset information along with its scorecard analysis.
+    This model combines the essential stock details (from AssetData) with the
+    comprehensive scorecard evaluation (from StockScores).
+
+    Field Descriptions:
+        - `asset`: Complete stock asset information (SID, name, ticker, etc.)
+        - `scorecard`: Scorecard analysis data (None if unavailable/failed)
+
+    Use Cases:
+        - Bulk stock analysis with both basic info and scorecard data
+        - Portfolio screening with combined asset and performance metrics
+        - Quick stock evaluation with all relevant data in one object
+
+    Note:
+        - scorecard can be None if the API call failed or data is unavailable
+        - asset information is always present (from the input AssetData)
+        - Follows composition pattern for clear data separation
+    """
+
+    asset: AssetData
+    scorecard: Optional[StockScores] = None
