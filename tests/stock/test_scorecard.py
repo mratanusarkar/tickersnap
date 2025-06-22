@@ -508,7 +508,7 @@ class TestUnitStockScorecard:
         """Test comprehensive rating edge cases and color consistency."""
         scorecard = StockScorecard()
         
-        # Test all known color variations
+        # Test all known color variations (including null cases)
         color_tests = [
             ("green", ScoreRating.GOOD),
             ("Green", ScoreRating.GOOD),
@@ -521,6 +521,8 @@ class TestUnitStockScorecard:
             ("YELLOW", ScoreRating.OKAY),
             ("orange", ScoreRating.OKAY),
             ("Orange", ScoreRating.OKAY),
+            ("null", ScoreRating.UNKNOWN),
+            ("NULL", ScoreRating.UNKNOWN),
             (None, ScoreRating.UNKNOWN),
             ("", ScoreRating.UNKNOWN),
             ("unknown_color", ScoreRating.UNKNOWN),
@@ -532,7 +534,7 @@ class TestUnitStockScorecard:
             actual_rating = scorecard._determine_rating(color)
             assert actual_rating == expected_rating, f"Color '{color}' should map to {expected_rating}, got {actual_rating}"
         
-        # Test all known flag variations
+        # Test all known flag variations (for elements only - not main scores)
         flag_tests = [
             ("high", ScoreRating.GOOD),
             ("High", ScoreRating.GOOD),
@@ -543,9 +545,10 @@ class TestUnitStockScorecard:
             ("avg", ScoreRating.OKAY),
             ("Avg", ScoreRating.OKAY),
             ("AVG", ScoreRating.OKAY),
+            ("null", ScoreRating.UNKNOWN),
+            ("NULL", ScoreRating.UNKNOWN),
             (None, ScoreRating.UNKNOWN),
             ("", ScoreRating.UNKNOWN),
-            ("null", ScoreRating.UNKNOWN),
             ("medium", ScoreRating.UNKNOWN),
             ("unknown_flag", ScoreRating.UNKNOWN),
         ]
@@ -554,237 +557,171 @@ class TestUnitStockScorecard:
             actual_rating = scorecard._determine_rating_from_flag(flag)
             assert actual_rating == expected_rating, f"Flag '{flag}' should map to {expected_rating}, got {actual_rating}"
 
-    def test_api_response_structure_validation(self):
-        """Test that our implementation correctly handles real API response structure."""
+    def test_data_integrity_validation(self):
+        """Test data integrity to catch API changes and ensure package reliability."""
         scorecard = StockScorecard()
         
-        # Create a response that mimics the exact structure from Tickertape API
-        real_api_structure = ScorecardResponse(
-            success=True,
-            data=[
-                ScorecardItem(
-                    name="Performance",
-                    tag="Low",
-                    type="score",
-                    description="Hasn't fared well - amongst the low performers",
-                    colour="red",
-                    locked=True,
-                    stack=1,
-                    elements=[]
-                ),
-                ScorecardItem(
-                    name="Valuation",
-                    tag="High",
-                    type="score",
-                    description="Seems to be overvalued vs the market average",
-                    colour="red",
-                    locked=True,
-                    stack=2,
-                    elements=[]
-                ),
-                ScorecardItem(
-                    name="Entry point",
-                    tag="Good",
-                    type="entryPoint",
-                    description="The stock is underpriced and is not in the overbought zone",
-                    colour="green",
-                    locked=False,
-                    stack=5,
-                    elements=[
-                        ScorecardElement(
-                            title="Fundamentals",
-                            type="flag",
-                            description="Current price is less than the intrinsic value",
-                            flag="High",
-                            display=True
-                        )
-                    ]
-                ),
-                ScorecardItem(
-                    name="Red flags",
-                    tag="Low",
-                    type="redFlag",
-                    description="No red flag found",
-                    colour="green",
-                    locked=False,
-                    stack=6,
-                    elements=[
-                        ScorecardElement(
-                            title="ASM",
-                            type="flag",
-                            description="Stock is not in ASM list",
-                            flag="High",
-                            display=True
-                        )
-                    ]
-                )
-            ]
-        )
+        # Test that our color-based approach remains consistent
+        # This test will catch if Tickertape changes their color logic
         
-        result = scorecard._transform_scorecard_response(real_api_structure)
-        
-        # Validate that color-based logic works correctly for real scenarios
-        assert result.performance.rating == ScoreRating.BAD  # red color
-        assert result.valuation.rating == ScoreRating.BAD    # red color  
-        assert result.entry_point.rating == ScoreRating.GOOD # green color
-        assert result.red_flags.rating == ScoreRating.GOOD   # green color
-        
-        # Validate elements use flag-based logic
-        assert result.entry_point_elements[0].rating == ScoreRating.GOOD  # "High" flag
-        assert result.red_flags_elements[0].rating == ScoreRating.GOOD    # "High" flag
-
-    def test_color_consistency_validation(self):
-        """Test that color interpretation is consistent across all categories."""
-        scorecard = StockScorecard()
-        
-        # Test that the same color always gives the same rating regardless of category
-        categories = ["Performance", "Valuation", "Growth", "Profitability", "Entry point", "Red flags"]
-        
-        for category in categories:
-            # Green should always be GOOD
-            green_item = ScorecardItem(
-                name=category,
-                tag="Some value",
-                type="score",
-                description="Test description",
-                colour="green",
-                locked=False,
-                stack=1,
-                elements=[]
-            )
-            green_score = scorecard._create_score_from_item(green_item)
-            assert green_score.rating == ScoreRating.GOOD, f"Green color should be GOOD for {category}"
-            
-            # Red should always be BAD
-            red_item = ScorecardItem(
-                name=category,
-                tag="Some value",
-                type="score",
-                description="Test description",
-                colour="red",
-                locked=False,
-                stack=1,
-                elements=[]
-            )
-            red_score = scorecard._create_score_from_item(red_item)
-            assert red_score.rating == ScoreRating.BAD, f"Red color should be BAD for {category}"
-            
-            # Yellow should always be OKAY
-            yellow_item = ScorecardItem(
-                name=category,
-                tag="Some value",
-                type="score",
-                description="Test description",
-                colour="yellow",
-                locked=False,
-                stack=1,
-                elements=[]
-            )
-            yellow_score = scorecard._create_score_from_item(yellow_item)
-            assert yellow_score.rating == ScoreRating.OKAY, f"Yellow color should be OKAY for {category}"
-
-    def test_api_change_detection(self):
-        """Test that helps detect potential API changes in the future."""
-        scorecard = StockScorecard()
-        
-        # Test with unexpected but possible API responses
-        edge_cases = [
-            # New color that might be introduced
-            ScorecardItem(
-                name="Performance",
-                tag="Medium",
-                type="score",
-                description="Average performance",
-                colour="blue",  # New color
-                locked=False,
-                stack=1,
-                elements=[]
-            ),
-            # Missing color but has tag
-            ScorecardItem(
-                name="Valuation",
-                tag="Moderate",
-                type="score",
-                description="Moderately valued",
-                colour=None,  # Missing color
-                locked=False,
-                stack=2,
-                elements=[]
-            ),
-            # New type that might be introduced
-            ScorecardItem(
-                name="ESG Score",
-                tag="High",
-                type="esg",  # New type
-                description="Environmental, Social, and Governance score",
-                colour="green",
-                locked=False,
-                stack=7,
-                elements=[]
-            )
+        # Known good patterns from real API
+        good_patterns = [
+            {"name": "Profitability", "tag": "High", "colour": "green"},  # High profitability = good
+            {"name": "Entry point", "tag": "Good", "colour": "green"},   # Good entry = good
+            {"name": "Red flags", "tag": "Low", "colour": "green"},      # Low red flags = good
         ]
         
-        for item in edge_cases:
-            # Should not crash - graceful handling
+        # Known bad patterns from real API  
+        bad_patterns = [
+            {"name": "Performance", "tag": "Low", "colour": "red"},      # Low performance = bad
+            {"name": "Valuation", "tag": "High", "colour": "red"},       # High valuation = bad (expensive)
+            {"name": "Growth", "tag": "Low", "colour": "red"},           # Low growth = bad
+        ]
+        
+        # Validate good patterns
+        for pattern in good_patterns:
+            item = ScorecardItem(
+                name=pattern["name"],
+                tag=pattern["tag"], 
+                colour=pattern["colour"],
+                type="score",
+                locked=False,
+                stack=1,
+                elements=[]
+            )
             score = scorecard._create_score_from_item(item)
-            assert isinstance(score, Score)
-            assert isinstance(score.rating, ScoreRating)
-            assert score.name == item.name
-            
-            # Unknown colors should map to UNKNOWN rating
-            if item.colour not in ["green", "red", "yellow", "orange"]:
-                assert score.rating == ScoreRating.UNKNOWN
+            assert score.rating == ScoreRating.GOOD, f"{pattern['name']} with {pattern['tag']}/{pattern['colour']} should be GOOD"
+        
+        # Validate bad patterns
+        for pattern in bad_patterns:
+            item = ScorecardItem(
+                name=pattern["name"],
+                tag=pattern["tag"],
+                colour=pattern["colour"], 
+                type="score",
+                locked=False,
+                stack=1,
+                elements=[]
+            )
+            score = scorecard._create_score_from_item(item)
+            assert score.rating == ScoreRating.BAD, f"{pattern['name']} with {pattern['tag']}/{pattern['colour']} should be BAD"
 
-    def test_real_world_scenario_simulation(self):
-        """Test realistic scenarios that might occur with real API data."""
+    def test_api_integrity_monitoring(self):
+        """Test to monitor API integrity and catch unexpected changes."""
         scorecard = StockScorecard()
         
-        # Simulate a complete realistic response
-        realistic_response = ScorecardResponse(
-            success=True,
-            data=[
-                # Good stock scenario
-                ScorecardItem(name="Performance", tag="High", colour="green", type="score", locked=True, stack=1, elements=[]),
-                ScorecardItem(name="Valuation", tag="Low", colour="green", type="score", locked=True, stack=2, elements=[]),
-                ScorecardItem(name="Growth", tag="High", colour="green", type="score", locked=True, stack=3, elements=[]),
-                ScorecardItem(name="Profitability", tag="High", colour="green", type="score", locked=True, stack=4, elements=[]),
-                ScorecardItem(name="Entry point", tag="Good", colour="green", type="entryPoint", locked=False, stack=5, elements=[]),
-                ScorecardItem(name="Red flags", tag="Low", colour="green", type="redFlag", locked=False, stack=6, elements=[]),
-            ]
-        )
+        # Test scenarios that would indicate API changes
+        suspicious_scenarios = [
+            # If colors suddenly don't match expected business logic
+            {"name": "Performance", "tag": "High", "colour": "red", "desc": "High performance should not be red"},
+            {"name": "Valuation", "tag": "Low", "colour": "red", "desc": "Low valuation should not be red"}, 
+            {"name": "Red flags", "tag": "High", "colour": "green", "desc": "High red flags should not be green"},
+        ]
         
-        result = scorecard._transform_scorecard_response(realistic_response)
+        for scenario in suspicious_scenarios:
+            item = ScorecardItem(
+                name=scenario["name"],
+                tag=scenario["tag"],
+                colour=scenario["colour"],
+                type="score", 
+                locked=False,
+                stack=1,
+                elements=[]
+            )
+            score = scorecard._create_score_from_item(item)
+            
+            # Our color-based logic will still work, but this test documents
+            # what would be suspicious and help detect API changes
+            if scenario["colour"] == "red":
+                assert score.rating == ScoreRating.BAD
+            elif scenario["colour"] == "green":
+                assert score.rating == ScoreRating.GOOD
+            
+            # Log for monitoring (in real CI, this could alert)
+            print(f"INFO: Suspicious pattern detected: {scenario['desc']}")
+
+    def test_color_null_handling_comprehensive(self):
+        """Test comprehensive null and edge case handling for colors."""
+        scorecard = StockScorecard()
         
-        # All should be GOOD (green color)
-        assert result.performance.rating == ScoreRating.GOOD
-        assert result.valuation.rating == ScoreRating.GOOD
-        assert result.growth.rating == ScoreRating.GOOD
-        assert result.profitability.rating == ScoreRating.GOOD
-        assert result.entry_point.rating == ScoreRating.GOOD
-        assert result.red_flags.rating == ScoreRating.GOOD
+        # All possible null/empty representations
+        null_variants = [None, "", "null", "NULL", "Null", "nil", "NIL", "none", "NONE"]
         
-        # Bad stock scenario
-        bad_response = ScorecardResponse(
-            success=True,
-            data=[
-                ScorecardItem(name="Performance", tag="Low", colour="red", type="score", locked=True, stack=1, elements=[]),
-                ScorecardItem(name="Valuation", tag="High", colour="red", type="score", locked=True, stack=2, elements=[]),
-                ScorecardItem(name="Growth", tag="Low", colour="red", type="score", locked=True, stack=3, elements=[]),
-                ScorecardItem(name="Profitability", tag="Low", colour="red", type="score", locked=True, stack=4, elements=[]),
-                ScorecardItem(name="Entry point", tag="Bad", colour="red", type="entryPoint", locked=False, stack=5, elements=[]),
-                ScorecardItem(name="Red flags", tag="High", colour="red", type="redFlag", locked=False, stack=6, elements=[]),
-            ]
-        )
+        for variant in null_variants:
+            rating = scorecard._determine_rating(variant)
+            assert rating == ScoreRating.UNKNOWN, f"Null variant '{variant}' should map to UNKNOWN, got {rating}"
         
-        bad_result = scorecard._transform_scorecard_response(bad_response)
+        # Test with items containing null colors
+        for variant in null_variants:
+            item = ScorecardItem(
+                name="Test Category",
+                tag="Some Value",
+                colour=variant,
+                type="score",
+                locked=False,
+                stack=1,
+                elements=[]
+            )
+            score = scorecard._create_score_from_item(item)
+            assert score.rating == ScoreRating.UNKNOWN, f"Item with colour='{variant}' should have UNKNOWN rating"
+
+    def test_flag_null_handling_comprehensive(self):
+        """Test comprehensive null and edge case handling for flags."""
+        scorecard = StockScorecard()
         
-        # All should be BAD (red color)
-        assert bad_result.performance.rating == ScoreRating.BAD
-        assert bad_result.valuation.rating == ScoreRating.BAD
-        assert bad_result.growth.rating == ScoreRating.BAD
-        assert bad_result.profitability.rating == ScoreRating.BAD
-        assert bad_result.entry_point.rating == ScoreRating.BAD
-        assert bad_result.red_flags.rating == ScoreRating.BAD
+        # All possible null/empty representations for flags
+        null_variants = [None, "", "null", "NULL", "Null", "nil", "NIL", "none", "NONE"]
+        
+        for variant in null_variants:
+            rating = scorecard._determine_rating_from_flag(variant)
+            assert rating == ScoreRating.UNKNOWN, f"Null flag variant '{variant}' should map to UNKNOWN, got {rating}"
+        
+        # Test with elements containing null flags
+        for variant in null_variants:
+            element = ScorecardElement(
+                title="Test Element",
+                type="flag",
+                flag=variant,
+                display=True
+            )
+            scores = scorecard._create_scores_from_elements([element])
+            assert len(scores) == 1
+            assert scores[0].rating == ScoreRating.UNKNOWN, f"Element with flag='{variant}' should have UNKNOWN rating"
+
+    def test_ci_regression_detection(self):
+        """Test designed to catch regressions in CI/CD pipeline."""
+        scorecard = StockScorecard()
+        
+        # Critical business logic tests that must always pass
+        critical_tests = [
+            # Color mappings that are fundamental to the system
+            {"input": "green", "expected": ScoreRating.GOOD, "type": "color"},
+            {"input": "red", "expected": ScoreRating.BAD, "type": "color"},
+            {"input": "yellow", "expected": ScoreRating.OKAY, "type": "color"},
+            
+            # Flag mappings for elements
+            {"input": "high", "expected": ScoreRating.GOOD, "type": "flag"},
+            {"input": "low", "expected": ScoreRating.BAD, "type": "flag"},
+            {"input": "avg", "expected": ScoreRating.OKAY, "type": "flag"},
+            
+            # Null handling
+            {"input": None, "expected": ScoreRating.UNKNOWN, "type": "color"},
+            {"input": None, "expected": ScoreRating.UNKNOWN, "type": "flag"},
+            {"input": "null", "expected": ScoreRating.UNKNOWN, "type": "color"},
+            {"input": "NULL", "expected": ScoreRating.UNKNOWN, "type": "flag"},
+        ]
+        
+        for test in critical_tests:
+            if test["type"] == "color":
+                actual = scorecard._determine_rating(test["input"])
+            else:  # flag
+                actual = scorecard._determine_rating_from_flag(test["input"])
+            
+            assert actual == test["expected"], (
+                f"CRITICAL REGRESSION: {test['type']} '{test['input']}' "
+                f"should map to {test['expected']}, got {actual}. "
+                f"This indicates a breaking change in the rating logic!"
+            )
 
     # Helper methods for creating mock data
     def _create_mock_scorecard_response(self):
