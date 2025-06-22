@@ -318,16 +318,19 @@ class TestUnitStockScorecard:
 
         # Mock tqdm import to raise ImportError
         import builtins
+
         original_import = builtins.__import__
-        
+
         def mock_import(name, *args, **kwargs):
             if name == "tqdm":
                 raise ImportError("No module named 'tqdm'")
             return original_import(name, *args, **kwargs)
 
         # Test progress bar initialization fallback
-        with patch("builtins.__import__", side_effect=mock_import), \
-             patch("builtins.print") as mock_print:
+        with (
+            patch("builtins.__import__", side_effect=mock_import),
+            patch("builtins.print") as mock_print,
+        ):
             progress_bar = scorecard._init_progress_bar(100, "Test progress")
             assert progress_bar is None
             mock_print.assert_called_once_with(
