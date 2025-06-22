@@ -1,12 +1,13 @@
 [project]
 name = "tickersnap"
-version = "0.0.2"
+version = "0.0.3"
 description = "Tickersnap is a tool for getting snapshots of stock data from www.tickertape.in"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "pydantic>=2.0.0",
     "httpx>=0.25.0",
+    "tqdm>=4.67.1",
 ]
 
 [project.optional-dependencies]

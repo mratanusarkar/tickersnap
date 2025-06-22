@@ -95,5 +95,6 @@ nav:
       - Tickertape API: 'lists/api.md'
       - Models: 'lists/models.md'
     - Stock:
+      - Scorecard: 'stock/scorecard.md'
       - Tickertape API: 'stock/api.md'
       - Models: 'stock/models.md'
