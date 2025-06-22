@@ -628,6 +628,100 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
         # market_pulse_check(watchlist)  # Uncomment to run
         ```
 
+=== "Rating-Based Filtering"
+
+    Your daily stock screening tool - filter stocks by specific rating criteria.
+
+    !!! example "Example"
+
+        ```python
+        from tickersnap.lists import Assets
+        from tickersnap.stock import StockScorecard
+
+        # Example: Your favorite daily filter
+        performance = ["good", "okay"]
+        valuation = ["good", "okay"]
+        growth = ["good"]
+        profitability = ["good"]
+        entry_point = ["good", "okay"]
+        red_flags = ["good"]
+        
+        # Get all stocks
+        print("📊 Fetching all stocks...")
+        assets = Assets()
+        scorecard = StockScorecard(max_workers=25)
+        
+        all_stocks = assets.get_all_stocks()
+        
+        print(f"🔍 Analyzing {len(all_stocks)} stocks with your criteria...")
+        
+        # Get scorecards for all stocks
+        results = scorecard.get_stocks_with_scorecards(all_stocks, progress=True)
+        
+        # Filter based on criteria
+        matching_stocks = []
+        
+        for result in results:
+            if not result.scorecard:
+                continue
+
+            passes_filter = True
+
+            # Performance filter
+            if performance is not None:
+                perf_rating = result.scorecard.performance.rating.name.lower() if result.scorecard.performance else "unknown"
+                if perf_rating not in performance:
+                    passes_filter = False
+            
+            # Valuation filter
+            if valuation is not None:
+                val_rating = result.scorecard.valuation.rating.name.lower() if result.scorecard.valuation else "unknown"
+                if val_rating not in valuation:
+                    passes_filter = False
+            
+            # Growth filter
+            if growth is not None:
+                growth_rating = result.scorecard.growth.rating.name.lower() if result.scorecard.growth else "unknown"
+                if growth_rating not in growth:
+                    passes_filter = False
+            
+            # Profitability filter
+            if profitability is not None:
+                prof_rating = result.scorecard.profitability.rating.name.lower() if result.scorecard.profitability else "unknown"
+                if prof_rating not in profitability:
+                    passes_filter = False
+            
+            # Entry point filter
+            if entry_point is not None:
+                entry_rating = result.scorecard.entry_point.rating.name.lower() if result.scorecard.entry_point else "unknown"
+                if entry_rating not in entry_point:
+                    passes_filter = False
+            
+            # Red flags filter
+            if red_flags is not None:
+                red_rating = result.scorecard.red_flags.rating.name.lower() if result.scorecard.red_flags else "unknown"
+                if red_rating not in red_flags:
+                    passes_filter = False
+            
+            # If passes all filters, add to results
+            if passes_filter:
+                matching_stocks.append(result)
+
+        # Display results in your preferred format
+        base_url = "https://www.tickertape.in"
+
+        print(f"\n🎯 Found {len(matching_stocks)} stocks matching your criteria:\n")
+
+        for result in matching_stocks:
+            stock_name = result.asset.name
+            ticker = result.asset.ticker
+            slug = result.asset.slug
+            
+            print(f"{stock_name} ({ticker})")
+            print(f"Link: {base_url}{slug}")
+            print()
+        ```
+
 === "Advanced Screening"
 
     Advanced stock screening with custom criteria.
