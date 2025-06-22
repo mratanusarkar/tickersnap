@@ -183,18 +183,14 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
         print(f"Stocks with 2+ good categories: {good_stocks}")
         ```
 
-=== "Combined Asset Data"
+=== "Single Asset + Scorecard"
 
-    Get combined asset information + scorecard data for comprehensive analysis.
+    Get combined asset information + scorecard data for a single stock.
 
     !!! info "Function Signature"
 
         ```python
         def get_stock_with_scorecard(asset: AssetData) -> StockWithScorecard
-        def get_stocks_with_scorecards(
-            assets: List[AssetData], 
-            progress: Optional[ProgressType] = None
-        ) -> List[StockWithScorecard]
         ```
 
     !!! success "Returns"
@@ -228,12 +224,47 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
                 combined.scorecard.growth, combined.scorecard.profitability,
                 combined.scorecard.entry_point, combined.scorecard.red_flags
             ] if cat)} categories")
+        else:
+            print("❌ Scorecard data unavailable")
+        ```
+
+=== "Batch Asset + Scorecard"
+
+    Get combined asset information + scorecard data for multiple stocks with concurrent processing.
+
+    !!! info "Function Signature"
+
+        ```python
+        def get_stocks_with_scorecards(
+            assets: List[AssetData], 
+            progress: Optional[ProgressType] = None
+        ) -> List[StockWithScorecard]
+        ```
+
+    !!! success "Returns"
+
+        - List of combined asset + scorecard data
+        - Asset metadata always present
+        - Scorecard data (or None if API fails)
+        - Order matches input assets order
+
+    !!! example "Example"
+
+        ```python
+        from tickersnap.lists import Assets
+        from tickersnap.stock import StockScorecard
+
+        # Get asset data
+        assets_client = Assets()
+        scorecard_client = StockScorecard()
 
         # Batch processing with complete data
-        nifty50_assets = [s for s in all_stocks if s.name in [
-            "Tata Consultancy Services", "Reliance Industries", 
+        all_stocks = assets_client.get_all_stocks()
+        nifty50_assets = [s for s in all_stocks if any(name in s.name for name in [
+            "Tata Consultancy",
+            "Reliance Industries", 
             "HDFC Bank", "Infosys"
-        ]][:4]  # Sample 4 stocks
+        ])][:4]  # Sample 4 stocks
         
         combined_results = scorecard_client.get_stocks_with_scorecards(
             nifty50_assets, progress=True
@@ -244,8 +275,12 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
             print(f"\n📊 {result.asset.name} ({result.asset.ticker})")
             if result.scorecard:
                 # Count good categories
-                categories = [result.scorecard.performance, result.scorecard.valuation,
-                            result.scorecard.growth, result.scorecard.profitability]
+                categories = [
+                    result.scorecard.performance,
+                    result.scorecard.valuation,
+                    result.scorecard.growth,
+                    result.scorecard.profitability
+                ]
                 good_count = sum(1 for cat in categories if cat and cat.rating.name == "GOOD")
                 print(f"  Financial strength: {good_count}/4 categories are good")
                 
@@ -259,6 +294,19 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
                     print(f"  Risk level: {risk_level}")
             else:
                 print("  ❌ Scorecard data unavailable")
+
+        # Performance analysis from test_end_user_usage.py
+        successful = sum(1 for r in combined_results if r.scorecard is not None)
+        if len(combined_results) > 0:
+            success_rate = successful / len(combined_results) * 100
+            print(f"\nSuccess rate: {success_rate:.1f}%")
+            
+            # Category analysis
+            good_performance = sum(1 for r in combined_results 
+                if r.scorecard and r.scorecard.performance 
+                and r.scorecard.performance.rating.name == "GOOD"
+            )
+            print(f"Good performance stocks: {good_performance}/{successful}")
         ```
 
 ## Configuration
@@ -339,10 +387,10 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
             all_stocks = assets.get_all_stocks()
             print(f"Total stocks: {len(all_stocks)}")
             
-            # Get scorecards for all stocks (this will take a while!)
+            # Get scorecards for sample stocks (for demo purposes)
             print("🔍 Analyzing scorecards...")
             results = scorecard.get_stocks_with_scorecards(
-                all_stocks[:100],  # Sample first 100 for demo
+                all_stocks[:50],  # Sample first 50 for demo
                 progress=True
             )
             
@@ -597,7 +645,7 @@ The `StockScorecard` class provides a clean, intuitive API for accessing compreh
             
             # Get sample of stocks for demo (use all_stocks for full screening)
             all_stocks = assets.get_all_stocks()
-            sample_stocks = all_stocks[:200]  # Sample for demo
+            sample_stocks = all_stocks[:100]  # Sample for demo
             
             print(f"🔍 Advanced screening of {len(sample_stocks)} stocks...")
             
