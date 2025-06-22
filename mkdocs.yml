@@ -83,6 +83,7 @@ nav:
   - Setup:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
+  - Quick Start: 'quickstart.md'
   - Tickersnap:
     - MMI:
       - Introduction: 'tickersnap/mmi/index.md'
