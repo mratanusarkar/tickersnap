@@ -83,18 +83,20 @@ nav:
   - Setup:
     - Installation: 'setup/installation.md'
     - Development: 'setup/development.md'
+  - Quick Start: 'quickstart.md'
   - Tickersnap:
     - MMI:
-      - Introduction: 'mmi/index.md'
-      - Market Mood Index: 'mmi/mmi.md'
-      - Tickertape API: 'mmi/api.md'
-      - Models: 'mmi/models.md'
+      - Introduction: 'tickersnap/mmi/index.md'
+      - Market Mood Index: 'tickersnap/mmi/mmi.md'
+      - Tickertape API: 'tickersnap/mmi/api.md'
+      - Models: 'tickersnap/mmi/models.md'
     - Assets List:
-      - Introduction: 'lists/index.md'
-      - Assets: 'lists/asset.md'
-      - Tickertape API: 'lists/api.md'
-      - Models: 'lists/models.md'
+      - Introduction: 'tickersnap/lists/index.md'
+      - Assets: 'tickersnap/lists/asset.md'
+      - Tickertape API: 'tickersnap/lists/api.md'
+      - Models: 'tickersnap/lists/models.md'
     - Stock:
-      - Scorecard: 'stock/scorecard.md'
-      - Tickertape API: 'stock/api.md'
-      - Models: 'stock/models.md'
+      - Introduction: 'tickersnap/stock/index.md'
+      - Scorecard: 'tickersnap/stock/scorecard.md'
+      - Tickertape API: 'tickersnap/stock/api.md'
+      - Models: 'tickersnap/stock/models.md'
