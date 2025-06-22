@@ -19,6 +19,7 @@ from .api import StockScorecardAPI
 from .models import (
     Score,
     ScoreRating,
+    ScorecardElement,
     ScorecardItem,
     ScorecardResponse,
     StockScores,
@@ -300,7 +301,7 @@ class StockScorecard:
         value = item.tag or item.colour or "Unknown"
 
         # Determine rating based on color and value
-        rating = self._determine_rating(item.name, item.colour, value)
+        rating = self._determine_rating(item.colour)
 
         return Score(
             name=item.name,
@@ -309,7 +310,7 @@ class StockScorecard:
             rating=rating,
         )
 
-    def _create_scores_from_elements(self, elements) -> List[Score]:
+    def _create_scores_from_elements(self, elements: List[ScorecardElement]) -> List[Score]:
         """
         Create Score objects from scorecard elements.
 
@@ -342,44 +343,41 @@ class StockScorecard:
             )
         return scores
 
-    def _determine_rating(self, name: str, colour: Optional[str], value: str) -> ScoreRating:
+    def _determine_rating(self, colour: Optional[str]) -> ScoreRating:
         """
-        Determine rating based on color and value with context-aware interpretation.
+        Determine rating based on color from API.
 
         Args:
-            name (str): Category name for context-sensitive interpretation.
-            colour (Optional[str]): Color indicator from API.
-            value (str): Value/tag from API.
+            colour (Optional[str]): Color indicator from API ("green", "red", "yellow").
 
         Returns:
             ScoreRating: Simplified rating.
         """
-
+        
         if not colour:
             return ScoreRating.UNKNOWN
 
         colour_lower = colour.lower()
-        name_lower = name.lower()
-        value_lower = value.lower()
 
         # color-based rating (first one is the current api response, rest are just fancy future proofing)
-        if colour_lower in ["green", "#00c853", "#4caf50"]:
+        if colour_lower in ["green"]:
             return ScoreRating.GOOD
-        elif colour_lower in ["red", "#f44336", "#d32f2f"]:
+        elif colour_lower in ["red"]:
             return ScoreRating.BAD
-        elif colour_lower in ["yellow", "orange", "#ff9800", "#f57c00", "#ffeb3b"]:
+        elif colour_lower in ["yellow", "orange"]:
             return ScoreRating.OKAY
 
-        # TODO: add context-aware interpretation of rating based on name and value (if in future the color fails from tickertape)
+        # TODO: add context-aware interpretation of rating based on name and value
+        # if in future the color fails from tickertape
 
         return ScoreRating.UNKNOWN
 
     def _determine_rating_from_flag(self, flag: Optional[str]) -> ScoreRating:
         """
-        Determine rating based on flag value.
+        Determine rating based on flag value for elements.
 
         Args:
-            flag (Optional[str]): Flag value from element.
+            flag (Optional[str]): Flag value from element ("high", "avg", "low", "null").
 
         Returns:
             ScoreRating: Simplified rating.
