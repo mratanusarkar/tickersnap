@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=80.9.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "0.0.3"
 description = "Tickersnap is a tool for getting snapshots of stock data from www.tickertape.in"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "Apache 2.0 License"}
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 authors = [
     {name = "Atanu Sarkar", email = "mratanusarkar@gmail.com"}
 ]
@@ -21,7 +22,6 @@ classifiers = [
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -67,7 +67,7 @@ Changelog = "https://github.com/mratanusarkar/tickersnap/releases"
 
 [tool.setuptools.packages.find]
 include = ["tickersnap*"]
-exclude = ["tests*", "docs*", "site*", "input*", "output*", "artifacts*", "*.egg-info*"]
+exclude = ["tests*", "docs*", "site*", "data*", "input*", "output*", "artifacts*", "*.egg-info*"]
 
 [tool.setuptools.package-data]
 tickersnap = ["py.typed"]
