@@ -9,3 +9,13 @@ A Python library for accessing Indian stock market data including:
 """
 
 __version__ = "0.0.3"
+
+# import submodules for easy access without unpacking classes
+from . import mmi, lists, stock
+
+__all__ = [
+    "__version__",
+    "mmi",
+    "lists",
+    "stock",
+]
