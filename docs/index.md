@@ -1,11 +1,63 @@
-# Tickersnap
+<h1 align="center"><strong>Tickersnap</strong></h1>
 
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](https://github.com/mratanusarkar/tickersnap/blob/main/LICENSE)
+<p align="center">
 
-**Python Library for Indian Stock Market Analysis** 📈
+<a href="https://mratanusarkar.github.io/tickersnap">
+  <img
+  src="https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?logo=materialformkdocs&logoColor=white"
+  alt="Documentation">
+</a>
+<a href="https://pypi.org/project/tickersnap/">
+  <img
+  src="https://img.shields.io/pypi/v/tickersnap.svg?color=blue&logo=pypi&logoColor=white"
+  alt="PyPI version">
+</a>
+<a href="https://pypi.org/project/tickersnap/">
+  <img src="https://img.shields.io/pypi/pyversions/tickersnap.svg?color=blue&logo=python&logoColor=white"
+  alt="Python versions">
+</a>
+<a href="https://github.com/mratanusarkar/tickersnap/blob/main/LICENSE">
+  <img src="https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white"
+  alt="License: Apache 2.0">
+</a>
 
-Tickersnap provides streamlined access to comprehensive Indian stock market data from [www.tickertape.in](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
+<br>
+
+<a href="https://github.com/mratanusarkar/tickersnap/actions">
+  <img
+  src="https://img.shields.io/github/actions/workflow/status/mratanusarkar/tickersnap/docs.yml?logo=githubactions&logoColor=white&label=build"
+  alt="GitHub Actions Workflow Status">
+</a>
+<a href="https://github.com/mratanusarkar/tickersnap/actions">
+  <img src="https://img.shields.io/github/actions/workflow/status/mratanusarkar/tickersnap/tests.yml?logo=cachet&logoColor=white&label=tests"
+  alt="Tests">
+</a>
+<a href="https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Ftickersnap">
+  <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Ftickersnap&label=view&labelColor=%235e5e5e&countColor=%237C8AA0&style=flat&labelStyle=lower"
+  alt="Visitors">
+</a>
+
+<a href="https://pepy.tech/projects/tickersnap">
+  <img src="https://static.pepy.tech/badge/tickersnap"
+  alt="PyPI Total Downloads">
+</a>
+
+<a href="https://pypistats.org/packages/tickersnap">
+  <img src="https://img.shields.io/pypi/dm/tickersnap?style=flat&color=%231F86BF"
+  alt="PyPI Monthly Downloads">
+</a>
+
+</p>
+
+<p align="center">
+
+<b>Python Library for Indian Stock Market Analysis</b> 📈
+
+<br><br>
+
+<i style="color: #888888">Streamlined access to comprehensive Indian stock market data from <a href="https://www.tickertape.in">Tickertape IN</a>, enabling powerful financial analysis, automated screening, and market sentiment tracking.</i>
+
+</p>
 
 !!! important "Important Notice"
     - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
