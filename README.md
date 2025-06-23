@@ -5,7 +5,7 @@
 [![Documentation](https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?logo=materialformkdocs&logoColor=white)](https://mratanusarkar.github.io/tickersnap)
 [![PyPI version](https://img.shields.io/pypi/v/tickersnap.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/tickersnap/)
 [![Python versions](https://img.shields.io/pypi/pyversions/tickersnap.svg?color=blue&logo=python&logoColor=white)](https://pypi.org/project/tickersnap/)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white)](https://github.com/mratanusarkar/tickersnap/blob/main/LICENSE)
 <br>
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mratanusarkar/tickersnap/docs.yml?logo=githubactions&logoColor=white&label=build)](https://github.com/mratanusarkar/tickersnap/actions)
 [![Tests](https://img.shields.io/github/actions/workflow/status/mratanusarkar/tickersnap/tests.yml?logo=cachet&logoColor=white&label=tests)](https://github.com/mratanusarkar/tickersnap/actions)
