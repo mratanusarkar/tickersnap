@@ -65,9 +65,6 @@ Repository = "https://github.com/mratanusarkar/tickersnap"
 "Bug Tracker" = "https://github.com/mratanusarkar/tickersnap/issues"
 Changelog = "https://github.com/mratanusarkar/tickersnap/releases"
 
-[tool.setuptools]
-py-modules = ["tickersnap"]
-
 [tool.setuptools.packages.find]
 include = ["tickersnap*"]
 exclude = ["tests*", "docs*", "site*", "input*", "output*", "artifacts*", "*.egg-info*"]
