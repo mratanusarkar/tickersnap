@@ -2,9 +2,16 @@
 
 # Tickersnap
 
-[![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
-[![Tests](https://github.com/mratanusarkar/tickersnap/actions/workflows/tests.yml/badge.svg)](https://github.com/mratanusarkar/tickersnap/actions)
+[![Documentation](https://img.shields.io/badge/docs-mkdocs-4baaaa.svg?logo=materialformkdocs&logoColor=white)](https://mratanusarkar.github.io/tickersnap)
+[![PyPI version](https://img.shields.io/pypi/v/tickersnap.svg?color=blue&logo=pypi&logoColor=white)](https://pypi.org/project/tickersnap/)
+[![Python versions](https://img.shields.io/pypi/pyversions/tickersnap.svg?color=blue&logo=python&logoColor=white)](https://pypi.org/project/tickersnap/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-orange.svg?logo=apache&logoColor=white)](https://github.com/mratanusarkar/tickersnap/blob/main/LICENSE)
+<br>
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/mratanusarkar/tickersnap/docs.yml?logo=githubactions&logoColor=white&label=build)](https://github.com/mratanusarkar/tickersnap/actions)
+[![Tests](https://img.shields.io/github/actions/workflow/status/mratanusarkar/tickersnap/tests.yml?logo=cachet&logoColor=white&label=tests)](https://github.com/mratanusarkar/tickersnap/actions)
+[![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Ftickersnap&label=view&labelColor=%235e5e5e&countColor=%237C8AA0&style=flat&labelStyle=lower)](https://visitorbadge.io/status?path=https%3A%2F%2Fgithub.com%2Fmratanusarkar%2Ftickersnap)
+[![PyPI Total Downloads](https://static.pepy.tech/badge/tickersnap)](https://pepy.tech/projects/tickersnap)
+[![PyPI Monthly Downloads](https://img.shields.io/pypi/dm/tickersnap?style=flat&color=%231F86BF)](https://pypistats.org/packages/tickersnap)
 
 **Python Library for Indian Stock Market Analysis** 📈
 
@@ -22,13 +29,13 @@ Tickersnap provides streamlined access to comprehensive Indian stock market data
 > - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
 > - I am not affiliated with Tickertape.in in any way.
 > - Tickertape had been my go to for stock analysis tool for like forever!
-> - and I am greatful to then and a big fan of the work they do!
+> - and I am greatful to them for the work they do!
 
 > [!WARNING]
 > - All data are for **informational purposes only** and should not be considered as financial advice.
 > - Always consult qualified financial advisors before making investment decisions.
 > - I am not an expert in finance.
-> - I am not responsible for how one uses this library, or the consequences, or financial outcomes of using it.
+> - I am not responsible for how one uses this library, the consequences, or financial outcomes of using it.
 
 ## ✨ Key Features
 
@@ -75,7 +82,7 @@ all_stocks = assets.get_all_stocks()
 print(f"Total stocks available: {len(all_stocks)}")
 ```
 
-**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap//quickstart.md)** - Learn with real examples!
+**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap/quickstart.md)** - Learn with real examples!
 
 ## 📦 Core Modules
 
@@ -94,6 +101,7 @@ print(f"Total stocks available: {len(all_stocks)}")
 - **🎯 Market Alerts** - Get notified of sentiment extremes
 - **🔍 Research Tools** - Comprehensive market analysis
 - **🤖 Trading Bots** - Automated analysis and signals
+- **🧠 LLM Agents** - Build agents to get live financial data
 
 **👉 see documentation, every module is filled with usage examples!**
 

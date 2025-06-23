@@ -1,9 +1,37 @@
+[build-system]
+requires = ["setuptools>=80.9.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "tickersnap"
 version = "0.0.3"
 description = "Tickersnap is a tool for getting snapshots of stock data from www.tickertape.in"
 readme = "README.md"
 requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Atanu Sarkar", email = "mratanusarkar@gmail.com"}
+]
+maintainers = [
+    {name = "Atanu Sarkar", email = "mratanusarkar@gmail.com"}
+]
+keywords = ["finance", "stock", "market", "data", "financial", "analysis", "automation", "sentiment", "screening", "tickertape"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Financial and Insurance Industry",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 dependencies = [
     "pydantic>=2.0.0",
     "httpx>=0.25.0",
@@ -30,8 +58,19 @@ docs = [
     "jupyter>=1.1.1",
 ]
 
-[tool.setuptools]
-py-modules = ["tickersnap"]
+[project.urls]
+Homepage = "https://github.com/mratanusarkar/tickersnap"
+Documentation = "https://mratanusarkar.github.io/tickersnap"
+Repository = "https://github.com/mratanusarkar/tickersnap"
+"Bug Tracker" = "https://github.com/mratanusarkar/tickersnap/issues"
+Changelog = "https://github.com/mratanusarkar/tickersnap/releases"
+
+[tool.setuptools.packages.find]
+include = ["tickersnap*"]
+exclude = ["tests*", "docs*", "site*", "data*", "input*", "output*", "artifacts*", "*.egg-info*"]
+
+[tool.setuptools.package-data]
+tickersnap = ["py.typed"]
 
 [tool.pytest.ini_options]
 pythonpath = "."
