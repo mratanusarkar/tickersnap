@@ -22,13 +22,13 @@ Tickersnap provides streamlined access to comprehensive Indian stock market data
 > - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
 > - I am not affiliated with Tickertape.in in any way.
 > - Tickertape had been my go to for stock analysis tool for like forever!
-> - and I am greatful to then and a big fan of the work they do!
+> - and I am greatful to them for the work they do!
 
 > [!WARNING]
 > - All data are for **informational purposes only** and should not be considered as financial advice.
 > - Always consult qualified financial advisors before making investment decisions.
 > - I am not an expert in finance.
-> - I am not responsible for how one uses this library, or the consequences, or financial outcomes of using it.
+> - I am not responsible for how one uses this library, the consequences, or financial outcomes of using it.
 
 ## ✨ Key Features
 
@@ -75,7 +75,7 @@ all_stocks = assets.get_all_stocks()
 print(f"Total stocks available: {len(all_stocks)}")
 ```
 
-**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap//quickstart.md)** - Learn with real examples!
+**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap/quickstart.md)** - Learn with real examples!
 
 ## 📦 Core Modules
 
@@ -94,6 +94,7 @@ print(f"Total stocks available: {len(all_stocks)}")
 - **🎯 Market Alerts** - Get notified of sentiment extremes
 - **🔍 Research Tools** - Comprehensive market analysis
 - **🤖 Trading Bots** - Automated analysis and signals
+- **🧠 LLM Agents** - Build agents to get live financial data
 
 **👉 see documentation, every module is filled with usage examples!**
 

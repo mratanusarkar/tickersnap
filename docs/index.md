@@ -11,13 +11,13 @@ Tickersnap provides streamlined access to comprehensive Indian stock market data
     - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
     - I am not affiliated with Tickertape.in in any way.
     - Tickertape had been my go to for stock analysis tool for like forever!
-    - and I am greatful to then and a big fan of the work they do!
+    - and I am greatful to them for the work they do!
 
 !!! warning "Disclaimer"
     - All data are for **informational purposes only** and should not be considered as financial advice.
     - Always consult qualified financial advisors before making investment decisions.
     - I am not an expert in finance.
-    - I am not responsible for how one uses this library, or the consequences, or financial outcomes of using it.
+    - I am not responsible for how one uses this library, the consequences, or financial outcomes of using it.
 
 ## ✨ Key Features
 
@@ -64,7 +64,7 @@ all_stocks = assets.get_all_stocks()
 print(f"Total stocks available: {len(all_stocks)}")
 ```
 
-**👉 [Complete Quick Start Guide](quickstart.md)** - Learn with real examples!
+**👉 [Complete Quick Start Guide](./quickstart.md)** - Learn with real examples!
 
 ## 📦 Core Modules
 
@@ -74,7 +74,7 @@ print(f"Total stocks available: {len(all_stocks)}")
 | **📊 Stock Scorecard** | 6-category stock analysis | Investment screening, due diligence |
 | **📈 Market Mood Index** | Sentiment tracking (0-100 scale) | Market timing, contrarian investing |
 
-**👉 See detailed documentation:** | [MMI](tickersnap/mmi/index.md) | [Assets](tickersnap/lists/index.md) | [Stocks](tickersnap/stock/index.md) |
+**👉 See detailed documentation:** | [MMI](./tickersnap/mmi/index.md) | [Assets](./tickersnap/lists/index.md) | [Stocks](./tickersnap/stock/index.md) |
 
 ## 💡 What You Can Build
 
@@ -83,18 +83,19 @@ print(f"Total stocks available: {len(all_stocks)}")
 - **🎯 Market Alerts** - Get notified of sentiment extremes
 - **🔍 Research Tools** - Comprehensive market analysis
 - **🤖 Trading Bots** - Automated analysis and signals
+- **🧠 LLM Agents** - Build agents to get live financial data
 
 **👉 Every module is filled with usage examples throughout the documentation!**
 
-## 📚 Documentation Structure
+## 📚 Quick Links
 
-- **[Quick Start Guide](quickstart.md)** - Get started in minutes
-- **[Installation Guide](setup/installation.md)** - Detailed setup instructions
-- **[Development Guide](setup/development.md)** - Contributing and development setup
+- **[Quick Start Guide](./quickstart.md)** - Get started in minutes
+- **[Installation Guide](./setup/installation.md)** - Detailed setup instructions
+- **[Development Guide](./setup/development.md)** - Contributing and development setup
 - **Module Documentation:**
-    - **[Market Mood Index (MMI)](tickersnap/mmi/index.md)** - Market sentiment tracking
-    - **[Assets Lists](tickersnap/lists/index.md)** - Stock and ETF data access
-    - **[Stock Scorecard](tickersnap/stock/index.md)** - Comprehensive stock analysis
+    - **[Market Mood Index (MMI)](./tickersnap/mmi/index.md)** - Market sentiment tracking
+    - **[Assets Lists](./tickersnap/lists/index.md)** - Stock and ETF data access
+    - **[Stock Scorecard](./tickersnap/stock/index.md)** - Comprehensive stock analysis
 
 ## 📄 License
 
