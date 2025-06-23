@@ -1,7 +1,22 @@
-# mkdocs.yml
 site_name: Tickersnap
 site_url: https://mratanusarkar.github.io/tickersnap
+site_author: Atanu Sarkar
+site_description: Streamlined access to Indian stock market data for financial analysis, automated screening, and sentiment tracking.
+repo_name: tickersnap
 repo_url: https://github.com/mratanusarkar/tickersnap
+edit_uri: https://github.com/mratanusarkar/tickersnap/tree/main/docs
+copyright: Copyright &copy; 2025 Atanu Sarkar
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/mratanusarkar
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/mratanusarkar
+    - icon: fontawesome/brands/x-twitter
+      link: https://twitter.com/mratanusarkar
+    - icon: fontawesome/solid/envelope
+      link: mailto:mratanusarkar@gmail.com
 
 theme:
   name: material
@@ -36,7 +51,7 @@ plugins:
             # show the root heading (module/class name)
             show_root_heading: true
             # show the source code
-            show_source: true
+            show_source: false
             # docstring style to parse
             docstring_style: google
             # order of members (by source order)
