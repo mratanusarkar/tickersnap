@@ -21,11 +21,11 @@
 [Quick Start](#-quick-start)
 |
 
+Tickersnap provides streamlined access to comprehensive Indian stock market data from [Tickertape IN](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
+
 </div>
 
-Tickersnap provides streamlined access to comprehensive Indian stock market data from [www.tickertape.in](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
-
-## 📝 Responsible Use
+---
 
 > [!IMPORTANT]
 > - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
@@ -42,8 +42,8 @@ Tickersnap provides streamlined access to comprehensive Indian stock market data
 > [!CAUTION]
 > - This library is intended for personal, individual use only. It's not an official Tickertape product.
 > - Please ensure your usage adheres to tickertape's terms, privacy policy, and any other applicable rules to avoid violations.
-> - This project was created with genuine, honest intent for personal analysis and automation of manual tasks.
-> - I do not encourage or support any misuse of this library that breaches official terms or causes harm.
+> - This project was created with genuine, honest intent for personal analysis and automation of manual efforts.
+> - I do not encourage or support any misuse of this library that breaches official Tickertape terms or causes harm.
 
 **🔗 Essential Tickertape Links:**
 [About](https://www.tickertape.in/meta/about) | [Info](https://www.tickertape.in/meta/analytical-tools) | [Terms](https://www.tickertape.in/meta/terms) | [Privacy](https://www.tickertape.in/meta/privacy) | [Disclosures](https://www.tickertape.in/meta/disclosures) | [Guidelines](https://www.tickertape.in/meta/community-guidelines)
