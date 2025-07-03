@@ -93,7 +93,7 @@ all_stocks = assets.get_all_stocks()
 print(f"Total stocks available: {len(all_stocks)}")
 ```
 
-**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap/quickstart.md)** - Learn with real examples!
+**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap/quickstart/)** - Learn with real examples!
 
 ## 📦 Core Modules
 
