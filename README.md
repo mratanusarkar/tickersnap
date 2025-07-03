@@ -21,21 +21,32 @@
 [Quick Start](#-quick-start)
 |
 
+Tickersnap provides streamlined access to comprehensive Indian stock market data from [Tickertape IN](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
+
 </div>
 
-Tickersnap provides streamlined access to comprehensive Indian stock market data from [www.tickertape.in](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
+---
 
 > [!IMPORTANT]
 > - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
-> - I am not affiliated with Tickertape.in in any way.
-> - Tickertape had been my go to for stock analysis tool for like forever!
-> - and I am greatful to them for the work they do!
+> - Using this library is same as using some of the public features of the Tickertape website or app (but in a pythonic way).
+> - I am not affiliated with Tickertape or any stock exchange or financial services in any way.
+> - Tickertape has been my go to platform, and I am grateful for the work they do and tools they provide to the community!
 
 > [!WARNING]
-> - All data are for **informational purposes only** and should not be considered as financial advice.
-> - Always consult qualified financial advisors before making investment decisions.
-> - I am not an expert in finance.
-> - I am not responsible for how one uses this library, the consequences, or financial outcomes of using it.
+> - All results from this library are for **informational purposes only** and should not be considered as financial advice.
+> - Always consult qualified financial advisors before making investment decisions – I am not a financial expert.
+> - I am an enthusiast, not a certified finance professional. Use your discretion and do your own research.
+> - Use this library at your own risk. I assume no responsibility for any financial losses or consequences arising from its use.
+
+> [!CAUTION]
+> - This library is intended for personal, individual use only. It's not an official Tickertape product.
+> - Please ensure your usage adheres to tickertape's terms, privacy policy, and any other applicable rules to avoid violations.
+> - This project was created with genuine, honest intent for personal analysis and automation of manual efforts.
+> - I do not encourage or support any misuse of this library that breaches official Tickertape terms or causes harm.
+
+**🔗 Essential Tickertape Links:**
+[About](https://www.tickertape.in/meta/about) | [Info](https://www.tickertape.in/meta/analytical-tools) | [Terms](https://www.tickertape.in/meta/terms) | [Privacy](https://www.tickertape.in/meta/privacy) | [Disclosures](https://www.tickertape.in/meta/disclosures) | [Guidelines](https://www.tickertape.in/meta/community-guidelines)
 
 ## ✨ Key Features
 
@@ -82,7 +93,7 @@ all_stocks = assets.get_all_stocks()
 print(f"Total stocks available: {len(all_stocks)}")
 ```
 
-**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap/quickstart.md)** - Learn with real examples!
+**👉 [Complete Quick Start Guide](https://mratanusarkar.github.io/tickersnap/quickstart/)** - Learn with real examples!
 
 ## 📦 Core Modules
 
