@@ -61,7 +61,7 @@
 
 ---
 
-!!! info "Important Notice"
+!!! info "Important"
     - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
     - Using this library is same as using some of the public features of the Tickertape website or app (but in a pythonic way).
     - I am not affiliated with Tickertape or any stock exchange or financial services in any way.
