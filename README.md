@@ -25,17 +25,31 @@
 
 Tickersnap provides streamlined access to comprehensive Indian stock market data from [www.tickertape.in](https://www.tickertape.in), enabling powerful financial analysis, automated screening, and market sentiment tracking.
 
+> [!NOTE]
+> USING THIS LIBRARY IS SAME AS USING SOME OF THE PUBLIC FEATURES OF THE TICKERTAPE WEBSITE OR APP (BUT IN A PYTHONIC WAY).
+
 > [!IMPORTANT]
 > - This library heavily relies on the (unofficial) public APIs from Tickertape IN.
-> - I am not affiliated with Tickertape.in in any way.
-> - Tickertape had been my go to for stock analysis tool for like forever!
-> - and I am greatful to them for the work they do!
+> - I am not affiliated with Tickertape or any stock exchange or financial services in any way.
+> - Tickertape has been my go to platform for stock analysis for like forever!
+> - and I am greatful to them for the work they do and tools they provide to the community!
 
 > [!WARNING]
-> - All data are for **informational purposes only** and should not be considered as financial advice.
-> - Always consult qualified financial advisors before making investment decisions.
-> - I am not an expert in finance.
-> - I am not responsible for how one uses this library, the consequences, or financial outcomes of using it.
+> - All results from this library are for **informational purposes only** and should not be considered as financial advice.
+> - Always consult qualified financial advisors before making investment decisions – I am not a financial expert.
+> - I am an enthusiast, not a certified finance professional. Use your discretion and do your own research.
+> - Use this library at your own risk. I assume no responsibility for any financial losses or consequences arising from its use.
+
+> [!CAUTION]
+> - This library is intended for private, personal, single person use only. It's not an ofiicial Tickertape product.
+> - Please ensure your usage adhires to tickertape's terms & conditions and privacy policy. Respect all applicable rules to avoid any violations.
+> - Do not misuse or use tickersnap in ways that could violate Tickertape’s policies or privacy.
+> - This project was created with genuine, honest intent for personal analysis and automation of manual tasks.
+> - I do not encourage or support any misuse of this library that breaches official terms or causes harm.
+
+> [!IMPORTANT]
+> - All Important Tickertape Links:
+> - [About](https://www.tickertape.in/meta/about) | [Info](https://www.tickertape.in/meta/analytical-tools) | [Terms](https://www.tickertape.in/meta/terms) | [Privacy](https://www.tickertape.in/meta/privacy) | [Disclosures](https://www.tickertape.in/meta/disclosures) | [Community Guidelines](https://www.tickertape.in/meta/community-guidelines)
 
 ## ✨ Key Features
 
